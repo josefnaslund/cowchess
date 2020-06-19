@@ -10,6 +10,8 @@ using std::cout, std::endl;
 
 int main( int argc, char* args[] )                                              
 {                                                                               
+
+
     Board board = Board();                                                           
     Mouse myMouse = Mouse();
 
@@ -25,6 +27,7 @@ int main( int argc, char* args[] )
     GUI mygui = GUI();
 
     if (mygui.init()){
+        SDL_Delay(5000);
 
         SDL_Event e;
 

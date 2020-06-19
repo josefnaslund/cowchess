@@ -36,11 +36,12 @@ Piece* Board::getPieceAt(int x, int y){
 
     cout << "Board - Piece at pos: " << x << "," << y << " : ";
 
-    // chess position y
-    cout << (char)(65 + 7 - (y - TOP_MARGIN) / 50);
 
     // chess position x
-    cout << (x - LEFT_MARGIN) / 50 + 1<< endl;
+    cout << (char)(65 + (x - LEFT_MARGIN) / 50);
+
+    // chess position y
+    cout << (7 - (y - TOP_MARGIN) / 50) + 1<< endl;
 
     cout << "Board - Returning piece at board[" << 
         7 - (y - TOP_MARGIN) / 50 << "][" <<

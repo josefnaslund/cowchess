@@ -65,7 +65,7 @@ void GUI::drawBoard(){
             r.w = SQUARE_SIZE;
             r.h = SQUARE_SIZE;
 
-            if ((row + col) % 2){
+            if (!((row + col) % 2)){
                 // set to light color
                 SDL_SetRenderDrawColor( renderer, 200, 200, 200, 255 );
             }
@@ -80,6 +80,8 @@ void GUI::drawBoard(){
 
             // send to screen
             SDL_RenderPresent(renderer);
+
+            SDL_Delay(100);
         }
     }
 }
@@ -115,7 +117,7 @@ void GUI::drawPieces(Piece** board){
                 if (texture){
                         SDL_DestroyTexture(texture);
                 }
-                SDL_Delay(500);
+                SDL_Delay(100);
                 // cout << "4.6\n";
             }
         }
