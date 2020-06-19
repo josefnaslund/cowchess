@@ -30,6 +30,7 @@ Piece* Board::getPieceAt(int x, int y){
     if (x < LEFT_MARGIN || x > LEFT_MARGIN + 8 * SQUARE_SIZE || 
             y < TOP_MARGIN || y > TOP_MARGIN + 8 * SQUARE_SIZE){
         cout << "Outside of square: " << x << "," << y << "\n";
+        cout << "Returning null\n";
         return NULL;
     }
 
@@ -39,7 +40,7 @@ Piece* Board::getPieceAt(int x, int y){
     cout << (char)(65 + 7 - (y - TOP_MARGIN) / 50);
 
     // chess position x
-    cout << (x - LEFT_MARGIN) / 50 << endl;
+    cout << (x - LEFT_MARGIN) / 50 + 1<< endl;
 
     cout << "Board - Returning piece at board[" << 
         7 - (y - TOP_MARGIN) / 50 << "][" <<

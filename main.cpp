@@ -43,7 +43,7 @@ int main( int argc, char* args[] )
 
                     Piece* clickedPiece = board.getPieceAt(e.button.x, e.button.y);
 
-                    if (clickedPiece->isAlive()){
+                    if (clickedPiece && clickedPiece->isAlive()){
                             cout << "Main-  That is a piece\n";
                     }
                     else {
