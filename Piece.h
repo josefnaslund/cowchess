@@ -7,7 +7,7 @@ using std::string;
 
 class Piece {
     private:
-        bool exist;
+        bool alive;
         bool white;
         string img;
 
@@ -16,9 +16,9 @@ class Piece {
         Piece(bool white);
 
         bool isWhite() const {return white;}
-        bool isExist() const {return exist;}
+        bool isAlive() const {return alive;}
         string getImage() const {return img;}
-        void killPiece(){exist = false;}
+        void killPiece(){alive = false;}
 };
 
 #endif

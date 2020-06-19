@@ -93,7 +93,7 @@ void GUI::drawPieces(Piece** board){
         // cout << "4.2\n";
         for (int col = 0; col != 8; ++col){
             // cout << "4.3\n";
-            if (board[row][col].isExist()){
+            if (board[row][col].isAlive()){
                 // cout << "4.4\n";
                 r.x = 120 + col * 50;
                 r.y = 40 + (7 - row) * 50;
@@ -115,7 +115,7 @@ void GUI::drawPieces(Piece** board){
                 if (texture){
                         SDL_DestroyTexture(texture);
                 }
-                SDL_Delay(1000);
+                SDL_Delay(500);
                 // cout << "4.6\n";
             }
         }

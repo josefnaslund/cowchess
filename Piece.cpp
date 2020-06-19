@@ -2,24 +2,24 @@
 
 Piece::Piece(){
     white = true;
-    exist = false;
+    alive = false;
     img = "img/piece.png";
 }
 
 Piece::Piece(bool white){
 
-        exist = true;
+        alive = true;
 
         if (white){
             white = true;
             img = "img/piece.png";
-            exist = true;
+            alive = true;
         }
 
         else {
                 white = false;
                 img = "img/piece.png";
-                exist = true;
+                alive = true;
         }
         
 }
