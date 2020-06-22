@@ -65,12 +65,11 @@ int main( int argc, char* args[] )
                     if (clickedPiece && clickedPiece->isAlive()){
                         cout << "Main-  That IS a piece\n";
 
-                        // if mouse is not locked to a pieace already - lock it
-                        if (!myMouse.isLocked()){
-                            myMouse.setLocked(true);
-                            myMouse.setPosX(e.button.x);
-                            myMouse.setPosY(e.button.y);
-                        }
+                        myMouse.setLocked(true);
+                        if (arrX == -1 || arrY == -1)
+                            cout << "__This should not happen ___________" << arrX << " " << arrY << "\n";
+                        myMouse.setPosX(arrX);
+                        myMouse.setPosY(arrY);
                     }
 
                     else {
@@ -85,13 +84,28 @@ int main( int argc, char* args[] )
                     }
                     cout << "---END MOUSEBUTTONDOWN---\n";
                 }
-                
+
                 // if left button release
                 else if (e.type == SDL_MOUSEBUTTONUP){
 
                     // if user is grabbing a piece and releasing the button
                     if (myMouse.isLocked()){
                         cout << "Button UP! maybe lets try moving piece!?\n"; 
+
+                        int arrX = -1, arrY = -1;
+                        if (myMouse.getIndexPos(e.button.x, e.button.y, arrX, arrY)){
+                            if (arrX != myMouse.getPosX() || arrY != myMouse.getPosY()){
+                                cout << arrX << "," << myMouse.getPosX() << "," <<
+                                    arrY << "," << myMouse.getPosY() << endl;
+                                cout << "Dragged to different pos\n";
+                            }
+
+                            else {
+                                    cout << "Dragged to same pos\n";
+                            }
+
+
+                        }
 
                     }
 

@@ -11,10 +11,12 @@ Mouse::Mouse(){
 
 void Mouse::setPosX(int _x){
     posX = _x;
+    cout << "posX set to: " << posX << endl;
 }
 
 void Mouse::setPosY(int _y){
-    posX = _y;
+    posY = _y;
+    cout << "posY set to: " << posX << endl;
 }
 
 
