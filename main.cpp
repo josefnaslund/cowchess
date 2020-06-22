@@ -11,6 +11,8 @@ using std::cout, std::endl;
 int main( int argc, char* args[] )                                              
 {                                                                               
 
+    int counter = 0;
+
 
     Board board = Board();                                                           
     Mouse myMouse = Mouse();
@@ -31,7 +33,12 @@ int main( int argc, char* args[] )
 
         SDL_Event e;
 
+        bool moveMade;
+
         while(!quit){
+            // cout << "\t\t\t\t" << counter++ << endl;
+            moveMade = false;
+
 
             while (SDL_PollEvent (&e) != 0){
                 if (e.type == SDL_QUIT){
@@ -39,7 +46,7 @@ int main( int argc, char* args[] )
                 }
 
                 // if left button push
-                else if (e.type == SDL_MOUSEBUTTONDOWN){
+                else if (!moveMade && e.type == SDL_MOUSEBUTTONDOWN){
 
                     // set to "not locked"
                     myMouse.setLocked(false);
@@ -87,6 +94,7 @@ int main( int argc, char* args[] )
 
                 // if left button release
                 else if (e.type == SDL_MOUSEBUTTONUP){
+                    // SDL_Delay(300);
 
                     // if user is grabbing a piece and releasing the button
                     if (myMouse.isLocked()){
@@ -95,13 +103,24 @@ int main( int argc, char* args[] )
                         int arrX = -1, arrY = -1;
                         if (myMouse.getIndexPos(e.button.x, e.button.y, arrX, arrY)){
                             if (arrX != myMouse.getPosX() || arrY != myMouse.getPosY()){
+
                                 cout << arrX << "," << myMouse.getPosX() << "," <<
                                     arrY << "," << myMouse.getPosY() << endl;
                                 cout << "Dragged to different pos\n";
+
+                                if ( board.movePiece( myMouse.getPosX(),
+                                            myMouse.getPosY(),
+                                            arrX,
+                                            arrY))
+                                {
+                                    cout << "updating gui\n";
+                                    moveMade = true;
+
+                                }
                             }
 
                             else {
-                                    cout << "Dragged to same pos\n";
+                                cout << "Dragged to same pos\n";
                             }
 
 
@@ -114,20 +133,48 @@ int main( int argc, char* args[] )
                         cout << "Just a dead release button\n";
                     }
 
+
+                    // DEBUG print board
+                    cout << endl;
+                    for (int i = 0; i != 8; ++i){
+                        for (int j = 0; j != 8; ++j){
+                            cout << board.getBoard()[7-i][j].isAlive();
+                        }
+                        cout << endl;
+                    }
+
                     cout << "---END MOUSEBUTTONUP---\n";
                 }
 
 
+
+
             } // end while SDL_PollEvent...
 
-            if (mygui.isUpdated()){
-                mygui.drawBoard();
-                mygui.drawPieces(board.getBoard());
-            }
+                if (moveMade){
+                    //SDL_Delay(300);
+                    mygui.setUpdated(true);
+                    // SDL_Delay(200);
+                }
+
+                if (mygui.isUpdated()){
+                    // SDL_Delay(200);
+                    cout << "**Drawing board\n";
+                    mygui.drawBoard();
+                    cout << "**Drawing pieces\n";
+                    mygui.drawPieces(board.getBoard());
+                    // SDL_Delay(200);
+                    mygui.setUpdated(false);
+                }
 
 
-        }                                                                       
-    }
+            // SDL_Delay(300);
+
+
+
+        }// end while not quit
+
+    } // end if mygui
     return EXIT_SUCCESS;
 }                                                                           
 

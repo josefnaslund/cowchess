@@ -15,7 +15,7 @@ GUI::GUI()
     window = NULL;
     renderer = NULL;
     texture = NULL;
-    updated = true;
+    updated = 1;
 
 }
 
@@ -140,10 +140,13 @@ bool GUI::loadImage(std::string img){
 }
 
 
+void GUI::setUpdated(bool b){
+        if (b)
+            ++updated;
+        else
+            --updated;
+}
+
 bool GUI::isUpdated(){
-    if (updated){
-        updated = false;
-        return true;
-    }
-    return false;
+    return updated;
 }

@@ -28,14 +28,30 @@ Board::Board(){
     board[7][4] = Piece(0);
 }
 
+
 Piece* Board::getPieceAt(int arrX, int arrY){
     cout << "Board.getPieaceAt(" << arrX << ", " << arrY << ")\n";
     cout << "is alive: " << board[arrY][arrX].isAlive() << endl;
 
 
     return &board[arrY][arrX];
+}
 
 
+bool Board::movePiece(int oldX, int oldY, int newX, int newY){
+        if (board[oldX][oldY].validMove(oldX, oldY, newX, newY)){
+            cout << "*It's a valid move\n";
+            // replace new square with old piece
+                board[newY][newX] = board[oldY][oldX];
+
+                
+                // Debug - query piece
+                cout << "*Piece at [" << oldX << "][" << oldY <<"] is: " <<
+                    board[oldX][oldY].isAlive() << endl;
+
+                // kill old piece
+                board[oldY][oldX].killPiece();
 
 
+        }
 }

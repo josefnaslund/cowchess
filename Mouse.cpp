@@ -16,7 +16,7 @@ void Mouse::setPosX(int _x){
 
 void Mouse::setPosY(int _y){
     posY = _y;
-    cout << "posY set to: " << posX << endl;
+    cout << "posY set to: " << posY << endl;
 }
 
 

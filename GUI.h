@@ -11,14 +11,14 @@ class GUI {
             SDL_Window* window;
             SDL_Renderer* renderer;
             SDL_Texture* texture;
-            bool updated;
+            int updated;
 
         public:
             GUI();
             bool init();
             void drawBoard();
             void drawPieces(Piece** board);
-            bool update();
+            void setUpdated(bool b);
             bool close();
             bool isUpdated();
             bool loadImage(std::string img);
