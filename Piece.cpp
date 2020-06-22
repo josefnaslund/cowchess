@@ -12,13 +12,13 @@ Piece::Piece(bool white){
 
         if (white){
             white = true;
-            img = "img/piece.png";
+            img = "img/piece_w.png";
             alive = true;
         }
 
         else {
                 white = false;
-                img = "img/piece.png";
+                img = "img/piece_b.png";
                 alive = true;
         }
         

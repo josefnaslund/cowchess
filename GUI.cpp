@@ -81,7 +81,7 @@ void GUI::drawBoard(){
             // send to screen
             SDL_RenderPresent(renderer);
 
-            SDL_Delay(100);
+            // SDL_Delay(100);
         }
     }
 }
@@ -117,7 +117,7 @@ void GUI::drawPieces(Piece** board){
                 if (texture){
                         SDL_DestroyTexture(texture);
                 }
-                SDL_Delay(100);
+                // SDL_Delay(100);
                 // cout << "4.6\n";
             }
         }

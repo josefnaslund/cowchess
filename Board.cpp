@@ -6,6 +6,8 @@
 using std::cout, std::endl;
 
 Board::Board(){
+    // white begins
+    moveCount = 1;
 
     // Allocate memory for multi dimensional array
     board = new Piece*[8];
@@ -26,28 +28,12 @@ Board::Board(){
     board[7][4] = Piece(0);
 }
 
-Piece* Board::getPieceAt(int x, int y){
-    if (x < LEFT_MARGIN || x > LEFT_MARGIN + 8 * SQUARE_SIZE || 
-            y < TOP_MARGIN || y > TOP_MARGIN + 8 * SQUARE_SIZE){
-        cout << "Outside of square: " << x << "," << y << "\n";
-        cout << "Returning null\n";
-        return NULL;
-    }
-
-    cout << "Board - Piece at pos: " << x << "," << y << " : ";
+Piece* Board::getPieceAt(int arrX, int arrY){
+    cout << "Board.getPieaceAt(" << arrX << ", " << arrY << ")\n";
+    cout << "is alive: " << board[arrY][arrX].isAlive() << endl;
 
 
-    // chess position x
-    cout << (char)(65 + (x - LEFT_MARGIN) / 50);
-
-    // chess position y
-    cout << (7 - (y - TOP_MARGIN) / 50) + 1<< endl;
-
-    cout << "Board - Returning piece at board[" << 
-        7 - (y - TOP_MARGIN) / 50 << "][" <<
-        (x - LEFT_MARGIN) / 50 << "]\n";
-
-    return &board[7 - (y - TOP_MARGIN) / 50][(x - LEFT_MARGIN) / 50];
+    return &board[arrY][arrX];
 
 
 

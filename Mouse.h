@@ -17,6 +17,8 @@ class Mouse {
             bool isLocked() const {return locked;}
             void setLocked(bool _l) {locked = _l;}
 
+            bool getIndexPos(const int& guiX, const int& guiY, int& arrX, int& arrY);
+
 };
 
 

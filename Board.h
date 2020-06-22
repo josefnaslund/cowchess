@@ -6,11 +6,13 @@
 class Board{
     private:
         Piece** board;
+        int moveCount;
 
     public:
         Board();
         Piece** getBoard() {return board;}
-        Piece* getPieceAt(int x, int y);
+        Piece* getPieceAt(int arrX, int arrY);
+        bool movePiece(int oldX, int oldY, int newX, int newY);
 
 };
 
