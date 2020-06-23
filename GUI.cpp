@@ -126,7 +126,7 @@ void GUI::drawPieces(Piece** board){
 
 bool GUI::loadImage(std::string img){
     // cout << "4.415 Hello from loadImage\n";
-    int w = 0, h = 0;
+    // int w = 0, h = 0;
 
     //cout << "4.42 to load texture\n";
     texture = NULL;

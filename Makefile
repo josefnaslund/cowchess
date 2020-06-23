@@ -6,4 +6,4 @@ OBJ_NAME = program
 
 #This is the target that compiles our executable
 all : $(OBJS)
-	g++ $(OBJS) -w -lSDL2 -lSDL2_image -o $(OBJ_NAME)
+	g++ $(OBJS) -Wall -std=c++1z -lSDL2 -lSDL2_image -o $(OBJ_NAME)

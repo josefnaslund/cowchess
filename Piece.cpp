@@ -6,20 +6,17 @@ Piece::Piece(){
     img = "img/piece.png";
 }
 
-Piece::Piece(bool white){
+Piece::Piece(bool color){
 
     alive = true;
+    white = color;
 
-    if (white){
-        white = true;
+    if (color){
         img = "img/piece_w.png";
-        alive = true;
     }
 
     else {
-        white = false;
         img = "img/piece_b.png";
-        alive = true;
     }
 
 }

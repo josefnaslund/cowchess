@@ -11,18 +11,8 @@ using std::cout, std::endl;
 int main( int argc, char* args[] )                                              
 {                                                                               
 
-    int counter = 0;
-
-
     Board board = Board();                                                           
     Mouse myMouse = Mouse();
-
-    // for (int i = 0; i != 8; ++i){
-    //         for (int j = 0; j != 8; ++j){
-    //                 cout << board.getBoard()[7-i][j].getImage() << "|";
-    //         }
-    //         cout << endl;
-    // }
 
     bool quit = false;
 
@@ -43,6 +33,11 @@ int main( int argc, char* args[] )
             while (SDL_PollEvent (&e) != 0){
                 if (e.type == SDL_QUIT){
                     quit = true;
+                }
+
+                // to prevent mouse buttons other than left to interfere
+                else if (!moveMade && e.button.button != SDL_BUTTON_LEFT){
+                    ; // do nothing
                 }
 
                 // if left button push
@@ -138,7 +133,13 @@ int main( int argc, char* args[] )
                     cout << endl;
                     for (int i = 0; i != 8; ++i){
                         for (int j = 0; j != 8; ++j){
-                            cout << board.getBoard()[7-i][j].isAlive();
+                            if (board.getBoard()[7-i][j].isWhite() && board.getBoard()[7-i][j].isAlive())
+                                cout << "1";
+                            else if (!board.getBoard()[7-i][j].isWhite() && board.getBoard()[7-i][j].isAlive())
+                                cout << "i";
+
+                            else
+                                cout << "0";
                         }
                         cout << endl;
                     }

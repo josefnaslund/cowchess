@@ -13,7 +13,7 @@ class Piece {
 
     public:
         Piece();
-        Piece(bool white);
+        Piece(bool color);
 
         bool isWhite() const {return white;}
         bool isAlive() const {return alive;}
