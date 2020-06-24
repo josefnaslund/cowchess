@@ -1,6 +1,8 @@
 #include <iostream>
 #include "Board.h"
 #include "Piece.h"
+#include "Rook.h"
+#include "King.h"
 #include "constants.h"
 
 using std::cout, std::endl;
@@ -24,8 +26,14 @@ Board::Board(){
     }
 
     // Some real pieces
-    board[0][4] = Piece(1);
-    board[7][4] = Piece(0);
+    board[1][0] = Piece(1);
+    board[6][0] = Piece(0);
+    board[0][0] = Rook(1);
+    board[7][7] = Rook(0);
+    board[0][7] = Rook(1);
+    board[7][0] = Rook(0);
+    board[0][4] = King(1);
+    board[7][4] = King(0);
 }
 
 

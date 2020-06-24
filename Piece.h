@@ -6,7 +6,7 @@
 using std::string;
 
 class Piece {
-    private:
+    protected:
         bool alive;
         bool white;
         string img;

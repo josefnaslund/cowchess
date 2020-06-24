@@ -1,5 +1,5 @@
 #OBJS specifies which files to compile as part of the project
-OBJS = main.cpp GUI.cpp Board.cpp Piece.cpp Mouse.cpp
+OBJS = main.cpp GUI.cpp Board.cpp Piece.cpp Mouse.cpp Rook.cpp King.cpp
 
 #OBJ_NAME specifies the name of our exectuable
 OBJ_NAME = program
