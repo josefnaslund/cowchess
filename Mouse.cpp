@@ -22,8 +22,8 @@ void Mouse::setPosY(int _y){
 
 bool Mouse::getIndexPos(const int& guiX, const int& guiY, int& arrX, int& arrY){
 
-    if (guiX < LEFT_MARGIN || guiX > LEFT_MARGIN + 8 * SQUARE_SIZE ||
-            guiY < TOP_MARGIN || guiY > TOP_MARGIN + 8 * SQUARE_SIZE){
+    if (guiX <= LEFT_MARGIN || guiX >= LEFT_MARGIN + 8 * SQUARE_SIZE ||
+            guiY <= TOP_MARGIN || guiY >= TOP_MARGIN + 8 * SQUARE_SIZE){
         cout << "Mouse- Outside of square: " << guiX << "," << guiY << "\n";
         cout << "Mouse- Returning null\n";
         return false;
