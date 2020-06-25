@@ -17,7 +17,7 @@ class GUI {
             GUI();
             bool init();
             void drawBoard();
-            void drawPieces(Piece** board);
+            void drawPieces(Piece*** board);
             void setUpdated(bool b);
             bool close();
             bool isUpdated();

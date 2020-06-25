@@ -5,7 +5,7 @@
 #include "GUI.h"                                                                
 #include "Mouse.h"
 
-using std::cout, std::endl;
+using std::cout, std::endl, std::cerr;
 
 
 int main( int argc, char* args[] )                                              
@@ -26,7 +26,6 @@ int main( int argc, char* args[] )
         bool moveMade;
 
         while(!quit){
-            // cout << "\t\t\t\t" << counter++ << endl;
             moveMade = false;
 
 
@@ -46,9 +45,9 @@ int main( int argc, char* args[] )
                     // set to "not locked"
                     myMouse.setLocked(false);
 
-                    cout << "left button press: " << e.button.x 
-                        << "," << e.button.y 
-                        << endl;
+                    // cout << "left button press: " << e.button.x 
+                    //     << "," << e.button.y 
+                    //     << endl;
 
                     int arrX = -1, arrY = -1;
 
@@ -69,7 +68,7 @@ int main( int argc, char* args[] )
 
                         myMouse.setLocked(true);
                         if (arrX == -1 || arrY == -1)
-                            cout << "__This should not happen ___________" << arrX << " " << arrY << "\n";
+                            cerr << "__This should not happen __" << arrX << " " << arrY << "\n";
                         myMouse.setPosX(arrX);
                         myMouse.setPosY(arrY);
                     }
@@ -84,7 +83,6 @@ int main( int argc, char* args[] )
                         cout << "Main: No piece clicked\n";
 
                     }
-                    cout << "---END MOUSEBUTTONDOWN---\n";
                 }
 
                 // if left button release
@@ -133,9 +131,9 @@ int main( int argc, char* args[] )
                     cout << endl;
                     for (int i = 0; i != 8; ++i){
                         for (int j = 0; j != 8; ++j){
-                            if (board.getBoard()[7-i][j].isWhite() && board.getBoard()[7-i][j].isAlive())
+                            if (board.getBoard()[7-i][j]->isWhite() && board.getBoard()[7-i][j]->isAlive())
                                 cout << "1";
-                            else if (!board.getBoard()[7-i][j].isWhite() && board.getBoard()[7-i][j].isAlive())
+                            else if (!board.getBoard()[7-i][j]->isWhite() && board.getBoard()[7-i][j]->isAlive())
                                 cout << "i";
 
                             else
@@ -144,7 +142,6 @@ int main( int argc, char* args[] )
                         cout << endl;
                     }
 
-                    cout << "---END MOUSEBUTTONUP---\n";
                 }
 
 
@@ -164,6 +161,7 @@ int main( int argc, char* args[] )
                     mygui.drawBoard();
                     cout << "**Drawing pieces\n";
                     mygui.drawPieces(board.getBoard());
+                    cout << "Finished drawing pieces\n";
                     // SDL_Delay(200);
                     mygui.setUpdated(false);
                 }

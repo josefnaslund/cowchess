@@ -86,29 +86,21 @@ void GUI::drawBoard(){
     }
 }
 
-void GUI::drawPieces(Piece** board){
+void GUI::drawPieces(Piece*** board){
     // to draw pieces
     SDL_Rect r;
 
-    // cout << "4.1\n";
     for (int row = 0; row != 8; ++row){
-        // cout << "4.2\n";
         for (int col = 0; col != 8; ++col){
-            // cout << "4.3\n";
-            if (board[row][col].isAlive()){
-                // cout << "4.4\n";
+            if (board[row][col]->isAlive()){
                 r.x = 120 + col * 50;
                 r.y = 40 + (7 - row) * 50;
                 r.w = 50;
                 r.h = 50;
-                cout << "4.40 About to load image from [" << 7-row << "][" << col << "]\n";
-                cout << "Image: " << board[row][col].getImage() << endl;
-                // cout << "4.41 about to load image\n";
-                loadImage(board[row][col].getImage());
+                loadImage(board[row][col]->getImage());
                 if (texture) {
                     SDL_RenderCopy(renderer, texture, nullptr, &r);
                 }
-                // cout << "4.5\n";
 
                 else {
                     SDL_RenderFillRect( renderer, &r );
@@ -118,17 +110,12 @@ void GUI::drawPieces(Piece** board){
                         SDL_DestroyTexture(texture);
                 }
                 // SDL_Delay(100);
-                // cout << "4.6\n";
             }
         }
     }
 }
 
 bool GUI::loadImage(std::string img){
-    // cout << "4.415 Hello from loadImage\n";
-    // int w = 0, h = 0;
-
-    //cout << "4.42 to load texture\n";
     texture = NULL;
     texture = IMG_LoadTexture(renderer, img.c_str());
     if (!texture){

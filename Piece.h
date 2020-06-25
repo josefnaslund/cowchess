@@ -2,6 +2,8 @@
 #define PIECE_H
 
 #include <string>
+#include <iostream>
+#include "Piece.h"
 
 using std::string;
 
@@ -13,14 +15,15 @@ class Piece {
 
     public:
         Piece();
-        Piece(bool color);
+        Piece(const bool& color);
+        virtual ~Piece() {};
 
         bool isWhite() const {return white;}
         bool isAlive() const {return alive;}
         string getImage() const {return img;}
         void killPiece(){alive = false;}
 
-        bool validMove(const int& oldX, const int& oldY, const int& newX, const int& newY) { return true; }
+        virtual bool validMove(const int& oldX, const int& oldY, const int& newX, const int& newY, Piece*** b) { std::cout << "## Piece validMove() - always true ##\n"; return true; }
 };
 
 #endif

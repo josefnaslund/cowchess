@@ -6,7 +6,7 @@ Piece::Piece(){
     img = "img/piece.png";
 }
 
-Piece::Piece(bool color){
+Piece::Piece(const bool& color){
 
     alive = true;
     white = color;
