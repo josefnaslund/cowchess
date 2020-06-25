@@ -51,6 +51,25 @@ Board::Board(){
     board[7][4] = new King(0);
 }
 
+Board::~Board(){
+        // delete pieces
+        for (int i = 0; i != 8; ++i){
+                for (int j = 0; j != 8; ++j){
+                        delete board[i][j];
+                }
+        }
+
+        // delete arrays
+        for (int i = 0; i != 8; ++i){
+                delete board[i];
+        }
+
+
+        // final array delete
+        delete board;
+
+}
+
 
 Piece* Board::getPieceAt(int arrX, int arrY){
     cout << "Board.getPieaceAt(" << arrX << ", " << arrY << ")\n";
