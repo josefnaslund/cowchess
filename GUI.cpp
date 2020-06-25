@@ -52,6 +52,8 @@ void GUI::drawBoard(){
     // draw background color
     SDL_SetRenderDrawColor(renderer, 170, 120, 50, 255);
     SDL_RenderClear(renderer);
+    SDL_RenderPresent(renderer);
+    SDL_Delay(150);
 
     // a rectangle shape
     SDL_Rect r;
@@ -80,8 +82,7 @@ void GUI::drawBoard(){
 
             // send to screen
             SDL_RenderPresent(renderer);
-
-            // SDL_Delay(100);
+            SDL_Delay(5);
         }
     }
 }
