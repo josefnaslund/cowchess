@@ -23,12 +23,17 @@ Board::Board(){
         }
     }
 
-    // Some alive pieces
-    delete board[1][0];
-    board[1][0] = new Piece(1);
+    setStandardBoard();
+}
 
-    delete board[6][0];
-    board[6][0] = new Piece(0);
+
+void Board::setStandardBoard(){
+    // Some fictive pieces
+    // delete board[1][0];
+    // board[1][0] = new Piece(1);
+
+    // delete board[6][0];
+    // board[6][0] = new Piece(0);
 
     // Some real pieces
     delete board[0][0];

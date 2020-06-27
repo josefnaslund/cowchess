@@ -16,7 +16,16 @@ GUI::GUI()
     renderer = NULL;
     texture = NULL;
     updated = 1;
+    images = std::vector<std::pair<std::string, SDL_Texture*>> {};
 
+}
+
+GUI::~GUI(){
+        for (auto p : images){
+                SDL_DestroyTexture(p.second);
+        }
+
+        images.clear();
 }
 
 bool GUI::init(){
@@ -87,7 +96,55 @@ void GUI::drawBoard(){
     }
 }
 
+void GUI::loadImages(Piece*** board){
+    // SDL_Rect r;
+
+    for (int row = 0; row != 8; ++row){
+        for (int col = 0; col != 8; ++col){
+            if (board[row][col]->isAlive()){
+
+                bool found = false;
+                for (auto p : images){
+                        if (board[row][col]->getImage() == p.first){
+                            found = true;
+                            break;
+                        }
+                }
+
+                if (!found){
+                    loadImage(board[row][col]->getImage());
+                    if (texture){
+                            std::pair<std::string, SDL_Texture*> newPair 
+                            {
+                                board[row][col]->getImage(),
+                                    texture
+
+                            };
+                            images.push_back(newPair);
+                            texture = NULL;
+                    }
+                }
+
+            }
+        }
+    }
+        
+}
+
+int GUI::findImage(std::string str){
+    for (uint i = 0; i != images.size(); ++i){
+            if (images[i].first == str){
+                    return i;
+            }
+    }
+    return -1;
+}
+
 void GUI::drawPieces(Piece*** board){
+    if (images.empty()){
+        loadImages(board);
+    }
+
     // to draw pieces
     SDL_Rect r;
 
@@ -98,9 +155,9 @@ void GUI::drawPieces(Piece*** board){
                 r.y = 40 + (7 - row) * 50;
                 r.w = 50;
                 r.h = 50;
-                loadImage(board[row][col]->getImage());
-                if (texture) {
-                    SDL_RenderCopy(renderer, texture, nullptr, &r);
+                int index = findImage(board[row][col]->getImage());
+                if (index != -1 && images[index].second) {
+                    SDL_RenderCopy(renderer, images[index].second, nullptr, &r);
                 }
 
                 else {
@@ -121,6 +178,7 @@ bool GUI::loadImage(std::string img){
     texture = IMG_LoadTexture(renderer, img.c_str());
     if (!texture){
         std::cerr << "Can't load texture: " << img << std::endl;
+        return 0;
     }
     // SDL_QueryTexture(texture, NULL, NULL, &w, &h);
 

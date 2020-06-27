@@ -7,6 +7,7 @@ class Board{
     private:
         Piece*** board;
         int moveCount;
+        void setStandardBoard();
 
     public:
         Board();
