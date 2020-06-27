@@ -62,7 +62,7 @@ void GUI::drawBoard(){
     SDL_SetRenderDrawColor(renderer, 170, 120, 50, 255);
     SDL_RenderClear(renderer);
     SDL_RenderPresent(renderer);
-    SDL_Delay(150);
+    SDL_Delay(50);
 
     // a rectangle shape
     SDL_Rect r;
@@ -91,7 +91,7 @@ void GUI::drawBoard(){
 
             // send to screen
             SDL_RenderPresent(renderer);
-            SDL_Delay(5);
+            SDL_Delay(1);
         }
     }
 }
@@ -142,6 +142,7 @@ int GUI::findImage(std::string str){
 
 void GUI::drawPieces(Piece*** board){
     if (images.empty()){
+        std::cout << "vector 'images' is empty\n";
         loadImages(board);
     }
 
@@ -151,6 +152,7 @@ void GUI::drawPieces(Piece*** board){
     for (int row = 0; row != 8; ++row){
         for (int col = 0; col != 8; ++col){
             if (board[row][col]->isAlive()){
+                SDL_Delay(1);
                 r.x = 120 + col * 50;
                 r.y = 40 + (7 - row) * 50;
                 r.w = 50;
@@ -164,9 +166,10 @@ void GUI::drawPieces(Piece*** board){
                     SDL_RenderFillRect( renderer, &r );
                 }
                 SDL_RenderPresent(renderer);
-                if (texture){
-                        SDL_DestroyTexture(texture);
-                }
+                //
+                // if (texture){
+                //         SDL_DestroyTexture(texture);
+                // }
                 // SDL_Delay(100);
             }
         }
