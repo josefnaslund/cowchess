@@ -61,8 +61,8 @@ void GUI::drawBoard(){
     // draw background color
     SDL_SetRenderDrawColor(renderer, 170, 120, 50, 255);
     SDL_RenderClear(renderer);
-    SDL_RenderPresent(renderer);
-    SDL_Delay(100);
+    // SDL_RenderPresent(renderer);
+    // SDL_Delay(100);
 
     // a rectangle shape
     SDL_Rect r;
@@ -90,8 +90,8 @@ void GUI::drawBoard(){
             SDL_RenderFillRect( renderer, &r );
 
             // send to screen
-            SDL_RenderPresent(renderer);
-            SDL_Delay(1);
+            //SDL_RenderPresent(renderer);
+            // SDL_Delay(1);
         }
     }
 }
@@ -153,20 +153,25 @@ void GUI::drawPieces(Piece*** board){
         for (int col = 0; col != 8; ++col){
             if (board[row][col]->isAlive()){
 
-                r.x = 120 + col * 50;
-                r.y = 40 + (7 - row) * 50;
-                r.w = 50;
-                r.h = 50;
+                r.x = LEFT_MARGIN + col * SQUARE_SIZE;
+                r.y = TOP_MARGIN + (7 - row) * SQUARE_SIZE;
+                r.w = SQUARE_SIZE;
+                r.h = SQUARE_SIZE;
                 int index = findImage(board[row][col]->getImage());
+
+                // if image exists
                 if (index != -1 && images[index].second) {
                     SDL_RenderCopy(renderer, images[index].second, nullptr, &r);
                 }
 
+                // if no img with that name, draw red square
                 else {
+                    SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
                     SDL_RenderFillRect( renderer, &r );
+                    std::cerr << "Error: can't find image\n";
                 }
                 SDL_RenderPresent(renderer);
-                SDL_Delay(1);
+                // SDL_Delay(1);
                 //
                 // if (texture){
                 //         SDL_DestroyTexture(texture);
@@ -199,4 +204,11 @@ void GUI::setUpdated(bool b){
 
 bool GUI::isUpdated(){
     return updated;
+}
+
+void GUI::update(Piece*** board){
+    drawBoard();
+    drawPieces(board);
+    setUpdated(false);
+    SDL_RenderPresent(renderer);
 }

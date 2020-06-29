@@ -28,6 +28,7 @@ class GUI {
             void setUpdated(bool b);
             bool close();
             bool isUpdated();
+            void update(Piece*** board);
             bool loadImage(std::string img);
 };
 
