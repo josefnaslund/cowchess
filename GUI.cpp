@@ -143,6 +143,7 @@ void GUI::drawPieces(Piece*** board){
     if (images.empty()){
         std::cout << "vector 'images' is empty\n";
         loadImages(board);
+        std::cout << "There are now " << images.size() << " images in vector\n";
     }
 
     // to draw pieces

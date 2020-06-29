@@ -1,6 +1,9 @@
 #ifndef MOUSE_H
 #define MOUSE_H
 
+#include <SDL2/SDL.h>
+#include "Board.h"
+
 class Mouse {
         private:
             int posX;
@@ -18,6 +21,7 @@ class Mouse {
             void setLocked(bool _l) {locked = _l;}
 
             bool getIndexPos(const int& guiX, const int& guiY, int& arrX, int& arrY);
+            bool mouseEvents(SDL_Event& e, Board& board);
 
 };
 

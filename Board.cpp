@@ -77,21 +77,11 @@ Board::~Board(){
 
 
 Piece* Board::getPieceAt(int arrX, int arrY){
-    cout << "Board.getPieaceAt(" << arrX << ", " << arrY << ")\n";
-    cout << "is alive: " << board[arrY][arrX]->isAlive() << endl;
-
-
     return board[arrY][arrX];
 }
 
 
 bool Board::movePiece(int oldX, int oldY, int newX, int newY){
-    // cout << "-----------------------\n";
-    // cout << "Old piece has color: " << board[oldY][oldX]->isWhite() << endl;
-    // cout << "moveCount is: " << moveCount << endl;
-    // cout << "moveCount % 2 is: " << moveCount % 2 << endl;
-    // cout << "-----------------------\n";
-
     if (
             (board[oldY][oldX]->isWhite() == (bool)(moveCount % 2)) &&
             (board[oldY][oldX]->validMove(oldX, oldY, newX, newY, board) )
@@ -105,10 +95,6 @@ bool Board::movePiece(int oldX, int oldY, int newX, int newY){
         // replace new square with old piece
         board[newY][newX] = board[oldY][oldX];
 
-
-        // Debug - query piece
-        cout << "*Piece at [" << oldX << "][" << oldY <<"] is alive?: " <<
-            board[oldX][oldY]->isAlive() << endl;
 
         // kill old piece
         //board[oldY][oldX]->killPiece();
