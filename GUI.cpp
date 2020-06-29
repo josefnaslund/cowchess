@@ -62,7 +62,7 @@ void GUI::drawBoard(){
     SDL_SetRenderDrawColor(renderer, 170, 120, 50, 255);
     SDL_RenderClear(renderer);
     // SDL_RenderPresent(renderer);
-    SDL_Delay(100);
+    // SDL_Delay(100);
 
     // a rectangle shape
     SDL_Rect r;
@@ -91,10 +91,10 @@ void GUI::drawBoard(){
 
             // send to screen
             //SDL_RenderPresent(renderer);
-            SDL_Delay(1);
+            //SDL_Delay(1);
         }
     }
-    SDL_RenderPresent(renderer);
+    // SDL_RenderPresent(renderer);
 }
 
 void GUI::loadImages(Piece*** board){
@@ -167,7 +167,7 @@ void GUI::drawPieces(Piece*** board){
                     SDL_RenderFillRect( renderer, &r );
                 }
                 //SDL_RenderPresent(renderer);
-                SDL_Delay(1);
+                // SDL_Delay(1);
                 //
                 // if (texture){
                 //         SDL_DestroyTexture(texture);
