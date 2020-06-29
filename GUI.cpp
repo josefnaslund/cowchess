@@ -15,7 +15,6 @@ GUI::GUI()
     window = NULL;
     renderer = NULL;
     texture = NULL;
-    updated = 1;
     images = std::vector<std::pair<std::string, SDL_Texture*>> {};
 
 }
@@ -195,20 +194,8 @@ bool GUI::loadImage(std::string img){
 }
 
 
-void GUI::setUpdated(bool b){
-        if (b)
-            ++updated;
-        else
-            --updated;
-}
-
-bool GUI::isUpdated(){
-    return updated;
-}
-
 void GUI::update(Piece*** board){
     drawBoard();
     drawPieces(board);
-    setUpdated(false);
     SDL_RenderPresent(renderer);
 }

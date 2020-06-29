@@ -14,8 +14,6 @@ class GUI {
             SDL_Renderer* renderer;
             SDL_Texture* texture;
             std::vector<std::pair<std::string, SDL_Texture*>> images;
-            
-            int updated;
 
         public:
             GUI();
@@ -25,9 +23,7 @@ class GUI {
             void loadImages(Piece*** board);
             int findImage(std::string str);
             void drawPieces(Piece*** board);
-            void setUpdated(bool b);
             bool close();
-            bool isUpdated();
             void update(Piece*** board);
             bool loadImage(std::string img);
 };

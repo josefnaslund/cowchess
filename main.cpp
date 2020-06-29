@@ -111,22 +111,11 @@ int main( int argc, char* args[] )
                 }
 
 
-
-
             } // end while SDL_PollEvent...
 
                 if (moveMade){
                     mygui.update(board.getBoard());
                 }
-
-
-                // redraw board, pieces, etc
-                
-
-
-            // SDL_Delay(300);
-
-
 
         }// end while not quit
 
