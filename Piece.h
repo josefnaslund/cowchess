@@ -11,7 +11,7 @@ class Piece {
     protected:
         bool alive;
         bool white;
-        string img;
+        const char** img;
 
     public:
         Piece();
@@ -20,7 +20,7 @@ class Piece {
 
         bool isWhite() const {return white;}
         bool isAlive() const {return alive;}
-        string getImage() const {return img;}
+        const char** getImage() const {return img;}
         void killPiece(){alive = false;}
 
         virtual bool validMove(const int& oldX, const int& oldY, const int& newX, const int& newY, Piece*** b) { std::cout << "## Piece validMove() - always true ##\n"; return true; }

@@ -1,5 +1,7 @@
 #include <iostream>
 #include "Rook.h"
+#include "img/rook_w.xpm"
+#include "img/rook_b.xpm"
 
 
 Rook::Rook(bool color){
@@ -8,11 +10,11 @@ Rook::Rook(bool color){
     white = color;
 
     if (color){
-        img = "img/rook_w.png";
+        img = rook_w_xpm;
     }
 
     else {
-        img = "img/rook_b.png";
+        img = rook_b_xpm;
     }
 
 }

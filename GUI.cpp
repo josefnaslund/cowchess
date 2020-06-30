@@ -15,7 +15,8 @@ GUI::GUI()
     window = NULL;
     renderer = NULL;
     texture = NULL;
-    images = std::vector<std::pair<std::string, SDL_Texture*>> {};
+    images = std::vector<std::pair<const char**, SDL_Texture*>> {};
+    surface = NULL;
 
 }
 
@@ -113,7 +114,7 @@ void GUI::loadImages(Piece*** board){
                 if (!found){
                     loadImage(board[row][col]->getImage());
                     if (texture){
-                            std::pair<std::string, SDL_Texture*> newPair 
+                            std::pair<const char**, SDL_Texture*> newPair 
                             {
                                 board[row][col]->getImage(),
                                     texture
@@ -130,9 +131,9 @@ void GUI::loadImages(Piece*** board){
         
 }
 
-int GUI::findImage(std::string str){
+int GUI::findImage(const char** img){
     for (uint i = 0; i != images.size(); ++i){
-            if (images[i].first == str){
+            if (images[i].first == img){
                     return i;
             }
     }
@@ -182,14 +183,21 @@ void GUI::drawPieces(Piece*** board){
     }
 }
 
-bool GUI::loadImage(std::string img){
+bool GUI::loadImage(const char** img){
     texture = NULL;
-    texture = IMG_LoadTexture(renderer, img.c_str());
+    
+    surface = IMG_ReadXPMFromArray((char**)img);
+
+    texture = SDL_CreateTextureFromSurface(renderer, surface);
     if (!texture){
         std::cerr << "Can't load texture: " << img << std::endl;
         return 0;
     }
-    // SDL_QueryTexture(texture, NULL, NULL, &w, &h);
+
+    SDL_FreeSurface(surface);
+
+
+    surface = NULL;
 
     return 1;
 }

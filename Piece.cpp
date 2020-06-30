@@ -1,9 +1,12 @@
 #include "Piece.h"
+#include "img/piece.xpm"
+#include "img/piece_w.xpm"
+#include "img/piece_b.xpm"
 
 Piece::Piece(){
     white = true;
     alive = false;
-    img = "img/piece.png";
+    img = piece_xpm;
 }
 
 Piece::Piece(const bool& color){
@@ -12,11 +15,11 @@ Piece::Piece(const bool& color){
     white = color;
 
     if (color){
-        img = "img/piece_w.png";
+        img = piece_w_xpm ;
     }
 
     else {
-        img = "img/piece_b.png";
+        img = piece_b_xpm;
     }
 
 }

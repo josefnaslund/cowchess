@@ -13,7 +13,8 @@ class GUI {
             SDL_Window* window;
             SDL_Renderer* renderer;
             SDL_Texture* texture;
-            std::vector<std::pair<std::string, SDL_Texture*>> images;
+            std::vector<std::pair<const char**, SDL_Texture*>> images;
+            SDL_Surface* surface;
 
         public:
             GUI();
@@ -21,11 +22,11 @@ class GUI {
             bool init();
             void drawBoard();
             void loadImages(Piece*** board);
-            int findImage(std::string str);
+            int findImage(const char** img);
             void drawPieces(Piece*** board);
             bool close();
             void update(Piece*** board);
-            bool loadImage(std::string img);
+            bool loadImage(const char** img);
 };
 
 #endif

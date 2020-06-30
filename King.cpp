@@ -1,5 +1,8 @@
 #include <cmath>
 #include "King.h"
+#include "img/king_w.xpm"
+#include "img/king_b.xpm"
+
 
 using std::abs;
 
@@ -9,11 +12,11 @@ King::King(bool color){
     white = color;
 
     if (color){
-        img = "img/king_w.png";
+        img = king_w_xpm;
     }
 
     else {
-        img = "img/king_b.png";
+        img = king_b_xpm;
     }
 
 }
