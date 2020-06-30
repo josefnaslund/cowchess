@@ -171,7 +171,7 @@ void GUI::drawPieces(Piece*** board){
                     SDL_RenderFillRect( renderer, &r );
                     std::cerr << "Error: can't find image\n";
                 }
-                SDL_RenderPresent(renderer);
+                // SDL_RenderPresent(renderer);
                 // SDL_Delay(1);
                 //
                 // if (texture){
