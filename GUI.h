@@ -21,6 +21,7 @@ class GUI {
             ~GUI(); // SDL_DestroyTexture on all textures in vector
             bool init();
             void drawBoard();
+            void drawText();
             void drawInfo();
             void loadImages();
             int findImage(const char** img);

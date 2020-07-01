@@ -1,4 +1,5 @@
 #include <SDL2/SDL.h>                                                           
+#include <SDL2/SDL_ttf.h>                                                           
 #include <stdio.h>                                                              
 #include <iostream>                                                             
 #include "constants.h"                                                          
@@ -23,6 +24,10 @@ int main( int argc, char* args[] )
 
         SDL_Event e;
 
+        if (TTF_Init() < 0){
+            std::cerr << "init < 0: " << SDL_GetError() << endl;
+        }
+
         mygui.update();
 
         while(!quit){
@@ -37,9 +42,9 @@ int main( int argc, char* args[] )
                 else {
                     if (myMouse.mouseEvents(e, board)){
                         mygui.update();
-                            
+
                     }
-                        
+
                 }
 
 

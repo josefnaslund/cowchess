@@ -1,5 +1,6 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include <SDL2/SDL_ttf.h>
 #include <string>
 #include <cstring>
 #include <iostream>
@@ -54,6 +55,8 @@ bool GUI::init(){
         std::cerr << "Failed to init SDL_image (jpg)\n";
     }
 
+
+
     return renderer != NULL;
 }
 
@@ -95,16 +98,37 @@ void GUI::drawBoard(){
         }
     }
 
+    drawText();
     drawInfo();
+}
+
+void GUI::drawText(){
+    TTF_Font* myFont = TTF_OpenFont("img/FreeMonoBold.ttf", 200);
+    SDL_Color Black = {0, 0, 0};
+    SDL_Surface* surf = TTF_RenderText_Solid(myFont, "Turn", Black);
+    SDL_Texture* Text = SDL_CreateTextureFromSurface(renderer, surf);
+
+    SDL_Rect r; 
+    r.x = 27;  
+    r.y = 48; 
+    r.w = 70; 
+    r.h = 30; 
+
+    SDL_RenderCopy(renderer, Text, NULL, &r);
+
+    SDL_FreeSurface(surf);
+    SDL_DestroyTexture(Text);
 }
 
 
 void GUI::drawInfo(){
+
+
     SDL_Rect r;
-    
+
     // draw border around turn-square
     r.x = LEFT_MARGIN / 2 - SQUARE_SIZE / 2 - 1;
-    r.y = TOP_MARGIN - 1;
+    r.y = TOP_MARGIN * 2 - 1;
     r.w = SQUARE_SIZE + 2;
     r.h = SQUARE_SIZE + 2;
 
@@ -114,7 +138,7 @@ void GUI::drawInfo(){
 
     // draw turn of player
     r.x = LEFT_MARGIN / 2 - SQUARE_SIZE / 2;
-    r.y = TOP_MARGIN;
+    r.y = TOP_MARGIN * 2;
     r.w = SQUARE_SIZE;
     r.h = SQUARE_SIZE;
 
@@ -134,7 +158,7 @@ void GUI::drawInfo(){
 
 
 
-        
+
 }
 
 
@@ -149,37 +173,37 @@ void GUI::loadImages(){
 
                 bool found = false;
                 for (auto p : images){
-                        if (board[row][col]->getImage() == p.first){
-                            found = true;
-                            break;
-                        }
+                    if (board[row][col]->getImage() == p.first){
+                        found = true;
+                        break;
+                    }
                 }
 
                 if (!found){
                     loadTexture(board[row][col]->getImage());
                     if (texture){
-                            std::pair<const char**, SDL_Texture*> newPair 
-                            {
-                                board[row][col]->getImage(),
-                                    texture
+                        std::pair<const char**, SDL_Texture*> newPair 
+                        {
+                            board[row][col]->getImage(),
+                                texture
 
-                            };
-                            images.push_back(newPair);
-                            texture = NULL;
+                        };
+                        images.push_back(newPair);
+                        texture = NULL;
                     }
                 }
 
             }
         }
     }
-        
+
 }
 
 int GUI::findImage(const char** img){
     for (uint i = 0; i != images.size(); ++i){
-            if (images[i].first == img){
-                    return i;
-            }
+        if (images[i].first == img){
+            return i;
+        }
     }
     return -1;
 }
@@ -232,7 +256,7 @@ void GUI::drawPieces(){
 
 bool GUI::loadTexture(const char** img){
     texture = NULL;
-    
+
     surface = IMG_ReadXPMFromArray((char**)img);
 
     texture = SDL_CreateTextureFromSurface(renderer, surface);
