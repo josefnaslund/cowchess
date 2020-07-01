@@ -23,13 +23,9 @@ int main( int argc, char* args[] )
 
         SDL_Event e;
 
-        bool moveMade;
-
         mygui.update();
 
         while(!quit){
-            moveMade = false;
-
 
             while (SDL_PollEvent (&e) != 0){
                 if (e.type == SDL_QUIT){
@@ -39,16 +35,16 @@ int main( int argc, char* args[] )
                 // else if keyboard actions...
 
                 else {
-                    moveMade = myMouse.mouseEvents(e, board);
+                    if (myMouse.mouseEvents(e, board)){
+                        mygui.update();
+                            
+                    }
                         
                 }
 
 
             } // end while SDL_PollEvent...
 
-                if (moveMade){
-                    mygui.update();
-                }
 
         }// end while not quit
 

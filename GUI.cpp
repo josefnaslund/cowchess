@@ -251,7 +251,9 @@ bool GUI::loadTexture(const char** img){
 
 
 void GUI::update(){
+    cout << "Running update()\n";
     drawBoard();
     drawPieces();
     SDL_RenderPresent(renderer);
+    cout << "Updated()\n";
 }
