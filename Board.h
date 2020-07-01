@@ -17,6 +17,7 @@ class Board{
         Piece*** getBoard() {return board;}
         Piece* getPieceAt(int arrX, int arrY);
         bool movePiece(int oldX, int oldY, int newX, int newY);
+        bool atMove() const { return moveCount % 2;}
         
 
 };

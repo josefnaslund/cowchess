@@ -16,7 +16,7 @@ int main( int argc, char* args[] )
 
     bool quit = false;
 
-    GUI mygui = GUI();
+    GUI mygui = GUI(&board);
 
     if (mygui.init()){
         SDL_Delay(100);
@@ -25,7 +25,7 @@ int main( int argc, char* args[] )
 
         bool moveMade;
 
-        mygui.update(board.getBoard());
+        mygui.update();
 
         while(!quit){
             moveMade = false;
@@ -47,7 +47,7 @@ int main( int argc, char* args[] )
             } // end while SDL_PollEvent...
 
                 if (moveMade){
-                    mygui.update(board.getBoard());
+                    mygui.update();
                 }
 
         }// end while not quit

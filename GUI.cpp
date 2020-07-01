@@ -9,13 +9,14 @@
 
 using std::cout, std::endl;
 
-GUI::GUI()
+GUI::GUI(Board* _gameBoard)
 {
     window = NULL;
     renderer = NULL;
     texture = NULL;
     images = std::vector<std::pair<const char**, SDL_Texture*>> {};
     surface = NULL;
+    gameBoard = _gameBoard;
 
 }
 
@@ -93,9 +94,53 @@ void GUI::drawBoard(){
             // SDL_Delay(1);
         }
     }
+
+    drawInfo();
 }
 
-void GUI::loadImages(Piece*** board){
+
+void GUI::drawInfo(){
+    SDL_Rect r;
+    
+    // draw border around turn-square
+    r.x = LEFT_MARGIN / 2 - SQUARE_SIZE / 2 - 1;
+    r.y = TOP_MARGIN - 1;
+    r.w = SQUARE_SIZE + 2;
+    r.h = SQUARE_SIZE + 2;
+
+    SDL_SetRenderDrawColor( renderer, 0, 0, 0, 255 );
+
+    SDL_RenderFillRect( renderer, &r);
+
+    // draw turn of player
+    r.x = LEFT_MARGIN / 2 - SQUARE_SIZE / 2;
+    r.y = TOP_MARGIN;
+    r.w = SQUARE_SIZE;
+    r.h = SQUARE_SIZE;
+
+    if (gameBoard->atMove()){
+        // set to light color
+        SDL_SetRenderDrawColor( renderer, 200, 200, 200, 255 );
+    }
+
+    else {
+        // set to dark color
+        SDL_SetRenderDrawColor( renderer, 50, 50, 50, 255 );
+    }
+
+    SDL_RenderFillRect( renderer, &r);
+
+
+
+
+
+        
+}
+
+
+
+void GUI::loadImages(){
+    Piece*** board = gameBoard->getBoard();
     // SDL_Rect r;
 
     for (int row = 0; row != 8; ++row){
@@ -139,11 +184,13 @@ int GUI::findImage(const char** img){
     return -1;
 }
 
-void GUI::drawPieces(Piece*** board){
+void GUI::drawPieces(){
+    Piece*** board = gameBoard->getBoard();
+
     // will be called once on startup, to collect images to vector
     if (images.empty()){
         std::cout << "vector 'images' is empty\n";
-        loadImages(board);
+        loadImages();
         std::cout << "There are now " << images.size() << " images in vector\n";
     }
 
@@ -203,8 +250,8 @@ bool GUI::loadTexture(const char** img){
 }
 
 
-void GUI::update(Piece*** board){
+void GUI::update(){
     drawBoard();
-    drawPieces(board);
+    drawPieces();
     SDL_RenderPresent(renderer);
 }

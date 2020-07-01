@@ -14,17 +14,19 @@ class GUI {
             SDL_Texture* texture;
             std::vector<std::pair<const char**, SDL_Texture*>> images;
             SDL_Surface* surface;
+            Board* gameBoard;
 
         public:
-            GUI();
+            GUI(Board* _gameBoard);
             ~GUI(); // SDL_DestroyTexture on all textures in vector
             bool init();
             void drawBoard();
-            void loadImages(Piece*** board);
+            void drawInfo();
+            void loadImages();
             int findImage(const char** img);
-            void drawPieces(Piece*** board);
+            void drawPieces();
             bool close();
-            void update(Piece*** board);
+            void update();
             bool loadTexture(const char** img);
 };
 
