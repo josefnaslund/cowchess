@@ -104,6 +104,14 @@ bool Rook::validMove(const int& oldX, const int& oldY, const int& newX, const in
 
     }
 
+    // check for check
+    if (valid && testCheck && isChecked(oldX, oldY, newX, newY)){
+        std::cout << "Rook: that will make us checked\n";
+        valid = false;
+            
+    }
+
+
 
     return valid;
 }
