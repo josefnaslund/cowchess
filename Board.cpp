@@ -5,14 +5,15 @@
 #include "King.h"
 #include "constants.h"
 
+
 using std::cout, std::endl;
 
 Board::Board(){
     board = new Piece**[8];
     for (int i = 0; i != 8; ++i){
-            board[i] = new Piece*[8];
+        board[i] = new Piece*[8];
     }
-    
+
     // white begins
     moveCount = 1;
 
@@ -37,41 +38,41 @@ void Board::setStandardBoard(){
 
     // Some real pieces
     delete board[0][0];
-    board[0][0] = new Rook(1);
+    board[0][0] = new Rook(1, this);
 
     delete board[7][7];
-    board[7][7] = new Rook(0);
+    board[7][7] = new Rook(0, this);
 
     delete board[0][7];
-    board[0][7] = new Rook(1);
+    board[0][7] = new Rook(1, this);
 
     delete board[7][0];
-    board[7][0] = new Rook(0);
+    board[7][0] = new Rook(0, this);
 
 
     delete board[0][4];
-    board[0][4] = new King(1);
-    
+    board[0][4] = new King(1, this);
+
     delete board[7][4];
-    board[7][4] = new King(0);
+    board[7][4] = new King(0, this);
 }
 
 Board::~Board(){
-        // delete pieces
-        for (int i = 0; i != 8; ++i){
-                for (int j = 0; j != 8; ++j){
-                        delete board[i][j];
-                }
+    // delete pieces
+    for (int i = 0; i != 8; ++i){
+        for (int j = 0; j != 8; ++j){
+            delete board[i][j];
         }
+    }
 
-        // delete arrays
-        for (int i = 0; i != 8; ++i){
-                delete board[i];
-        }
+    // delete arrays
+    for (int i = 0; i != 8; ++i){
+        delete board[i];
+    }
 
 
-        // final array delete
-        delete board;
+    // final array delete
+    delete board;
 
 }
 
@@ -84,10 +85,10 @@ Piece* Board::getPieceAt(int arrX, int arrY){
 bool Board::movePiece(int oldX, int oldY, int newX, int newY){
     if (
             (board[oldY][oldX]->isWhite() == (bool)(moveCount % 2)) &&
-            (board[oldY][oldX]->validMove(oldX, oldY, newX, newY, board) )
+            (board[oldY][oldX]->validMove(oldX, oldY, newX, newY, board, true) )
        ){
-        cout << "*It's a valid move\n";
-        
+        std::cout << "*It's a valid move\n";
+
         // delete old piece
         delete board[newY][newX];
 

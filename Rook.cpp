@@ -4,10 +4,11 @@
 #include "img/rook_b.xpm"
 
 
-Rook::Rook(bool color){
+Rook::Rook(bool color, Board* _gameBoard){
 
     alive = true;
     white = color;
+    type = 'r';
 
     if (color){
         img = rook_w_xpm;
@@ -17,16 +18,19 @@ Rook::Rook(bool color){
         img = rook_b_xpm;
     }
 
+    gameBoard = _gameBoard;
+
 }
 
 
-bool Rook::validMove(const int& oldX, const int& oldY, const int& newX, const int& newY, Piece*** b){
+bool Rook::validMove(const int& oldX, const int& oldY, const int& newX, const int& newY, Piece*** b, bool testCheck){
+
     bool valid = true;
 
     // test if new pos. is on same row or col as piece.
     if ( (oldX != newX) && (oldY != newY) ){
         valid = false;
-        std::cout << "Rook: BAD MOVE\n";
+        std::cout << "Rook: BAD MOVE. Wrong col or row\n";
     }
 
 
@@ -38,7 +42,7 @@ bool Rook::validMove(const int& oldX, const int& oldY, const int& newX, const in
            )
         {
             valid = false;
-            std::cout << "Rook: Can't take piece of same color\n";
+            std::cout << "Rook at << " << oldX << "," << oldY << ": Can't take piece of same color at " << newX << ", " << newY << "\n";
         }
     }
 
@@ -103,4 +107,3 @@ bool Rook::validMove(const int& oldX, const int& oldY, const int& newX, const in
 
     return valid;
 }
-

@@ -5,7 +5,6 @@
 #include <iostream>
 #include "GUI.h"
 #include "constants.h"
-#include "Board.h"
 #include "Piece.h"
 
 using std::cout, std::endl;

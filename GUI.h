@@ -5,7 +5,6 @@
 #include <SDL2/SDL.h>
 #include <vector>
 #include <utility>
-#include "Board.h"
 #include "Piece.h"
 
 class GUI {

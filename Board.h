@@ -3,6 +3,8 @@
 
 #include "Piece.h"
 
+class Piece; // Forward declatation for pointers
+
 class Board{
     private:
         Piece*** board;
