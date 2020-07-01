@@ -112,7 +112,7 @@ void GUI::loadImages(Piece*** board){
                 }
 
                 if (!found){
-                    loadImage(board[row][col]->getImage());
+                    loadTexture(board[row][col]->getImage());
                     if (texture){
                             std::pair<const char**, SDL_Texture*> newPair 
                             {
@@ -141,6 +141,7 @@ int GUI::findImage(const char** img){
 }
 
 void GUI::drawPieces(Piece*** board){
+    // will be called once on startup, to collect images to vector
     if (images.empty()){
         std::cout << "vector 'images' is empty\n";
         loadImages(board);
@@ -183,7 +184,7 @@ void GUI::drawPieces(Piece*** board){
     }
 }
 
-bool GUI::loadImage(const char** img){
+bool GUI::loadTexture(const char** img){
     texture = NULL;
     
     surface = IMG_ReadXPMFromArray((char**)img);
