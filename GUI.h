@@ -26,7 +26,7 @@ class GUI {
             void drawPieces(Piece*** board);
             bool close();
             void update(Piece*** board);
-            bool loadImage(const char** img);
+            bool loadTexture(const char** img);
 };
 
 #endif
