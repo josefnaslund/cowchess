@@ -22,6 +22,7 @@ class GUI {
             bool init();
             void drawBoard();
             void drawText();
+            void drawTextCheck();
             void drawInfo();
             void loadImages();
             int findImage(const char** img);

@@ -100,24 +100,56 @@ void GUI::drawBoard(){
 
     drawText();
     drawInfo();
+    drawTextCheck();
 }
 
 void GUI::drawText(){
-    TTF_Font* myFont = TTF_OpenFont("img/FreeMonoBold.ttf", 200);
+    TTF_Font* myFont = TTF_OpenFont("img/FreeMonoBold.ttf", 600);
     SDL_Color Black = {0, 0, 0};
     SDL_Surface* surf = TTF_RenderText_Solid(myFont, "Turn", Black);
     SDL_Texture* Text = SDL_CreateTextureFromSurface(renderer, surf);
 
     SDL_Rect r; 
-    r.x = 27;  
-    r.y = 48; 
-    r.w = 70; 
-    r.h = 30; 
+    r.x = 21;  
+    r.y = 40; 
+    r.w = 75; 
+    r.h = 45; 
 
     SDL_RenderCopy(renderer, Text, NULL, &r);
 
     SDL_FreeSurface(surf);
     SDL_DestroyTexture(Text);
+}
+
+
+
+
+void GUI::drawTextCheck(){
+    Piece*** board = gameBoard->getBoard();
+
+    for (int i = 0; i != 8; ++i){
+        for (int j = 0; j != 8; ++j){
+            if (board[i][j]->getType() == 'k' && board[i][j]->isChecked(board)){
+                cout << "GUI: Check for player " << board[i][j]->isWhite() << endl;
+                TTF_Font* myFont = TTF_OpenFont("img/FreeMonoBold.ttf", 600);
+                SDL_Color Black = {0, 0, 0};
+                SDL_Surface* surf = TTF_RenderText_Solid(myFont, "Check", Black);
+                SDL_Texture* Text = SDL_CreateTextureFromSurface(renderer, surf);
+
+                SDL_Rect r; 
+                r.x = 15;  
+                r.y = 180; 
+                r.w = 85; 
+                r.h = 45; 
+
+                SDL_RenderCopy(renderer, Text, NULL, &r);
+
+                SDL_FreeSurface(surf);
+                SDL_DestroyTexture(Text);
+
+            }
+        }
+    }
 }
 
 
@@ -153,12 +185,6 @@ void GUI::drawInfo(){
     }
 
     SDL_RenderFillRect( renderer, &r);
-
-
-
-
-
-
 }
 
 
