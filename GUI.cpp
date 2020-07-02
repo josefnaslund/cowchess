@@ -144,12 +144,44 @@ void GUI::drawTextCheck(){
 
                 SDL_RenderCopy(renderer, Text, NULL, &r);
 
+
+
                 SDL_FreeSurface(surf);
                 SDL_DestroyTexture(Text);
+
+
+
+
+                break;
 
             }
         }
     }
+}
+
+void GUI::drawTextMate(){
+                TTF_Font* myFont = TTF_OpenFont("img/FreeMonoBold.ttf", 600);
+                SDL_Color Black = {0, 0, 0};
+                SDL_Surface* surf = TTF_RenderText_Solid(myFont, "Checkmate!", Black);
+                SDL_Texture* Text = SDL_CreateTextureFromSurface(renderer, surf);
+
+                SDL_Rect r; 
+                r.x = LEFT_MARGIN + 8 * SQUARE_SIZE / 2 - 190 / 2;   // == 225
+                r.y = TOP_MARGIN + 8 * SQUARE_SIZE / 2 - 45/2;  // == 217
+                r.w = 190; 
+                r.h = 45; 
+
+                SDL_RenderCopy(renderer, Text, NULL, &r);
+                
+                // delay cause of just drawn board
+                SDL_Delay(300); 
+                SDL_RenderPresent(renderer);
+                // delay before destruction
+                SDL_Delay(300); 
+
+                SDL_FreeSurface(surf);
+                SDL_DestroyTexture(Text);
+
 }
 
 

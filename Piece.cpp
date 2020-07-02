@@ -4,6 +4,8 @@
 #include "img/piece_w.xpm"
 #include "img/piece_b.xpm"
 
+using std::cout, std::endl, std::cerr;
+
 Piece::Piece(){
     white = true;
     alive = false;
@@ -86,12 +88,36 @@ bool Piece::isChecked(const int& oldX, const int& oldY, const int& newX, const i
     newBoard[newY][newX] = oldBoard[oldY][oldX];
     newBoard[oldY][oldX] = new Piece();
 
+    std::cout << "\t***(" << newY << "," << newX << ") is alive(" << newBoard[newY][newX]->isAlive() << ") color(" << newBoard[newY][newX]->isWhite() << ") type(" << newBoard[newY][newX]->getType() << ")" << endl;
+
+    cout << "***TEMP BOARD***\n";
+    cout << "args: " << oldX << "," << oldY << "," << newX << "," << newY << endl;
+    for (int i = 0; i != 8; ++i){
+            for (int j = 0; j != 8; ++j){
+                Piece* p = newBoard[7-i][j];
+                if (p->isAlive() && p->isWhite()){
+                        cout << "I";
+                }
+
+                else if (p->isAlive()){
+                        cout << "i";
+                }
+                else {
+                        cout << "0";
+                }
+                    
+            }
+            cout << endl;
+    }
+    cout << "****************\n";
+
+
 
     // make the test
     bool checked = isChecked(newBoard);
 
     // deallocate memory
-    delete newBoard[oldY][oldX]; // delete new dead piece
+    delete newBoard[oldY][oldX]; // delete new dead piece from temp board
 
     for (int i = 0; i != 8; ++i){
         delete newBoard[i];

@@ -29,6 +29,7 @@ bool King::validMove(const int& oldX, const int& oldY, const int& newX, const in
 
     // do not move to same pos
     if (oldX == newX && oldY == newY){
+        std::cout << "King: Can't move to same pos\n";
         valid = false;
     }
 

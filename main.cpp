@@ -41,7 +41,19 @@ int main( int argc, char* args[] )
 
                 else {
                     if (myMouse.mouseEvents(e, board)){
+
                         mygui.update();
+
+                        if (board.testMate()){
+                            cout << "************************************\n";
+                            cout << "*******************CHECKMATE!!!" << endl;
+                            cout << "************************************\n";
+                            mygui.drawTextMate();
+                        }
+
+                        // else test check... then mygui.drawTextCheck().
+                        // move test section from GUI::drawTextCheck() to Board
+
 
                     }
 

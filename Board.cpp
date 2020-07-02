@@ -111,3 +111,62 @@ bool Board::movePiece(int oldX, int oldY, int newX, int newY){
 
     return false;
 }
+
+bool Board::testMate(){
+    Piece* p;
+    int kingX = -1;
+
+    cout << "\t--* Testing mate for player " << atMove() << endl;
+
+    for (int i = 0; i != 8; ++i){
+            for (int j = 0; j != 8; ++j){
+                p = board[i][j];
+                
+                // to only test each side once, test on king
+                if (p->getType() == 'k' && ( p->isWhite() == atMove() ) && p->isChecked(board)){
+                    kingX = j;
+                    break;
+                }
+            }
+            if (kingX != -1){
+                    break;
+            }
+    }
+
+    // find checked players pieces, test if any move can uncheck
+    if (kingX != -1){
+        cout << "\t--* player is checked: " << atMove() << endl;
+        for (int i = 0; i != 8; ++i){
+            for (int j = 0; j != 8; ++j){
+                p = board[j][i];
+                if (p->isAlive() && (p->isWhite() == atMove())){
+                    // test valid moves for piece
+                    for (int ii = 0; ii != 8; ++ii){
+                        for (int jj = 0; jj != 8; ++jj){
+                            if (p->validMove(i, j, ii, jj, board, 1)){
+                                cout << "\t--* A valid move is found: move piece at (" << j << "," << i << ") to (" << jj << "," << ii << ").\n";
+                                return false;
+                            }
+                            else {
+                                    cout << "\t--* Can't move (" << j << "," << i << ") ti (" << jj << "," << ii << ").\n";
+                            }
+                        }
+
+                    }
+                }
+            }
+        }
+    }
+
+    return kingX != -1;
+}
+
+
+
+
+
+
+
+
+
+
