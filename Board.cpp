@@ -112,29 +112,34 @@ bool Board::movePiece(int oldX, int oldY, int newX, int newY){
     return false;
 }
 
-bool Board::testMate(){
+bool Board::testCheck(){
+    cout << "\t--* Testing check for player " << atMove() << endl;
     Piece* p;
-    int kingX = -1;
-
-    cout << "\t--* Testing mate for player " << atMove() << endl;
 
     for (int i = 0; i != 8; ++i){
             for (int j = 0; j != 8; ++j){
                 p = board[i][j];
                 
                 // to only test each side once, test on king
-                if (p->getType() == 'k' && ( p->isWhite() == atMove() ) && p->isChecked(board)){
-                    kingX = j;
-                    break;
+                if (
+                        p->getType() == 'k' && ( p->isWhite() == atMove() ) && 
+                        p->isChecked(board)
+                        )
+                {
+                    return true;
                 }
-            }
-            if (kingX != -1){
-                    break;
             }
     }
 
+    return false;
+}
+
+bool Board::testMate(){
+    Piece* p;
+    
     // find checked players pieces, test if any move can uncheck
-    if (kingX != -1){
+    if (testCheck()){
+    cout << "\t--* Testing mate for player " << atMove() << endl;
         cout << "\t--* player is checked: " << atMove() << endl;
         for (int i = 0; i != 8; ++i){
             for (int j = 0; j != 8; ++j){
@@ -144,11 +149,16 @@ bool Board::testMate(){
                     for (int ii = 0; ii != 8; ++ii){
                         for (int jj = 0; jj != 8; ++jj){
                             if (p->validMove(i, j, ii, jj, board, 1)){
-                                cout << "\t--* A valid move is found: move piece at (" << j << "," << i << ") to (" << jj << "," << ii << ").\n";
-                                return false;
+                                cout << 
+                                    "\t--* A valid move is found: move piece at (" << 
+                                    j << "," << i << ") to (" << jj << "," << 
+                                    ii << ").\n";
+                                return false; // return 1
                             }
                             else {
-                                    cout << "\t--* Can't move (" << j << "," << i << ") ti (" << jj << "," << ii << ").\n";
+                                    cout << "\t--* Can't move (" << j << "," << 
+                                        i << ") ti (" << jj << "," << ii << 
+                                        ").\n";
                             }
                         }
 
@@ -156,9 +166,9 @@ bool Board::testMate(){
                 }
             }
         }
+        return true;
     }
-
-    return kingX != -1;
+    return false;
 }
 
 

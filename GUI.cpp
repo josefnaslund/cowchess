@@ -100,7 +100,6 @@ void GUI::drawBoard(){
 
     drawText();
     drawInfo();
-    drawTextCheck();
 }
 
 void GUI::drawText(){
@@ -127,60 +126,53 @@ void GUI::drawText(){
 void GUI::drawTextCheck(){
     Piece*** board = gameBoard->getBoard();
 
-    for (int i = 0; i != 8; ++i){
-        for (int j = 0; j != 8; ++j){
-            if (board[i][j]->getType() == 'k' && board[i][j]->isChecked(board)){
-                cout << "GUI: Check for player " << board[i][j]->isWhite() << endl;
-                TTF_Font* myFont = TTF_OpenFont("img/FreeMonoBold.ttf", 600);
-                SDL_Color Black = {0, 0, 0};
-                SDL_Surface* surf = TTF_RenderText_Solid(myFont, "Check", Black);
-                SDL_Texture* Text = SDL_CreateTextureFromSurface(renderer, surf);
+    TTF_Font* myFont = TTF_OpenFont("img/FreeMonoBold.ttf", 600);
+    SDL_Color Black = {0, 0, 0};
+    SDL_Surface* surf = TTF_RenderText_Solid(myFont, "Check", Black);
+    SDL_Texture* Text = SDL_CreateTextureFromSurface(renderer, surf);
 
-                SDL_Rect r; 
-                r.x = 15;  
-                r.y = 180; 
-                r.w = 85; 
-                r.h = 45; 
+    SDL_Rect r; 
+    r.x = 15;  
+    r.y = 180; 
+    r.w = 85; 
+    r.h = 45; 
 
-                SDL_RenderCopy(renderer, Text, NULL, &r);
+    SDL_RenderCopy(renderer, Text, NULL, &r);
 
+    // delay cause of just drawn board (for slower machines)
+    SDL_Delay(300); 
+    SDL_RenderPresent(renderer);
+    
+    // delay before destruction
+    SDL_Delay(300); 
 
+    SDL_FreeSurface(surf);
+    SDL_DestroyTexture(Text);
 
-                SDL_FreeSurface(surf);
-                SDL_DestroyTexture(Text);
-
-
-
-
-                break;
-
-            }
-        }
-    }
 }
 
 void GUI::drawTextMate(){
-                TTF_Font* myFont = TTF_OpenFont("img/FreeMonoBold.ttf", 600);
-                SDL_Color Black = {0, 0, 0};
-                SDL_Surface* surf = TTF_RenderText_Solid(myFont, "Checkmate!", Black);
-                SDL_Texture* Text = SDL_CreateTextureFromSurface(renderer, surf);
+    TTF_Font* myFont = TTF_OpenFont("img/FreeMonoBold.ttf", 600);
+    SDL_Color Col = {200, 50, 50};
+    SDL_Surface* surf = TTF_RenderText_Solid(myFont, "Checkmate!", Col);
+    SDL_Texture* Text = SDL_CreateTextureFromSurface(renderer, surf);
 
-                SDL_Rect r; 
-                r.x = LEFT_MARGIN + 8 * SQUARE_SIZE / 2 - 190 / 2;   // == 225
-                r.y = TOP_MARGIN + 8 * SQUARE_SIZE / 2 - 45/2;  // == 217
-                r.w = 190; 
-                r.h = 45; 
+    SDL_Rect r; 
+    r.x = LEFT_MARGIN + 8 * SQUARE_SIZE / 2 - 190 / 2;   // == 225
+    r.y = TOP_MARGIN + 8 * SQUARE_SIZE / 2 - 45/2;  // == 217
+    r.w = 190; 
+    r.h = 45; 
 
-                SDL_RenderCopy(renderer, Text, NULL, &r);
-                
-                // delay cause of just drawn board
-                SDL_Delay(300); 
-                SDL_RenderPresent(renderer);
-                // delay before destruction
-                SDL_Delay(300); 
+    SDL_RenderCopy(renderer, Text, NULL, &r);
 
-                SDL_FreeSurface(surf);
-                SDL_DestroyTexture(Text);
+    // delay cause of just drawn board (for slower machines)
+    SDL_Delay(300); 
+    SDL_RenderPresent(renderer);
+    // delay before destruction
+    SDL_Delay(300); 
+
+    SDL_FreeSurface(surf);
+    SDL_DestroyTexture(Text);
 
 }
 

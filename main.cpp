@@ -51,6 +51,11 @@ int main( int argc, char* args[] )
                             mygui.drawTextMate();
                         }
 
+                        else if (board.testCheck()){
+                            cout << "Check!\n";
+                            mygui.drawTextCheck();
+                        }
+
                         // else test check... then mygui.drawTextCheck().
                         // move test section from GUI::drawTextCheck() to Board
 

@@ -88,7 +88,10 @@ bool Piece::isChecked(const int& oldX, const int& oldY, const int& newX, const i
     newBoard[newY][newX] = oldBoard[oldY][oldX];
     newBoard[oldY][oldX] = new Piece();
 
-    std::cout << "\t***(" << newY << "," << newX << ") is alive(" << newBoard[newY][newX]->isAlive() << ") color(" << newBoard[newY][newX]->isWhite() << ") type(" << newBoard[newY][newX]->getType() << ")" << endl;
+    std::cout << "\t***(" << newY << "," << newX << ") is alive(" << 
+        newBoard[newY][newX]->isAlive() << ") color(" << 
+        newBoard[newY][newX]->isWhite() << ") type(" << 
+        newBoard[newY][newX]->getType() << ")" << endl;
 
     cout << "***TEMP BOARD***\n";
     cout << "args: " << oldX << "," << oldY << "," << newX << "," << newY << endl;
