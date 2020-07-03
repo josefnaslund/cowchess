@@ -67,12 +67,12 @@ Board::~Board(){
 
     // delete arrays
     for (int i = 0; i != 8; ++i){
-        delete board[i];
+        delete[] board[i];
     }
 
 
     // final array delete
-    delete board;
+    delete[] board;
 
 }
 

@@ -11,6 +11,7 @@ Piece::Piece(){
     alive = false;
     img = piece_xpm;
     type = 'u';
+    value = 0;
 }
 
 Piece::Piece(const bool& color, Board* _gameBoard){
@@ -18,6 +19,7 @@ Piece::Piece(const bool& color, Board* _gameBoard){
     alive = true;
     white = color;
     type = 'u';
+    value = 0;
 
     if (color){
         img = piece_w_xpm ;
@@ -120,12 +122,15 @@ bool Piece::isChecked(const int& oldX, const int& oldY, const int& newX, const i
     bool checked = isChecked(newBoard);
 
     // deallocate memory
+    // note: don't delete all objects, since they still are in other array.
+
     delete newBoard[oldY][oldX]; // delete new dead piece from temp board
 
     for (int i = 0; i != 8; ++i){
-        delete newBoard[i];
+                
+        delete[] newBoard[i];
     }
-    delete newBoard;
+    delete[] newBoard;
 
     return checked;
 }

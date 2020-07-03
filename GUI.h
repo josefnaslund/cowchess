@@ -15,6 +15,9 @@ class GUI {
             std::vector<std::pair<const char**, SDL_Texture*>> images;
             SDL_Surface* surface;
             Board* gameBoard;
+            SDL_Texture* turnTexture;
+            SDL_Texture* checkTexture;
+
 
         public:
             GUI(Board* _gameBoard);

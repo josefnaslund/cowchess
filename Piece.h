@@ -16,11 +16,12 @@ class Piece {
         const char** img;
         Board* gameBoard;
         char type;
+        int value;
 
     public:
         Piece();
         Piece(const bool& color, Board* _gameBoard);
-        virtual ~Piece() {};
+        virtual ~Piece() { };
 
         bool isWhite() const {return white;}
         bool isAlive() const {return alive;}
@@ -30,6 +31,8 @@ class Piece {
         virtual bool validMove(const int& oldX, const int& oldY, const int& newX, const int& newY, Piece*** b, bool testCheck) { std::cout << "## Piece validMove() - always true ##\n"; return true; }
         bool isChecked(Piece*** b);
         bool isChecked(const int& oldX, const int& oldY, const int& newX, const int& newY);
+
+        const int& getValue() const {return value;}
 };
 
 #endif

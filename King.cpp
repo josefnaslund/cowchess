@@ -11,6 +11,8 @@ King::King(bool color, Board* _gameBoard){
     alive = true;
     white = color;
     type = 'k';
+    value = 99;
+
 
     if (color){
         img = king_w_xpm;

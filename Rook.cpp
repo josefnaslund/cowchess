@@ -9,6 +9,7 @@ Rook::Rook(bool color, Board* _gameBoard){
     alive = true;
     white = color;
     type = 'r';
+    value = 5;
 
     if (color){
         img = rook_w_xpm;

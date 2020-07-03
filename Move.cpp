@@ -1,6 +1,6 @@
 #include "Move.h"
 
-Move::Move(int& _oldX, int& oldY, int& _newX, int& _newY, Piece*** _board){
+Move::Move(int& _oldX, int& _oldY, int& _newX, int& _newY, Piece*** _board){
     oldX = _oldX;
     oldY = _oldY;
     newX = _newX;
@@ -8,9 +8,17 @@ Move::Move(int& _oldX, int& oldY, int& _newX, int& _newY, Piece*** _board){
     board = _board;
     piece = board[oldY][oldX];
 
-    isCapture = board[newY][newX]->isAlive() && 
-        (piece->isWhite != board[newY][newX]->isWhite());
+    if (board[newY][newX]->isAlive() && 
+        (piece->isWhite() != board[newY][newX]->isWhite())
+        )
+    {
+            captureValue = board[newY][newX]->getValue();
+    }
 
-    isCheck = isCapture && (board[newY][newX]->getType() == 'k');
+    else {
+            captureValue = 0;
+    }
+
+    check = captureValue && (board[newY][newX]->getType() == 'k');
 
 }

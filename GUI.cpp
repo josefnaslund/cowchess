@@ -18,6 +18,9 @@ GUI::GUI(Board* _gameBoard)
     images = std::vector<std::pair<const char**, SDL_Texture*>> {};
     surface = NULL;
     gameBoard = _gameBoard;
+    turnTexture = NULL;
+    checkTexture = NULL;
+    
 
 }
 
@@ -27,6 +30,9 @@ GUI::~GUI(){
         }
 
         images.clear();
+
+        SDL_DestroyTexture(turnTexture);
+        SDL_DestroyTexture(checkTexture);
 }
 
 bool GUI::init(){
@@ -103,10 +109,14 @@ void GUI::drawBoard(){
 }
 
 void GUI::drawText(){
-    TTF_Font* myFont = TTF_OpenFont("img/FreeMonoBold.ttf", 600);
-    SDL_Color Black = {0, 0, 0};
-    SDL_Surface* surf = TTF_RenderText_Solid(myFont, "Turn", Black);
-    SDL_Texture* Text = SDL_CreateTextureFromSurface(renderer, surf);
+    if (turnTexture == NULL){
+        TTF_Font* myFont = TTF_OpenFont("img/FreeMonoBold.ttf", 600);
+        SDL_Color Black = {0, 0, 0};
+        SDL_Surface* surf = TTF_RenderText_Solid(myFont, "Turn", Black);
+        turnTexture = SDL_CreateTextureFromSurface(renderer, surf);
+        SDL_FreeSurface(surf);
+        TTF_CloseFont(myFont);
+    }
 
     SDL_Rect r; 
     r.x = 21;  
@@ -114,22 +124,24 @@ void GUI::drawText(){
     r.w = 75; 
     r.h = 45; 
 
-    SDL_RenderCopy(renderer, Text, NULL, &r);
+    SDL_RenderCopy(renderer, turnTexture, NULL, &r);
 
-    SDL_FreeSurface(surf);
-    SDL_DestroyTexture(Text);
+
+    //SDL_DestroyTexture(Text);
 }
 
 
 
 
 void GUI::drawTextCheck(){
-    Piece*** board = gameBoard->getBoard();
-
-    TTF_Font* myFont = TTF_OpenFont("img/FreeMonoBold.ttf", 600);
-    SDL_Color Black = {0, 0, 0};
-    SDL_Surface* surf = TTF_RenderText_Solid(myFont, "Check", Black);
-    SDL_Texture* Text = SDL_CreateTextureFromSurface(renderer, surf);
+    if (checkTexture == NULL){
+        TTF_Font* myFont = TTF_OpenFont("img/FreeMonoBold.ttf", 600);
+        SDL_Color Black = {0, 0, 0};
+        SDL_Surface* surf = TTF_RenderText_Solid(myFont, "Check", Black);
+        checkTexture = SDL_CreateTextureFromSurface(renderer, surf);
+        SDL_FreeSurface(surf);
+        TTF_CloseFont(myFont);
+    }
 
     SDL_Rect r; 
     r.x = 15;  
@@ -137,17 +149,17 @@ void GUI::drawTextCheck(){
     r.w = 85; 
     r.h = 45; 
 
-    SDL_RenderCopy(renderer, Text, NULL, &r);
+    SDL_RenderCopy(renderer, checkTexture, NULL, &r);
 
     // delay cause of just drawn board (for slower machines)
     SDL_Delay(300); 
     SDL_RenderPresent(renderer);
-    
+
     // delay before destruction
     SDL_Delay(300); 
 
-    SDL_FreeSurface(surf);
-    SDL_DestroyTexture(Text);
+
+    // SDL_DestroyTexture(Text);
 
 }
 
@@ -156,6 +168,7 @@ void GUI::drawTextMate(){
     SDL_Color Col = {200, 50, 50};
     SDL_Surface* surf = TTF_RenderText_Solid(myFont, "Checkmate!", Col);
     SDL_Texture* Text = SDL_CreateTextureFromSurface(renderer, surf);
+    TTF_CloseFont(myFont);
 
     SDL_Rect r; 
     r.x = LEFT_MARGIN + 8 * SQUARE_SIZE / 2 - 190 / 2;   // == 225
