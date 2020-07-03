@@ -1,5 +1,4 @@
 #include <SDL2/SDL.h>                                                           
-#include <SDL2/SDL_ttf.h>                                                           
 #include <stdio.h>                                                              
 #include <iostream>                                                             
 #include <vector>                                                             
@@ -25,17 +24,13 @@ int main( int argc, char* args[] )
     GUI mygui = GUI(&board);
 
     vector<AI> aiPlayers;
-    aiPlayers.push_back(AI(0, board.getBoard()));
+    // aiPlayers.push_back(AI(0, board.getBoard()));
     // aiPlayers.push_back(AI(1, board.getBoard()));
 
     if (mygui.init()){
         SDL_Delay(100);
 
         SDL_Event e;
-
-        if (TTF_Init() < 0){
-            std::cerr << "init < 0: " << SDL_GetError() << endl;
-        }
 
         mygui.update();
 

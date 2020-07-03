@@ -1,12 +1,14 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
-#include <SDL2/SDL_ttf.h>
 #include <string>
 #include <cstring>
 #include <iostream>
 #include "GUI.h"
 #include "constants.h"
 #include "Piece.h"
+#include "img/text_turn.xpm"
+#include "img/text_check.xpm"
+#include "img/text_checkmate.xpm"
 
 using std::cout, std::endl;
 
@@ -104,50 +106,25 @@ void GUI::drawBoard(){
         }
     }
 
-    drawText();
-    drawInfo();
+    drawTurn();
 }
 
-void GUI::drawText(){
-    if (turnTexture == NULL){
-        TTF_Font* myFont = TTF_OpenFont("img/FreeMonoBold.ttf", 600);
-        SDL_Color Black = {0, 0, 0};
-        SDL_Surface* surf = TTF_RenderText_Solid(myFont, "Turn", Black);
-        turnTexture = SDL_CreateTextureFromSurface(renderer, surf);
-        SDL_FreeSurface(surf);
-        TTF_CloseFont(myFont);
-    }
 
-    SDL_Rect r; 
-    r.x = 21;  
-    r.y = 40; 
-    r.w = 75; 
-    r.h = 45; 
-
-    SDL_RenderCopy(renderer, turnTexture, NULL, &r);
-
-
-    //SDL_DestroyTexture(Text);
-}
 
 
 
 
 void GUI::drawTextCheck(){
     if (checkTexture == NULL){
-        TTF_Font* myFont = TTF_OpenFont("img/FreeMonoBold.ttf", 600);
-        SDL_Color Black = {0, 0, 0};
-        SDL_Surface* surf = TTF_RenderText_Solid(myFont, "Check", Black);
-        checkTexture = SDL_CreateTextureFromSurface(renderer, surf);
-        SDL_FreeSurface(surf);
-        TTF_CloseFont(myFont);
+        loadTexture(text_check_xpm);
+        checkTexture = texture;
     }
 
     SDL_Rect r; 
-    r.x = 15;  
-    r.y = 180; 
-    r.w = 85; 
-    r.h = 45; 
+    r.x = 27;  
+    r.y = 200; 
+    r.w = 74; 
+    r.h = 32; 
 
     SDL_RenderCopy(renderer, checkTexture, NULL, &r);
 
@@ -164,11 +141,8 @@ void GUI::drawTextCheck(){
 }
 
 void GUI::drawTextMate(){
-    TTF_Font* myFont = TTF_OpenFont("img/FreeMonoBold.ttf", 600);
-    SDL_Color Col = {200, 50, 50};
-    SDL_Surface* surf = TTF_RenderText_Solid(myFont, "Checkmate!", Col);
-    SDL_Texture* Text = SDL_CreateTextureFromSurface(renderer, surf);
-    TTF_CloseFont(myFont);
+    loadTexture(text_checkmate_xpm);
+    SDL_Texture* checkmate = texture;
 
     SDL_Rect r; 
     r.x = LEFT_MARGIN + 8 * SQUARE_SIZE / 2 - 190 / 2;   // == 225
@@ -176,7 +150,7 @@ void GUI::drawTextMate(){
     r.w = 190; 
     r.h = 45; 
 
-    SDL_RenderCopy(renderer, Text, NULL, &r);
+    SDL_RenderCopy(renderer, checkmate, NULL, &r);
 
     // delay cause of just drawn board (for slower machines)
     SDL_Delay(300); 
@@ -184,17 +158,29 @@ void GUI::drawTextMate(){
     // delay before destruction
     SDL_Delay(300); 
 
-    SDL_FreeSurface(surf);
-    SDL_DestroyTexture(Text);
+    SDL_DestroyTexture(checkmate);
 
 }
 
 
-void GUI::drawInfo(){
+void GUI::drawTurn(){
+
+    // draw turn text image
+    if (turnTexture == NULL){
+        loadTexture(text_turn_xpm);
+        turnTexture = texture;
+    }
+
+    SDL_Rect r; 
+    r.x = 34;  
+    r.y = 55; 
+    r.w = 50; 
+    r.h = 17; 
+
+    SDL_RenderCopy(renderer, turnTexture, NULL, &r);
 
 
-    SDL_Rect r;
-
+    // draw squares with turn info
     // draw border around turn-square
     r.x = LEFT_MARGIN / 2 - SQUARE_SIZE / 2 - 1;
     r.y = TOP_MARGIN * 2 - 1;
