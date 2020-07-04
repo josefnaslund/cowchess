@@ -5,7 +5,8 @@
 #include <SDL2/SDL.h>
 #include <vector>
 #include <utility>
-#include "Piece.h"
+
+class Board;
 
 class GUI {
         private:

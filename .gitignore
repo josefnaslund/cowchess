@@ -1,3 +1,5 @@
 delainte
 program
+cowchess
 *.swp
+*.o

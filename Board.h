@@ -1,8 +1,6 @@
 #ifndef BOARD_H
 #define BOARD_H
 
-#include "Piece.h"
-
 class Piece; // Forward declatation for pointers
 
 class Board{

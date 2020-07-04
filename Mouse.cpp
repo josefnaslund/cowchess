@@ -1,6 +1,7 @@
 #include <iostream>
 #include "Mouse.h"
 #include "constants.h"
+#include "Piece.h"
 
 using std::cout, std::endl;
 
