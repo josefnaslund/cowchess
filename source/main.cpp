@@ -24,8 +24,8 @@ int main( int argc, char* args[] )
     GUI mygui = GUI(&board);
 
     vector<AI> aiPlayers;
-     aiPlayers.push_back(AI(0, board.getBoard()));
-     aiPlayers.push_back(AI(1, board.getBoard()));
+     // aiPlayers.push_back(AI(0, board.getBoard()));
+     // aiPlayers.push_back(AI(1, board.getBoard()));
 
     if (mygui.init()){
         SDL_Delay(100);
