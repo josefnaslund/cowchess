@@ -22,8 +22,6 @@ GUI::GUI(Board* _gameBoard)
     gameBoard = _gameBoard;
     turnTexture = NULL;
     checkTexture = NULL;
-    
-
 }
 
 GUI::~GUI(){
@@ -31,8 +29,7 @@ GUI::~GUI(){
                 SDL_DestroyTexture(p.second);
         }
 
-        images.clear();
-
+        images.clear(); // remove previous content of vector
         SDL_DestroyTexture(turnTexture);
         SDL_DestroyTexture(checkTexture);
 }
@@ -69,11 +66,10 @@ bool GUI::init(){
 }
 
 void GUI::drawBoard(){
+    
     // draw background color
     SDL_SetRenderDrawColor(renderer, 170, 120, 50, 255);
     SDL_RenderClear(renderer);
-    // SDL_RenderPresent(renderer);
-    // SDL_Delay(100);
 
     // a rectangle shape
     SDL_Rect r;
@@ -100,17 +96,10 @@ void GUI::drawBoard(){
             // draw a chess square
             SDL_RenderFillRect( renderer, &r );
 
-            // send to screen
-            //SDL_RenderPresent(renderer);
-            // SDL_Delay(1);
         }
     }
-
     drawTurn();
 }
-
-
-
 
 
 
@@ -134,10 +123,6 @@ void GUI::drawTextCheck(){
 
     // delay before destruction
     SDL_Delay(300); 
-
-
-    // SDL_DestroyTexture(Text);
-
 }
 
 void GUI::drawTextMate(){
@@ -159,7 +144,6 @@ void GUI::drawTextMate(){
     SDL_Delay(300); 
 
     SDL_DestroyTexture(checkmate);
-
 }
 
 
@@ -235,17 +219,14 @@ void GUI::loadImages(){
                         {
                             board[row][col]->getImage(),
                                 texture
-
                         };
                         images.push_back(newPair);
                         texture = NULL;
                     }
                 }
-
             }
         }
     }
-
 }
 
 int GUI::findImage(const char** img){
@@ -291,13 +272,6 @@ void GUI::drawPieces(){
                     SDL_RenderFillRect( renderer, &r );
                     std::cerr << "Error: can't find image\n";
                 }
-                // SDL_RenderPresent(renderer);
-                // SDL_Delay(1);
-                //
-                // if (texture){
-                //         SDL_DestroyTexture(texture);
-                // }
-                // SDL_Delay(100);
             }
         }
     }
@@ -315,7 +289,6 @@ bool GUI::loadTexture(const char** img){
     }
 
     SDL_FreeSurface(surface);
-
 
     surface = NULL;
 
