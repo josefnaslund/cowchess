@@ -4,7 +4,8 @@
 #include "piece_w.xpm"
 #include "piece_b.xpm"
 
-using std::cout, std::endl, std::cerr;
+using std::cout; 
+using std::endl, std::cerr;
 
 Piece::Piece(){
     white = true;

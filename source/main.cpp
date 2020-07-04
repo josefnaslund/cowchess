@@ -8,7 +8,10 @@
 #include "AI.h"
 #include "Move.h"
 
-using std::cout, std::endl, std::cerr, std::vector;
+using std::cout; 
+using std::endl; 
+using std::cerr; 
+using std::vector;
 
 
 int main( int argc, char* args[] )                                              

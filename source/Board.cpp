@@ -5,8 +5,8 @@
 #include "King.h"
 #include "constants.h"
 
-
-using std::cout, std::endl;
+using std::cout; 
+std::endl;
 
 Board::Board(){
     board = new Piece**[8];

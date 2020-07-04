@@ -3,7 +3,8 @@
 #include "constants.h"
 #include "Piece.h"
 
-using std::cout, std::endl;
+using std::cout; 
+using std::endl;
 
 Mouse::Mouse(){
     posX = 0;

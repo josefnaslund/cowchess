@@ -4,7 +4,11 @@
 #include <ctime>
 #include "AI.h"
 
-using std::cout, std::endl, std::cerr, std::vector, std::sort;
+using std::cout; 
+using std::endl; 
+using std::cerr; 
+using std::vector; 
+using std::sort;
 
 AI::AI(bool _color, Piece*** _board) {
     color = _color;

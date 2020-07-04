@@ -10,7 +10,8 @@
 #include "text_check.xpm"
 #include "text_checkmate.xpm"
 
-using std::cout, std::endl;
+using std::cout; 
+using std::endl;
 
 GUI::GUI(Board* _gameBoard)
 {
