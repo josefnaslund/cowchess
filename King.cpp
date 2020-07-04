@@ -1,7 +1,7 @@
 #include <cmath>
 #include "King.h"
-#include "img/king_w.xpm"
-#include "img/king_b.xpm"
+#include "king_w.xpm"
+#include "king_b.xpm"
 
 
 using std::abs;

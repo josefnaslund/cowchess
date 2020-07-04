@@ -16,12 +16,17 @@ CXX = g++
 # Directory for .h files
 DIRH := headers/
 
+
+# Directory for .xpm files
+DIRIMG := img/
+
 # Create directory if not exists
 _dircreate := $(shell mkdir -p $(DIRO))
 
+
 #Flags
 CXXFLAGS := -Wall -std=c++1z
-OBJFLAGS := -I$(DIRH)
+OBJFLAGS := -I$(DIRH) -I$(DIRIMG)
 LIBFLAGS := -lSDL2 -lSDL2_image
 
 # ############# compile the executable

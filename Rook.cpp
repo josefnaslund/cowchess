@@ -1,7 +1,7 @@
 #include <iostream>
 #include "Rook.h"
-#include "img/rook_w.xpm"
-#include "img/rook_b.xpm"
+#include "rook_w.xpm"
+#include "rook_b.xpm"
 
 
 Rook::Rook(bool color, Board* _gameBoard){

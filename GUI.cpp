@@ -6,9 +6,9 @@
 #include "GUI.h"
 #include "constants.h"
 #include "Piece.h"
-#include "img/text_turn.xpm"
-#include "img/text_check.xpm"
-#include "img/text_checkmate.xpm"
+#include "text_turn.xpm"
+#include "text_check.xpm"
+#include "text_checkmate.xpm"
 
 using std::cout, std::endl;
 

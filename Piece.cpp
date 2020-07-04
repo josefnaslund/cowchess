@@ -1,8 +1,8 @@
 #include <iostream>
 #include "Piece.h"
 #include "img/piece.xpm"
-#include "img/piece_w.xpm"
-#include "img/piece_b.xpm"
+#include "piece_w.xpm"
+#include "piece_b.xpm"
 
 using std::cout, std::endl, std::cerr;
 
