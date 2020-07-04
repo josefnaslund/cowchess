@@ -6,7 +6,7 @@
 #include "constants.h"
 
 using std::cout; 
-std::endl;
+using std::endl;
 
 Board::Board(){
     board = new Piece**[8];
