@@ -16,6 +16,8 @@ CXX = g++
 # Directory for .h files
 DIRH := headers/
 
+# Directory for .cpp files
+DIRCXX := source/
 
 # Directory for .xpm files
 DIRIMG := img/
@@ -37,5 +39,5 @@ $(OBJ_NAME): $(OBJS)
 # ########## compile objects
 #
 
-$(DIRO)/%.o: %.cpp
+$(DIRO)/%.o: $(DIRCXX)%.cpp
 	$(CXX) $(CXXFLAGS) $(OBJFLAGS) -c -o $@ $<

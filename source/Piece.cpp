@@ -1,6 +1,6 @@
 #include <iostream>
 #include "Piece.h"
-#include "img/piece.xpm"
+#include "piece.xpm"
 #include "piece_w.xpm"
 #include "piece_b.xpm"
 
