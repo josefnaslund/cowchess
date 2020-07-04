@@ -74,3 +74,13 @@ $(DIRO)/Move.o : $(DIRCXX)/Move.cpp $(DIRH)/Move.h $(DIRH)/Piece.h
 
 # $(DIRO)/%.o : $(DIRIMG)/%.xpm
 # 	$(CXX) $(CXXFLAGS) $(OBJFLAGS) -c -o $@ $<
+
+
+install:
+	mv cowchess /usr/bin/$(OBJ_NAME)
+
+uninstall:
+	rm -f /usr/bin/$(OBJ_NAME)
+
+clean:
+	rm -f $(DIRO)/*.o
