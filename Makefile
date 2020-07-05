@@ -1,3 +1,8 @@
+.PHONY: all
+.PHONY: clean
+.PHONY: install
+.PHONY: uninstall
+
 # Directory for object files
 DIRO := objects
 
@@ -31,6 +36,8 @@ _dircreate := $(shell mkdir -p $(DIRO))
 CXXFLAGS := -Wall -std=c++1z
 OBJFLAGS := -I$(DIRH) -I$(DIRIMG)
 LIBFLAGS := -lSDL2 -lSDL2_image
+
+all: $(OBJ_NAME)
 
 # ############# compile the executable
 $(OBJ_NAME) : $(OBJS)
