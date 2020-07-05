@@ -32,8 +32,7 @@ GUI::~GUI(){
                 SDL_DestroyTexture(p.second);
         }
 
-        images.clear();
-
+        images.clear(); // remove previous content of vector
         SDL_DestroyTexture(turnTexture);
         SDL_DestroyTexture(checkTexture);
 }
@@ -64,18 +63,15 @@ bool GUI::init(){
         std::cerr << "Failed to init SDL_image (jpg)\n";
     }
 
-
-
     return renderer != NULL;
 }
 
 void GUI::drawBoard(){
+    
     // draw background color
     SDL_SetRenderDrawColor(renderer, 170, 120, 50, 255);
     SDL_RenderClear(renderer);
-    // SDL_RenderPresent(renderer);
-    // SDL_Delay(100);
-
+    
     // a rectangle shape
     SDL_Rect r;
 
@@ -100,19 +96,11 @@ void GUI::drawBoard(){
 
             // draw a chess square
             SDL_RenderFillRect( renderer, &r );
-
-            // send to screen
-            //SDL_RenderPresent(renderer);
-            // SDL_Delay(1);
         }
     }
 
     drawTurn();
 }
-
-
-
-
 
 
 void GUI::drawTextCheck(){
@@ -135,10 +123,6 @@ void GUI::drawTextCheck(){
 
     // delay before destruction
     SDL_Delay(300); 
-
-
-    // SDL_DestroyTexture(Text);
-
 }
 
 void GUI::drawTextMate(){
@@ -180,7 +164,6 @@ void GUI::drawTurn(){
 
     SDL_RenderCopy(renderer, turnTexture, NULL, &r);
 
-
     // draw squares with turn info
     // draw border around turn-square
     r.x = LEFT_MARGIN / 2 - SQUARE_SIZE / 2 - 1;
@@ -189,7 +172,6 @@ void GUI::drawTurn(){
     r.h = SQUARE_SIZE + 2;
 
     SDL_SetRenderDrawColor( renderer, 0, 0, 0, 255 );
-
     SDL_RenderFillRect( renderer, &r);
 
     // draw turn of player
@@ -215,7 +197,6 @@ void GUI::drawTurn(){
 
 void GUI::loadImages(){
     Piece*** board = gameBoard->getBoard();
-    // SDL_Rect r;
 
     for (int row = 0; row != 8; ++row){
         for (int col = 0; col != 8; ++col){
@@ -246,8 +227,9 @@ void GUI::loadImages(){
             }
         }
     }
-
 }
+
+
 
 int GUI::findImage(const char** img){
     for (uint i = 0; i != images.size(); ++i){
@@ -257,6 +239,8 @@ int GUI::findImage(const char** img){
     }
     return -1;
 }
+
+
 
 void GUI::drawPieces(){
     Piece*** board = gameBoard->getBoard();
@@ -292,13 +276,6 @@ void GUI::drawPieces(){
                     SDL_RenderFillRect( renderer, &r );
                     std::cerr << "Error: can't find image\n";
                 }
-                // SDL_RenderPresent(renderer);
-                // SDL_Delay(1);
-                //
-                // if (texture){
-                //         SDL_DestroyTexture(texture);
-                // }
-                // SDL_Delay(100);
             }
         }
     }
@@ -314,13 +291,9 @@ bool GUI::loadTexture(const char** img){
         std::cerr << "Can't load texture: " << img << std::endl;
         return 0;
     }
-
     SDL_FreeSurface(surface);
-
-
     surface = NULL;
-
-    return 1;
+    return true;
 }
 
 
