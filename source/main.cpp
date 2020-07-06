@@ -27,7 +27,7 @@ int main( int argc, char* args[] )
     GUI mygui = GUI(&board);
 
     vector<AI> aiPlayers;
-     // aiPlayers.push_back(AI(0, board.getBoard()));
+     aiPlayers.push_back(AI(0, board.getBoard()));
      // aiPlayers.push_back(AI(1, board.getBoard()));
 
     if (mygui.init()){
@@ -66,10 +66,6 @@ int main( int argc, char* args[] )
                             gameOver = true;
                         }
 
-                        else if (board.testCheck()){
-                            cout << "Check!\n";
-                            mygui.drawTextCheck();
-                        }
 
                         // else test check... then mygui.drawTextCheck().
                         // move test section from GUI::drawTextCheck() to Board
@@ -110,10 +106,6 @@ int main( int argc, char* args[] )
                                         cout << "************************************\n";
                                         mygui.drawTextMate();
                                         gameOver = true;
-                                    }
-                                    else if (board.testCheck()){
-                                        cout << "Check!\n";
-                                        mygui.drawTextCheck();
                                     }
                                 }
                             }

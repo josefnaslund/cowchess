@@ -117,12 +117,6 @@ void GUI::drawTextCheck(){
 
     SDL_RenderCopy(renderer, checkTexture, NULL, &r);
 
-    // delay cause of just drawn board (for slower machines)
-    SDL_Delay(300); 
-    SDL_RenderPresent(renderer);
-
-    // delay before destruction
-    SDL_Delay(300); 
 }
 
 void GUI::drawTextMate(){
@@ -136,12 +130,6 @@ void GUI::drawTextMate(){
     r.h = 45; 
 
     SDL_RenderCopy(renderer, checkmate, NULL, &r);
-
-    // delay cause of just drawn board (for slower machines)
-    SDL_Delay(300); 
-    SDL_RenderPresent(renderer);
-    // delay before destruction
-    SDL_Delay(300); 
 
     SDL_DestroyTexture(checkmate);
 
@@ -301,6 +289,15 @@ void GUI::update(){
     cout << "Running update()\n";
     drawBoard();
     drawPieces();
+    if (gameBoard->testCheck()){
+            if (gameBoard->testMate()){
+                drawTextMate();
+            }
+            else {
+                    drawTextCheck();
+            }
+    }
+
     SDL_RenderPresent(renderer);
     cout << "Updated()\n";
 }
