@@ -3,6 +3,7 @@
 #include "Piece.h"
 #include "Rook.h"
 #include "King.h"
+#include "Pawn.h"
 #include "constants.h"
 
 using std::cout; 
@@ -29,14 +30,7 @@ Board::Board(){
 
 
 void Board::setStandardBoard(){
-    // Some fictive pieces
-    // delete board[1][0];
-    // board[1][0] = new Piece(1);
-
-    // delete board[6][0];
-    // board[6][0] = new Piece(0);
-
-    // Some real pieces
+    // Rooks
     delete board[0][0];
     board[0][0] = new Rook(1, this);
 
@@ -50,11 +44,23 @@ void Board::setStandardBoard(){
     board[7][0] = new Rook(0, this);
 
 
+    // Kings
     delete board[0][4];
     board[0][4] = new King(1, this);
 
     delete board[7][4];
     board[7][4] = new King(0, this);
+
+    // Pawns
+    for (int i = 0; i != 8; ++i){
+        delete board[1][i];
+        board[1][i] = new Pawn(1, this);
+        
+        delete board[6][i];
+        board[6][i] = new Pawn(0, this);
+    }
+
+
 }
 
 Board::~Board(){
@@ -105,6 +111,18 @@ bool Board::movePiece(int oldX, int oldY, int newX, int newY){
         // increment moves/turn
         ++moveCount;
 
+        // temp. promovation
+        if ( 
+                (board[newY][newX]->getType() == 'p') &&
+                (newY == 0 || newY == 7)
+            ) 
+        {
+            bool col = board[newY][newX]->isWhite();
+            delete board[newY][newX];
+            board[newY][newX] = new Rook(col, this);
+
+        }
+
 
         return true;
     }
@@ -117,18 +135,18 @@ bool Board::testCheck(){
     Piece* p;
 
     for (int i = 0; i != 8; ++i){
-            for (int j = 0; j != 8; ++j){
-                p = board[i][j];
-                
-                // to only test each side once, test on king
-                if (
-                        p->getType() == 'k' && ( p->isWhite() == atMove() ) && 
-                        p->isChecked(board)
-                        )
-                {
-                    return true;
-                }
+        for (int j = 0; j != 8; ++j){
+            p = board[i][j];
+
+            // to only test each side once, test on king
+            if (
+                    p->getType() == 'k' && ( p->isWhite() == atMove() ) && 
+                    p->isChecked(board)
+               )
+            {
+                return true;
             }
+        }
     }
 
     return false;
@@ -136,10 +154,10 @@ bool Board::testCheck(){
 
 bool Board::testMate(){
     Piece* p;
-    
+
     // find checked players pieces, test if any move can uncheck
     if (testCheck()){
-    cout << "\t--* Testing mate for player " << atMove() << endl;
+        cout << "\t--* Testing mate for player " << atMove() << endl;
         cout << "\t--* player is checked: " << atMove() << endl;
         for (int i = 0; i != 8; ++i){
             for (int j = 0; j != 8; ++j){
@@ -156,9 +174,9 @@ bool Board::testMate(){
                                 return false; // return 1
                             }
                             else {
-                                    cout << "\t--* Can't move (" << j << "," << 
-                                        i << ") ti (" << jj << "," << ii << 
-                                        ").\n";
+                                cout << "\t--* Can't move (" << j << "," << 
+                                    i << ") ti (" << jj << "," << ii << 
+                                    ").\n";
                             }
                         }
 
