@@ -1,5 +1,6 @@
 delainte
 program
 cowchess
+objects
 *.swp
 *.o
