@@ -10,16 +10,17 @@ using std::cerr;
 using std::vector; 
 using std::sort;
 
-AI::AI(bool _color, Piece*** _board) {
+AI::AI(bool _color, Board* _gameBoard) {
     color = _color;
-    board = _board;
-    cout << "AI constructed: " << color << endl;
+    gameBoard = _gameBoard;
+    board = gameBoard->getBoard();
+    // cout << "AI constructed: " << color << endl;
 }
 
 
-void AI::collectMoves(){
+bool AI::collectMoves(){
     moves.clear();
-    cout << "AI collecting moves..." << endl;
+    // cout << "AI collecting moves..." << endl;
     Piece* p = NULL;
 
     // search board for own players
@@ -32,10 +33,10 @@ void AI::collectMoves(){
                 // search for valid moves
                 for (int ii = 0; ii != 8; ++ii){
                     for (int jj = 0; jj != 8; ++jj){
-                        cout << "AI: " << i << "," << j << " " << ii << "," << jj << endl;
+                        //cout << "AI: " << i << "," << j << " " << ii << "," << jj << endl;
                         if (p->validMove(j, i, jj, ii, board, 1)){
-                            cout << "AI found a valid move\n";
-                            moves.push_back(Move(j, i, jj, ii, board));
+                            // cout << "AI found a valid move\n";
+                            moves.push_back(Move(j, i, jj, ii, gameBoard));
                         }
                     }
                 }
@@ -44,7 +45,8 @@ void AI::collectMoves(){
         }
     }
 
-    cout << "AI found " << moves.size() << " moves" << endl;
+    // cout << "AI found " << moves.size() << " moves" << endl;
+    return moves.size() != 0;
 }
 
 void AI::sortMoves(){
@@ -54,11 +56,11 @@ void AI::sortMoves(){
             return a.getCaptureValue() > b.getCaptureValue();
             }
         );
-    cout << "AI sorted, highest value: " << moves[0].getCaptureValue() << 
-        ", lowest: " << moves[moves.size() - 1].getCaptureValue() << endl;
-    for (auto m : moves){
-            cout << m.getCaptureValue() << endl;
-    }
+    // cout << "AI sorted, highest value: " << moves[0].getCaptureValue() << 
+    //    ", lowest: " << moves[moves.size() - 1].getCaptureValue() << endl;
+    // for (auto m : moves){
+    //         cout << m.getCaptureValue() << endl;
+    // }
 
 }
 
@@ -77,7 +79,7 @@ int AI::countBestMoves(){
             break;
         }
     }
-    cout << "AI counter: " << countMax << " best moves" << endl;
+    // cout << "AI counter: " << countMax << " best moves" << endl;
 
     return countMax;
 }
@@ -100,14 +102,23 @@ int AI::randomInt(int max){
 
 
 Move AI::pickMove(){
+    Move m;
 
     // call help funcions
-    collectMoves();
-    sortMoves();
-    int maxIndex = countBestMoves() - 1;
+    if (collectMoves()){
+        sortMoves();
+        int maxIndex = countBestMoves() - 1;
 
-    // pseude random pick one of highest
-    Move m = moves[randomInt(maxIndex)];
-    cout << "AI sending move: " << m.getPiece()->getType() << " to " << (char)('a' + m.getNewX()) << "," << m.getNewY() + 1 << "." << endl;
+        // pseude random pick one of highest
+        m = moves[randomInt(maxIndex)];
+        // cout << "AI sending move: " << m.getPiece()->getType() << " to " << (char)('a' + m.getNewX()) << "," << m.getNewY() + 1 << "." << endl;
+    }
+
+    else {
+        m = Move();
+            
+    }
+
+
     return m;
 }

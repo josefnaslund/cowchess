@@ -6,10 +6,14 @@
 #include "Pawn.h"
 #include "constants.h"
 
+
 using std::cout; 
 using std::endl;
 
 Board::Board(){
+    lastMove = LastMove();
+
+
     board = new Piece**[8];
     for (int i = 0; i != 8; ++i){
         board[i] = new Piece*[8];
@@ -93,45 +97,80 @@ bool Board::movePiece(int oldX, int oldY, int newX, int newY){
             (board[oldY][oldX]->isWhite() == (bool)(moveCount % 2)) &&
             (board[oldY][oldX]->validMove(oldX, oldY, newX, newY, board, true) )
        ){
-        std::cout << "*It's a valid move\n";
 
-        // delete old piece
-        delete board[newY][newX];
-
-
-        // replace new square with old piece
-        board[newY][newX] = board[oldY][oldX];
+        // store for LastMove object
+        char lmType = board[oldY][oldX]->getType();
+        bool lmCapt = board[newY][newX]->isAlive();
+        char lmProm = 'u';
 
 
-        // kill old piece
-        //board[oldY][oldX]->killPiece();
-        board[oldY][oldX] = new Piece();
+        // detect passant
+        if (lmType == 'p' && (!lmCapt) && (oldX != newX)){
+                lmCapt = true;
+                delete board[lastMove.getNewY()][lastMove.getNewX()];
+                board[lastMove.getNewY()][lastMove.getOldX()] = new Piece();
+                }
 
 
-        // increment moves/turn
-        ++moveCount;
-
-        // temp. promovation
-        if ( 
-                (board[newY][newX]->getType() == 'p') &&
-                (newY == 0 || newY == 7)
-            ) 
-        {
-            bool col = board[newY][newX]->isWhite();
-            delete board[newY][newX];
-            board[newY][newX] = new Rook(col, this);
-
-        }
+                // delete old piece
+                delete board[newY][newX];
 
 
-        return true;
+                // replace new square with old piece
+                board[newY][newX] = board[oldY][oldX];
+
+
+                // kill old piece
+                board[oldY][oldX] = new Piece();
+
+
+                // increment moves/turn
+                ++moveCount;
+
+                // temp. promovation
+                if ( 
+                        (board[newY][newX]->getType() == 'p') &&
+                        (newY == 0 || newY == 7)
+                   ) 
+                {
+
+
+                    bool col = board[newY][newX]->isWhite();
+                    delete board[newY][newX];
+                    board[newY][newX] = new Rook(col, this);
+
+                    // store for LastMove object
+                    lmProm = board[newY][newX]->getType();
+
+                }
+
+                bool lmCheck = testCheck();
+
+                lastMove = LastMove(oldX, oldY, newX, newY, lmType, lmCapt, lmProm,
+                        lmCheck);
+
+
+                // print move list
+
+                if (!atMove())
+                    cout << moveCount / 2 + moveCount % 2 << ". ";
+                cout << lastMove << std::flush;
+                if (atMove())
+                    cout << endl;
+                else
+                    cout << " ";
+
+
+
+
+                return true;
     }
 
     return false;
 }
 
 bool Board::testCheck(){
-    cout << "\t--* Testing check for player " << atMove() << endl;
+    // cout << "\t--* Testing check for player " << atMove() << endl;
     Piece* p;
 
     for (int i = 0; i != 8; ++i){
@@ -157,8 +196,6 @@ bool Board::testMate(){
 
     // find checked players pieces, test if any move can uncheck
     if (testCheck()){
-        cout << "\t--* Testing mate for player " << atMove() << endl;
-        cout << "\t--* player is checked: " << atMove() << endl;
         for (int i = 0; i != 8; ++i){
             for (int j = 0; j != 8; ++j){
                 p = board[j][i];
@@ -167,16 +204,16 @@ bool Board::testMate(){
                     for (int ii = 0; ii != 8; ++ii){
                         for (int jj = 0; jj != 8; ++jj){
                             if (p->validMove(i, j, ii, jj, board, 1)){
-                                cout << 
-                                    "\t--* A valid move is found: move piece at (" << 
-                                    j << "," << i << ") to (" << jj << "," << 
-                                    ii << ").\n";
+                                // cout << 
+                                //     "\t--* A valid move is found: move piece at (" << 
+                                //     j << "," << i << ") to (" << jj << "," << 
+                                //     ii << ").\n";
                                 return false; // return 1
                             }
                             else {
-                                cout << "\t--* Can't move (" << j << "," << 
-                                    i << ") ti (" << jj << "," << ii << 
-                                    ").\n";
+                                // cout << "\t--* Can't move (" << j << "," << 
+                                //     i << ") ti (" << jj << "," << ii << 
+                                //     ").\n";
                             }
                         }
 

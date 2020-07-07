@@ -2,6 +2,7 @@
 #define MOVE_H
 
 #include "Piece.h"
+#include "Board.h"
 
 class Piece; // forward
 
@@ -11,13 +12,16 @@ class Move {
         int oldY;
         int newX;
         int newY;
+        Board* gameBoard;
         Piece* piece;
         Piece*** board;
         bool check;
         int captureValue;
+        bool invalid;
 
     public:
-        Move(int& _oldX, int& oldY, int& _newX, int& _newY, Piece*** board);
+        Move();
+        Move(int& _oldX, int& oldY, int& _newX, int& _newY, Board* _gameBoard);
 
         // void setOldX(const int& _x) {oldX = _x;}
         // void setOldY(const int& _y) {oldY = _y;}
@@ -33,6 +37,8 @@ class Move {
         const bool& isCheck() const {return check;}
 
         Piece* getPiece() const {return piece;}
+
+        bool isInvalid() { return invalid;}
 
 
 

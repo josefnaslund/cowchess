@@ -92,31 +92,33 @@ bool Piece::isChecked(const int& oldX, const int& oldY, const int& newX, const i
     newBoard[newY][newX] = oldBoard[oldY][oldX];
     newBoard[oldY][oldX] = new Piece();
 
-    std::cout << "\t***(" << newY << "," << newX << ") is alive(" << 
-        newBoard[newY][newX]->isAlive() << ") color(" << 
-        newBoard[newY][newX]->isWhite() << ") type(" << 
-        newBoard[newY][newX]->getType() << ")" << endl;
+    // std::cout << "\t***(" << newY << "," << newX << ") is alive(" << 
+    //     newBoard[newY][newX]->isAlive() << ") color(" << 
+    //     newBoard[newY][newX]->isWhite() << ") type(" << 
+    //     newBoard[newY][newX]->getType() << ")" << endl;
 
-    cout << "***TEMP BOARD***\n";
-    cout << "args: " << oldX << "," << oldY << "," << newX << "," << newY << endl;
-    for (int i = 0; i != 8; ++i){
-            for (int j = 0; j != 8; ++j){
-                Piece* p = newBoard[7-i][j];
-                if (p->isAlive() && p->isWhite()){
-                        cout << "I";
-                }
 
-                else if (p->isAlive()){
-                        cout << "i";
-                }
-                else {
-                        cout << "0";
-                }
-                    
-            }
-            cout << endl;
-    }
-    cout << "****************\n";
+
+    // cout << "***TEMP BOARD***\n";
+    // cout << "args: " << oldX << "," << oldY << "," << newX << "," << newY << endl;
+    // for (int i = 0; i != 8; ++i){
+    //         for (int j = 0; j != 8; ++j){
+    //             Piece* p = newBoard[7-i][j];
+    //             if (p->isAlive() && p->isWhite()){
+    //                     cout << "I";
+    //             }
+
+    //             else if (p->isAlive()){
+    //                     cout << "i";
+    //             }
+    //             else {
+    //                     cout << "0";
+    //             }
+    //                 
+    //         }
+    //         cout << endl;
+    // }
+    // cout << "****************\n";
 
 
 

@@ -27,8 +27,8 @@ int main( int argc, char* args[] )
     GUI mygui = GUI(&board);
 
     vector<AI> aiPlayers;
-     aiPlayers.push_back(AI(0, board.getBoard()));
-     aiPlayers.push_back(AI(1, board.getBoard()));
+     aiPlayers.push_back(AI(0, &board));
+     //aiPlayers.push_back(AI(1, &board));
 
     if (mygui.init()){
         SDL_Delay(100);
@@ -89,6 +89,7 @@ int main( int argc, char* args[] )
                             for (auto ai : aiPlayers){
                                 if ((board.atMove() == ai.getColor()) && (lastTime % 2 == board.atMove())){
                                     Move move = ai.pickMove();
+                                    if (!move.isInvalid()){
                                     board.movePiece(
                                             move.getOldX(),
                                             move.getOldY(),
@@ -96,6 +97,15 @@ int main( int argc, char* args[] )
                                             move.getNewY()
                                             );
                                     mygui.update();
+                                    }
+
+                                    else {
+                                            gameOver = true;
+                                            cout << "\n**************\n";
+                                            cout << "AI cannot move\n";
+                                            cout << "It's a draw\n";
+                                            cout << "***********" << endl;
+                                    }
                                     // if (aiPlayers.size() == 2)
                                     //     SDL_Delay(500);
 
@@ -120,6 +130,7 @@ int main( int argc, char* args[] )
             }// end while not quit
 
         } // end if mygui
+        cout << endl;
         return EXIT_SUCCESS;
     }                                                                           
 

@@ -235,9 +235,9 @@ void GUI::drawPieces(){
 
     // will be called once on startup, to collect images to vector
     if (images.empty()){
-        std::cout << "vector 'images' is empty\n";
+        // std::cout << "vector 'images' is empty\n";
         loadImages();
-        std::cout << "There are now " << images.size() << " images in vector\n";
+        // std::cout << "There are now " << images.size() << " images in vector\n";
     }
 
     // to draw pieces
@@ -286,7 +286,7 @@ bool GUI::loadTexture(const char** img){
 
 
 void GUI::update(){
-    cout << "Running update()\n";
+    // cout << "Running update()\n";
     drawBoard();
     drawPieces();
     if (gameBoard->testCheck()){
@@ -299,5 +299,5 @@ void GUI::update(){
     }
 
     SDL_RenderPresent(renderer);
-    cout << "Updated()\n";
+    // cout << "Updated()\n";
 }

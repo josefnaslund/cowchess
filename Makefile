@@ -7,7 +7,7 @@
 DIRO := objects
 
 #OBJS specifies which files to compile as part of the project
-TEMPOBJS = main.o GUI.o Board.o Piece.o Mouse.o Rook.o King.o Pawn.o AI.o Move.o
+TEMPOBJS = main.o GUI.o Board.o Piece.o Mouse.o Rook.o King.o Pawn.o AI.o Move.o LastMove.o
 
 # Replace path on objects
 OBJS = $(patsubst %.o,$(DIRO)/%.o,$(TEMPOBJS))
@@ -58,7 +58,7 @@ $(DIRO)/main.o : $(DIRCXX)/main.cpp $(DIRH)/constants.h $(DIRH)/GUI.h $(DIRH)/Mo
 $(DIRO)/GUI.o : $(DIRCXX)/GUI.cpp $(DIRH)/GUI.h $(DIRH)/constants.h $(DIRH)/Piece.h
 	$(CXX) $(CXXFLAGS) $(OBJFLAGS) -c -o $@ $<
 
-$(DIRO)/Board.o : $(DIRCXX)/Board.cpp $(DIRH)/Board.h $(DIRH)/Piece.h $(DIRH)/Rook.h $(DIRH)/King.h $(DIRH)/Pawn.h $(DIRH)/constants.h
+$(DIRO)/Board.o : $(DIRCXX)/Board.cpp $(DIRH)/Board.h $(DIRH)/Piece.h $(DIRH)/Rook.h $(DIRH)/King.h $(DIRH)/Pawn.h $(DIRH)/constants.h $(DIRH)/LastMove.h
 	$(CXX) $(CXXFLAGS) $(OBJFLAGS) -c -o $@ $<
 
 $(DIRO)/Piece.o : $(DIRCXX)/Piece.cpp $(DIRH)/Piece.h $(DIRH)/Board.h $(DIRIMG)/piece.xpm $(DIRIMG)/piece_w.xpm $(DIRIMG)/piece_b.xpm
@@ -73,13 +73,16 @@ $(DIRO)/Rook.o : $(DIRCXX)/Rook.cpp $(DIRH)/Rook.h $(DIRH)/Board.h $(DIRH)/Piece
 $(DIRO)/King.o : $(DIRCXX)/King.cpp $(DIRH)/King.h $(DIRH)/Board.h $(DIRH)/Piece.h $(DIRIMG)/king_w.xpm $(DIRIMG)/king_b.xpm
 	$(CXX) $(CXXFLAGS) $(OBJFLAGS) -c -o $@ $<
 
-$(DIRO)/Pawn.o : $(DIRCXX)/Pawn.cpp $(DIRH)/Pawn.h $(DIRH)/Board.h $(DIRH)/Piece.h $(DIRIMG)/pawn_w.xpm $(DIRIMG)/pawn_b.xpm
+$(DIRO)/Pawn.o : $(DIRCXX)/Pawn.cpp $(DIRH)/Pawn.h $(DIRH)/Board.h $(DIRH)/Piece.h $(DIRIMG)/pawn_w.xpm $(DIRIMG)/pawn_b.xpm $(DIRH)/LastMove.h
 	$(CXX) $(CXXFLAGS) $(OBJFLAGS) -c -o $@ $<
 
-$(DIRO)/AI.o : $(DIRCXX)/AI.cpp $(DIRH)/AI.h $(DIRH)/Move.h $(DIRH)/Piece.h
+$(DIRO)/AI.o : $(DIRCXX)/AI.cpp $(DIRH)/AI.h $(DIRH)/Move.h $(DIRH)/Piece.h $(DIRH)/Board.h
 	$(CXX) $(CXXFLAGS) $(OBJFLAGS) -c -o $@ $<
 
-$(DIRO)/Move.o : $(DIRCXX)/Move.cpp $(DIRH)/Move.h $(DIRH)/Piece.h
+$(DIRO)/Move.o : $(DIRCXX)/Move.cpp $(DIRH)/Move.h $(DIRH)/Piece.h $(DIRH)/Board.h
+	$(CXX) $(CXXFLAGS) $(OBJFLAGS) -c -o $@ $<
+
+$(DIRO)/LastMove.o : $(DIRCXX)/LastMove.cpp $(DIRH)/LastMove.h
 	$(CXX) $(CXXFLAGS) $(OBJFLAGS) -c -o $@ $<
 
 # $(DIRO)/%.o : $(DIRIMG)/%.xpm

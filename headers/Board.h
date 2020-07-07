@@ -1,6 +1,8 @@
 #ifndef BOARD_H
 #define BOARD_H
 
+#include "LastMove.h"
+
 class Piece; // Forward declatation for pointers
 
 class Board{
@@ -8,6 +10,7 @@ class Board{
         Piece*** board;
         int moveCount;
         void setStandardBoard();
+        LastMove lastMove;
 
     public:
         Board();
@@ -18,6 +21,7 @@ class Board{
         bool atMove() const { return moveCount % 2;}
         bool testCheck();
         bool testMate();
+        const LastMove& getLastMove() {return lastMove;}
         
 
 };

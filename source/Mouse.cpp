@@ -27,17 +27,17 @@ bool Mouse::getIndexPos(const int& guiX, const int& guiY, int& arrX, int& arrY){
         return false;
     }
 
-    cout << "Mouse - Piece at pos: " << guiX << "," << guiY << " : ";
+    //cout << "Mouse - Piece at pos: " << guiX << "," << guiY << " : ";
 
 
     // chess position x
     arrX = (guiX - LEFT_MARGIN) / 50;
-    cout << (char)(65 + arrX);
+    //cout << (char)(65 + arrX);
 
     // chess position y
     arrY = (7 - (guiY - TOP_MARGIN) / 50);
 
-    cout << arrY + 1 << endl;
+    //cout << arrY + 1 << endl;
 
 
     return true;
@@ -54,7 +54,7 @@ bool Mouse::mouseEvents(SDL_Event& e, Board& board){
 
     // if left button push
     else if (e.type == SDL_MOUSEBUTTONDOWN){
-        cout << "Mouse at: " << e.button.x << ", " << e.button.y << endl;
+        //cout << "Mouse at: " << e.button.x << ", " << e.button.y << endl;
 
         // set to "not locked"
         setLocked(false);
@@ -64,7 +64,7 @@ bool Mouse::mouseEvents(SDL_Event& e, Board& board){
         Piece* clickedPiece = NULL;
 
         if (getIndexPos(e.button.x, e.button.y, arrX, arrY)){
-            cout << "Mouse: arrpos: [" << arrY << "][" << arrX << "]\n";
+            //cout << "Mouse: arrpos: [" << arrY << "][" << arrX << "]\n";
             clickedPiece = board.getPieceAt(arrX, arrY);
         }
 
