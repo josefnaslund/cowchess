@@ -59,9 +59,15 @@ class GUI {
 
 
             /**
-             * @brief Draws and presents a checkmate message.
+             * @brief Draws a checkmate message. Does not present, only sends to renderer.
              */
             void drawTextMate();
+
+
+            /**
+             * $brief Draws a 'Draw' message. Does not present, only sends to renderer.
+             */
+            void drawTextDraw();
 
             /**
              * @brief Draws text image and squares representing who's turn

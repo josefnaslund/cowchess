@@ -228,6 +228,34 @@ bool Board::testMate(){
 
 
 
+bool Board::playerCanMove(){
+    Piece* p;
+
+    // find current players moveability for each piece
+    for (int i = 0; i != 8; ++i){
+        for (int j = 0; j != 8; ++j){
+            p = board[j][i];
+            if (p->isAlive() && (p->isWhite() == atMove())){
+                // test valid moves for piece
+                for (int ii = 0; ii != 8; ++ii){
+                    for (int jj = 0; jj != 8; ++jj){
+                        if (p->validMove(i, j, ii, jj, board, 1)){
+                            return true; // first return
+                        }
+                        else {
+                            // cout << "\t--* Can't move (" << j << "," << 
+                            //     i << ") ti (" << jj << "," << ii << 
+                            //     ").\n";
+                        }
+                    }
+
+                }
+            }
+        }
+    }
+    return false;       
+}
+
 
 
 

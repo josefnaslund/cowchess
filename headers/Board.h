@@ -21,6 +21,7 @@ class Board{
         bool atMove() const { return moveCount % 2;}
         bool testCheck();
         bool testMate();
+        bool playerCanMove();
         const LastMove& getLastMove() {return lastMove;}
         
 

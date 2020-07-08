@@ -27,7 +27,7 @@ int main( int argc, char* args[] )
     GUI mygui = GUI(&board);
 
     vector<AI> aiPlayers;
-     aiPlayers.push_back(AI(0, &board));
+     //aiPlayers.push_back(AI(0, &board));
      //aiPlayers.push_back(AI(1, &board));
 
     if (mygui.init()){
@@ -53,12 +53,16 @@ int main( int argc, char* args[] )
 
                 if (!gameOver)
                 {
+                    if (!board.playerCanMove()){
+                            gameOver = true;
+                            cout << "\n**** It's a draw ****" << endl;
+                    }
                     if (myMouse.mouseEvents(e, board)){
 
                         mygui.update();
 
                         if (board.testMate()){
-                            cout << "************************************\n";
+                            cout << "\n************************************\n";
                             cout << "*******************CHECKMATE!!!" << endl;
                             cout << "********************PLAYER WINS*****\n";
                             cout << "************************************\n";

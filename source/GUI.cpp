@@ -9,6 +9,7 @@
 #include "text_turn.xpm"
 #include "text_check.xpm"
 #include "text_checkmate.xpm"
+#include "text_draw.xpm"
 
 using std::cout; 
 using std::endl;
@@ -135,6 +136,21 @@ void GUI::drawTextMate(){
 
 }
 
+void GUI::drawTextDraw(){
+    loadTexture(text_draw_xpm);
+    SDL_Texture* checkmate = texture;
+
+    SDL_Rect r; 
+    r.x = LEFT_MARGIN + 8 * SQUARE_SIZE / 2 - 85 / 2; 
+    r.y = TOP_MARGIN + 8 * SQUARE_SIZE / 2 - 45/2;  // == 217
+    r.w = 85; 
+    r.h = 45; 
+
+    SDL_RenderCopy(renderer, checkmate, NULL, &r);
+
+    SDL_DestroyTexture(checkmate);
+
+}
 
 void GUI::drawTurn(){
 
@@ -296,6 +312,9 @@ void GUI::update(){
             else {
                     drawTextCheck();
             }
+    }
+    else if (!gameBoard->playerCanMove()){
+            drawTextDraw();
     }
 
     SDL_RenderPresent(renderer);
