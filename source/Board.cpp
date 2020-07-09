@@ -11,8 +11,12 @@ using std::cout;
 using std::endl;
 
 Board::Board(){
-    lastMove = LastMove();
+    players = new Player[2];
+    players[0] = Player(0);
+    players[1] = Player(0);
 
+
+    lastMove = LastMove();
 
     board = new Piece**[8];
     for (int i = 0; i != 8; ++i){
@@ -83,6 +87,10 @@ Board::~Board(){
 
     // final array delete
     delete[] board;
+
+
+    // delete player array
+    delete[] players;
 
 }
 
@@ -256,10 +264,6 @@ bool Board::playerCanMove(){
     return false;       
 }
 
-
-
-
-
-
-
-
+bool Board::getPlayerAI(bool player){
+        return players[player].isAI();
+}

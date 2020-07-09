@@ -20,15 +20,12 @@ int main( int argc, char* args[] )
 
     bool gameOver = false;
     Board board = Board();                                                           
-    Mouse myMouse = Mouse();
+    Mouse myMouse = Mouse(&board);
+    AI ai[] = {AI(0, &board), AI(1, &board)} ;
 
     bool quit = false;
 
     GUI mygui = GUI(&board);
-
-    vector<AI> aiPlayers;
-     //aiPlayers.push_back(AI(0, &board));
-     //aiPlayers.push_back(AI(1, &board));
 
     if (mygui.init()){
         SDL_Delay(100);
@@ -57,7 +54,7 @@ int main( int argc, char* args[] )
                             gameOver = true;
                             cout << "\n**** It's a draw ****" << endl;
                     }
-                    if (myMouse.mouseEvents(e, board)){
+                    if (board.getPlayerAI(board.atMove()) == 0 && myMouse.mouseEvents(e, board)){
 
                         mygui.update();
 
@@ -90,9 +87,8 @@ int main( int argc, char* args[] )
                         currentTime = SDL_GetTicks();
                         if (currentTime > lastTime + 1000) {
 
-                            for (auto ai : aiPlayers){
-                                if ((board.atMove() == ai.getColor()) && (lastTime % 2 == board.atMove())){
-                                    Move move = ai.pickMove();
+                                if ((board.getPlayerAI(board.atMove()) == 1) && (lastTime % 2 == board.atMove())){
+                                    Move move = ai[board.atMove()].pickMove();
                                     if (!move.isInvalid()){
                                     board.movePiece(
                                             move.getOldX(),
@@ -122,7 +118,6 @@ int main( int argc, char* args[] )
                                         gameOver = true;
                                     }
                                 }
-                            }
 
                             lastTime = currentTime;
                         }

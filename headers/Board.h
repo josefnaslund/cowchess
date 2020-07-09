@@ -2,11 +2,13 @@
 #define BOARD_H
 
 #include "LastMove.h"
+#include "Player.h"
 
 class Piece; // Forward declatation for pointers
 
 class Board{
     private:
+        Player* players;
         Piece*** board;
         int moveCount;
         void setStandardBoard();
@@ -23,6 +25,8 @@ class Board{
         bool testMate();
         bool playerCanMove();
         const LastMove& getLastMove() {return lastMove;}
+        bool getPlayerAI(bool player);
+        Player* getPlayers() {return players;}
         
 
 };

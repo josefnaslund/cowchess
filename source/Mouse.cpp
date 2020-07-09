@@ -2,13 +2,15 @@
 #include "Mouse.h"
 #include "constants.h"
 #include "Piece.h"
+#include "Player.h"
 
 using std::cout; 
 using std::endl;
 
-Mouse::Mouse(){
+Mouse::Mouse(Board* _gameBoard){
     posX = 0;
     posY = 0;
+    gameBoard = _gameBoard;
 }
 
 void Mouse::setPosX(int _x){
@@ -68,7 +70,6 @@ bool Mouse::mouseEvents(SDL_Event& e, Board& board){
             clickedPiece = board.getPieceAt(arrX, arrY);
         }
 
-
         // if there is a piece at clicked pos
         if (clickedPiece && clickedPiece->isAlive()){
 
@@ -79,6 +80,29 @@ bool Mouse::mouseEvents(SDL_Event& e, Board& board){
             setPosX(arrX);
             setPosY(arrY);
         }
+
+        // no piece clicked, but clicked at GUI AI select square left
+        if (!clickedPiece && 
+                e.button.x >= (LEFT_MARGIN / 4 - SQUARE_SIZE / 4) && 
+                e.button.x <= (LEFT_MARGIN / 4 + SQUARE_SIZE / 4) && 
+                e.button.y >= (TOP_MARGIN + SQUARE_SIZE * 5) && 
+                e.button.y <= (TOP_MARGIN + SQUARE_SIZE * 5 + SQUARE_SIZE / 2)){
+            Player* players = gameBoard->getPlayers();
+            players[1].setAI(!players[1].isAI());
+        }
+        // ... or select square right
+        else if (!clickedPiece && 
+                e.button.x >= (LEFT_MARGIN / 4 * 3 - SQUARE_SIZE / 4) && 
+                e.button.x <= (LEFT_MARGIN / 4 * 3 + SQUARE_SIZE / 4) && 
+                e.button.y >= (TOP_MARGIN + SQUARE_SIZE * 5) && 
+                e.button.y <= (TOP_MARGIN + SQUARE_SIZE * 5 + SQUARE_SIZE / 2)){
+            Player* players = gameBoard->getPlayers();
+            players[0].setAI(!players[0].isAI());
+        }
+
+
+
+
 
     }
 
@@ -106,6 +130,7 @@ bool Mouse::mouseEvents(SDL_Event& e, Board& board){
 
         }
     }
+
     return moveMade;
 }
 

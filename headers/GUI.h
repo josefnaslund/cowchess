@@ -75,6 +75,12 @@ class GUI {
              */
             void drawTurn();
 
+
+            /**
+             * @brief Draws squares with status of AI activation.
+             */
+            void drawAIstatus();
+
             /**
              * @brief Loads textures of board's pieces to vector-pair "images".
              */

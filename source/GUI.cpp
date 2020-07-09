@@ -199,6 +199,82 @@ void GUI::drawTurn(){
 
 
 
+void GUI::drawAIstatus(){
+
+    // draw text AI
+    // if (turnTexture == NULL){
+    //     loadTexture(text_turn_xpm);
+    //     turnTexture = texture;
+    // }
+
+    SDL_Rect r; 
+    
+    // r.x = 34;  
+    // r.y = 55; 
+    // r.w = 50; 
+    // r.h = 17; 
+
+    // SDL_RenderCopy(renderer, turnTexture, NULL, &r);
+
+
+    // draw two borders around AI info
+    
+    // draw first border
+    r.x = LEFT_MARGIN / 4 - SQUARE_SIZE / 4 - 1;
+    r.y = TOP_MARGIN + SQUARE_SIZE * 5 - 1;
+    r.w = SQUARE_SIZE / 2 + 2;
+    r.h = SQUARE_SIZE / 2 + 2;
+
+    SDL_SetRenderDrawColor( renderer, 0, 0, 0, 255 );
+    SDL_RenderFillRect( renderer, &r);
+
+    // draw second border
+    r.x = LEFT_MARGIN / 4 * 3 - SQUARE_SIZE / 4 - 1;
+    SDL_SetRenderDrawColor( renderer, 0, 0, 0, 255 );
+    SDL_RenderFillRect( renderer, &r);
+
+
+    // draw player 1 info
+    r.x = LEFT_MARGIN / 4 - SQUARE_SIZE / 4;
+    r.y = TOP_MARGIN + SQUARE_SIZE * 5;
+    r.w = SQUARE_SIZE / 2;
+    r.h = SQUARE_SIZE / 2;
+
+    // draw brighter white color if player is ai
+    if (gameBoard->getPlayerAI(1)){
+        // set to light color
+        SDL_SetRenderDrawColor( renderer, 200, 200, 200, 255 );
+    }
+
+    // draw darker white color
+    else {
+            
+        SDL_SetRenderDrawColor( renderer, 125, 125, 125, 255 );
+    }
+
+    SDL_RenderFillRect( renderer, &r);
+
+    r.x = LEFT_MARGIN / 4 * 3 - SQUARE_SIZE / 4;
+    r.y = TOP_MARGIN + SQUARE_SIZE * 5;
+
+    // draw darker
+    if (gameBoard->getPlayerAI(0)){
+        // set to light color
+        SDL_SetRenderDrawColor( renderer, 50, 50, 50, 255 );
+    }
+
+
+    // draw brigher
+    else {
+        // set to dark color
+        SDL_SetRenderDrawColor( renderer, 125, 125, 125, 255 );
+    }
+
+    SDL_RenderFillRect( renderer, &r);
+}
+
+
+
 void GUI::loadImages(){
     Piece*** board = gameBoard->getBoard();
 
@@ -316,6 +392,8 @@ void GUI::update(){
     else if (!gameBoard->playerCanMove()){
             drawTextDraw();
     }
+
+    drawAIstatus();
 
     SDL_RenderPresent(renderer);
     // cout << "Updated()\n";

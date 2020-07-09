@@ -9,9 +9,10 @@ class Mouse {
             int posX;
             int posY;
             bool locked;
+            Board* gameBoard;
 
         public:
-            Mouse();
+            Mouse(Board* _gameBoard);
             int getPosX() const {return posX;}
             int getPosY() const {return posY;}
             void setPosX(int _x);
