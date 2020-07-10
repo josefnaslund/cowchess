@@ -33,7 +33,7 @@ DIRIMG := img
 _dircreate := $(shell mkdir -p $(DIRO))
 
 #Flags
-CXXFLAGS := -Wall -std=c++1z
+CXXFLAGS := -Wall -std=c++1z -O2
 OBJFLAGS := -I$(DIRH) -I$(DIRIMG)
 LIBFLAGS := -lSDL2 -lSDL2_image
 
