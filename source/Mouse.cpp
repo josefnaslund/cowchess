@@ -56,7 +56,7 @@ bool Mouse::mouseEvents(SDL_Event& e, Board& board){
 
     // if left button push
     else if (e.type == SDL_MOUSEBUTTONDOWN){
-        //cout << "Mouse at: " << e.button.x << ", " << e.button.y << endl;
+        // cout << "Mouse at: " << e.button.x << ", " << e.button.y << endl;
 
         // set to "not locked"
         setLocked(false);

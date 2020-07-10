@@ -34,11 +34,17 @@ int main( int argc, char* args[] )
 
         mygui.update();
 
+        // AI Delay
         unsigned int lastTime = 0; 
         unsigned int currentTime;        
 
+        // update time
+        unsigned int lastUpdateTime = 0;
+        unsigned int currentUpdateTime;
+
         while(!quit){
 
+            currentUpdateTime = SDL_GetTicks();
             if (SDL_PollEvent (&e) != 0){
                 //while (SDL_WaitEvent (&e)) {
 
@@ -54,9 +60,9 @@ int main( int argc, char* args[] )
                             gameOver = true;
                             cout << "\n**** It's a draw ****" << endl;
                     }
-                    if (board.getPlayerAI(board.atMove()) == 0 && myMouse.mouseEvents(e, board)){
+                    if (myMouse.mouseEvents(e, board) && board.getPlayerAI(board.atMove()) == 0){
 
-                        mygui.update();
+                        // mygui.update();
 
                         if (board.testMate()){
                             cout << "\n************************************\n";
@@ -96,7 +102,7 @@ int main( int argc, char* args[] )
                                             move.getNewX(),
                                             move.getNewY()
                                             );
-                                    mygui.update();
+                                    // mygui.update();
                                     }
 
                                     else {
@@ -124,6 +130,10 @@ int main( int argc, char* args[] )
                     }
                 }
 
+                if (currentUpdateTime > lastUpdateTime + 100){
+                    mygui.update();
+                    lastUpdateTime = currentUpdateTime;
+                }
 
 
             }// end while not quit
