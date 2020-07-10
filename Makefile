@@ -32,8 +32,9 @@ DIRIMG := img
 # Create directory if not exists
 _dircreate := $(shell mkdir -p $(DIRO))
 
-#Flags
-CXXFLAGS := -Wall -std=c++1z -O2
+#Flags 
+# comment: -Wno-psabi for error messages on Raspberry Pi
+CXXFLAGS := -Wall -std=c++17 -Wno-psabi -O2
 OBJFLAGS := -I$(DIRH) -I$(DIRIMG)
 LIBFLAGS := -lSDL2 -lSDL2_image
 
