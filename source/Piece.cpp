@@ -13,7 +13,7 @@ Piece::Piece(){
     alive = false;
     img = piece_xpm;
     type = 'u';
-    value = 0;
+    value = 0.0;
 }
 
 Piece::Piece(const bool& color, Board* _gameBoard){
@@ -21,7 +21,7 @@ Piece::Piece(const bool& color, Board* _gameBoard){
     alive = true;
     white = color;
     type = 'u';
-    value = 0;
+    value = 0.0;
 
     if (color){
         img = piece_w_xpm ;

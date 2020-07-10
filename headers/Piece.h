@@ -16,7 +16,7 @@ class Piece {
         const char** img;
         Board* gameBoard;
         char type;
-        int value;
+        double value;
 
     public:
         Piece();
@@ -29,10 +29,11 @@ class Piece {
         const char** getImage() const {return img;}
         void killPiece(){alive = false;}
         virtual bool validMove(const int& oldX, const int& oldY, const int& newX, const int& newY, Piece*** b, bool testCheck) { std::cout << "## Piece validMove() - always true ##\n"; return true; }
+        virtual bool controlsSquare(const int& oldX, const int& oldY, const int& newX, const int& newY, Piece*** b, bool testCheck) { std::cout << "## Piece controlsSquare() - always true ##\n"; return true; }
         bool isChecked(Piece*** b);
         bool isChecked(const int& oldX, const int& oldY, const int& newX, const int& newY);
 
-        const int& getValue() const {return value;}
+        const double& getValue() const {return value;}
 };
 
 #endif

@@ -44,10 +44,12 @@ std::ostream& operator<<(std::ostream& os, const LastMove& lm){
     os << char('a' + lm.getNewX()) << (lm.getNewY() + 1);
 
     if (lm.getPromotion() != 'u'){
-            os << '=' << lm.getPromotion();
+            os << '=' << static_cast<char>(std::toupper(lm.getPromotion()));
     }
 
-    if (lm.isCheck()){
+    if (lm.isCheck() && lm.noMoves())
+        os << '#';
+    else if (lm.isCheck()){
             os << '+';
     }
 
