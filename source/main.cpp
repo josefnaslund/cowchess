@@ -130,7 +130,7 @@ int main( int argc, char* args[] )
                     }
                 }
 
-                if (currentUpdateTime > lastUpdateTime + 100){
+                if (currentUpdateTime > lastUpdateTime + 50){
                     mygui.update();
                     lastUpdateTime = currentUpdateTime;
                 }
