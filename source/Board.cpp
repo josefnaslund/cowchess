@@ -153,9 +153,10 @@ bool Board::movePiece(int oldX, int oldY, int newX, int newY){
                 }
 
                 bool lmCheck = testCheck();
+                bool lmNoMoves = !playerCanMove();
 
                 lastMove = LastMove(oldX, oldY, newX, newY, lmType, lmCapt, lmProm,
-                        lmCheck);
+                        lmCheck, lmNoMoves);
 
 
                 // print move list

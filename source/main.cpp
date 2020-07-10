@@ -19,13 +19,13 @@ int main( int argc, char* args[] )
 
 
     bool gameOver = false;
-    Board board = Board();                                                           
-    Mouse myMouse = Mouse(&board);
-    AI ai[] = {AI(0, &board), AI(1, &board)} ;
+    Board gameBoard = Board();                                                           
+    Mouse myMouse = Mouse(&gameBoard);
+    AI ai[] = {AI(0, &gameBoard), AI(1, &gameBoard)} ;
 
     bool quit = false;
 
-    GUI mygui = GUI(&board);
+    GUI mygui = GUI(&gameBoard);
 
     if (mygui.init()){
         SDL_Delay(100);
@@ -38,7 +38,7 @@ int main( int argc, char* args[] )
         unsigned int lastTime = 0; 
         unsigned int currentTime;        
 
-        // update time
+        // GUI update timer
         unsigned int lastUpdateTime = 0;
         unsigned int currentUpdateTime;
 
@@ -56,31 +56,19 @@ int main( int argc, char* args[] )
 
                 if (!gameOver)
                 {
-                    if (!board.playerCanMove()){
+                    if (!gameBoard.playerCanMove()){
                             gameOver = true;
-                            cout << "\n**** It's a draw ****" << endl;
                     }
-                    if (myMouse.mouseEvents(e, board) && board.getPlayerAI(board.atMove()) == 0){
+                    if (myMouse.mouseEvents(e, gameBoard) && gameBoard.getPlayerAI(gameBoard.atMove()) == 0){
 
-                        // mygui.update();
-
-                        if (board.testMate()){
-                            cout << "\n************************************\n";
-                            cout << "*******************CHECKMATE!!!" << endl;
-                            cout << "********************PLAYER WINS*****\n";
-                            cout << "************************************\n";
-                            mygui.drawTextMate();
+                        if (gameBoard.getLastMove().noMoves()){
+                            // mygui.drawTextMate();
                             gameOver = true;
                         }
 
-
                         // else test check... then mygui.drawTextCheck().
                         // move test section from GUI::drawTextCheck() to Board
-
                     }
-
-
-
 
 
                 } // end if !gameOver
@@ -88,39 +76,29 @@ int main( int argc, char* args[] )
             } // end while SDL_PollEvent...
 
 
+            // AI moves
                 else {
                     if (!gameOver){
                         currentTime = SDL_GetTicks();
                         if (currentTime > lastTime + 1000) {
 
-                                if ((board.getPlayerAI(board.atMove()) == 1) && (lastTime % 2 == board.atMove())){
-                                    Move move = ai[board.atMove()].pickMove();
+                                if ((gameBoard.getPlayerAI(gameBoard.atMove()) == 1) && (lastTime % 2 == gameBoard.atMove())){ // remove last condition?
+                                    Move move = ai[gameBoard.atMove()].pickMove();
                                     if (!move.isInvalid()){
-                                    board.movePiece(
+                                    gameBoard.movePiece(
                                             move.getOldX(),
                                             move.getOldY(),
                                             move.getNewX(),
                                             move.getNewY()
                                             );
-                                    // mygui.update();
                                     }
 
                                     else {
                                             gameOver = true;
-                                            cout << "\n**************\n";
-                                            cout << "AI cannot move\n";
-                                            cout << "It's a draw\n";
-                                            cout << "***********" << endl;
                                     }
-                                    // if (aiPlayers.size() == 2)
-                                    //     SDL_Delay(500);
 
-                                    if (board.testMate()){
-                                        cout << "************************************\n";
-                                        cout << "*******************CHECKMATE!!!" << endl;
-                                        cout << "********************AI WINS!!*******\n";
-                                        cout << "************************************\n";
-                                        mygui.drawTextMate();
+                                    if (gameBoard.getLastMove().isCheck() && gameBoard.getLastMove().noMoves()){
+                                        // mygui.drawTextMate();
                                         gameOver = true;
                                     }
                                 }

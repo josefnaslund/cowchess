@@ -21,11 +21,12 @@ class LastMove {
         bool capture;
         char promotion;
         bool check;
+        bool noMovesPossible;
 
     public:
         LastMove();
         LastMove(int _oldX, int _oldY, int _newX, int _newY, 
-                char _type, bool _capt, char _prom, bool _check);
+                char _type, bool _capt, char _prom, bool _check, bool _noMoves);
 
         const int& getOldX() const { return oldX; } 
         const int& getOldY() const { return oldY; } 
@@ -35,6 +36,7 @@ class LastMove {
         const bool& getCapture() const { return capture; }
         const char& getPromotion() const { return promotion; }
         const bool& isCheck() const {return check;}
+        const bool& noMoves() const {return noMovesPossible;}
 
 
 };

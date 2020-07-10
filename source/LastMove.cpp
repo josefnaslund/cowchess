@@ -10,10 +10,11 @@ LastMove::LastMove(){
     capture = false;
     promotion = 'u';
     check = false;
+    noMovesPossible = false;
 }
 
 LastMove::LastMove(int _oldX, int _oldY, int _newX, int _newY, 
-        char _type, bool _capt, char _prom, bool _check){
+        char _type, bool _capt, char _prom, bool _check, bool _noMoves){
     oldX = _oldX; 
     oldY = _oldY; 
     newX = _newX; 
@@ -22,6 +23,7 @@ LastMove::LastMove(int _oldX, int _oldY, int _newX, int _newY,
     capture = _capt;
     promotion = _prom;
     check = _check;
+    noMovesPossible = _noMoves;
 }
 
 std::ostream& operator<<(std::ostream& os, const LastMove& lm){

@@ -381,15 +381,15 @@ void GUI::update(){
     // cout << "Running update()\n";
     drawBoard();
     drawPieces();
-    if (gameBoard->testCheck()){
-            if (gameBoard->testMate()){
+    if (gameBoard->getLastMove().isCheck()){
+            if (gameBoard->getLastMove().noMoves()){
                 drawTextMate();
             }
             else {
                     drawTextCheck();
             }
     }
-    else if (!gameBoard->playerCanMove()){
+    else if (gameBoard->getLastMove().noMoves()){
             drawTextDraw();
     }
 
