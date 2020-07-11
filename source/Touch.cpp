@@ -47,6 +47,7 @@ bool Touch::getIndexPos(const int& guiX, const int& guiY, int& arrX, int& arrY){
 }
 
 bool Touch::touchEvents(SDL_Event& fe, Board& board){
+    SDL_ShowCursor(SDL_DISABLE);
     bool moveMade = false;
 
 

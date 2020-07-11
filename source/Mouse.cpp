@@ -47,6 +47,7 @@ bool Mouse::getIndexPos(const int& guiX, const int& guiY, int& arrX, int& arrY){
 }
 
 bool Mouse::mouseEvents(SDL_Event& e, Board& board){
+
     bool moveMade = false;
 
     // to prevent mouse buttons other than left to interfere
@@ -56,6 +57,7 @@ bool Mouse::mouseEvents(SDL_Event& e, Board& board){
 
     // if left button push
     else if (e.type == SDL_MOUSEBUTTONDOWN){
+        SDL_ShowCursor(SDL_ENABLE);
         // cout << "Mouse at: " << e.button.x << ", " << e.button.y << endl;
 
         // set to "not locked"

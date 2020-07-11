@@ -65,6 +65,7 @@ int main( int argc, char* args[] )
                             gameOver = true;
                     }
 		    else if ((e.type == SDL_FINGERDOWN || e.type == SDL_FINGERUP) && myTouch.touchEvents(e, gameBoard) && gameBoard.getPlayerAI(gameBoard.atMove()) == 0){
+			    
 			    // cout << "main: " << e.tfinger.x << ":" << e.tfinger.y << endl;
 			    // cout << "main: " << e.tfinger.x * SCREEN_WIDTH << ":" << e.tfinger.y * SCREEN_HEIGHT << endl;
 
@@ -74,7 +75,9 @@ int main( int argc, char* args[] )
 				    gameOver = true;
 			    }
 		    }
+
 		    else if (myMouse.mouseEvents(e, gameBoard) && gameBoard.getPlayerAI(gameBoard.atMove()) == 0){
+			    
 
 			    if (gameBoard.getLastMove().noMoves()){
 				    // mygui.drawTextMate();
