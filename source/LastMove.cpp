@@ -30,29 +30,29 @@ std::ostream& operator<<(std::ostream& os, const LastMove& lm){
     if (lm.getType() != 'p'){
         os << static_cast<char>(std::toupper(lm.getType()));
     }
-        
+
     os << char('a' + lm.getOldX()) << (lm.getOldY() + 1); 
 
     if (lm.getCapture()){
-            os << 'x';
+        os << 'x';
     }
 
     else {
-            os << '-';
+        os << '-';
     }
 
     os << char('a' + lm.getNewX()) << (lm.getNewY() + 1);
 
     if (lm.getPromotion() != 'u'){
-            os << '=' << static_cast<char>(std::toupper(lm.getPromotion()));
+        os << '=' << static_cast<char>(std::toupper(lm.getPromotion()));
     }
 
     if (lm.isCheck() && lm.noMoves())
         os << '#';
     else if (lm.isCheck()){
-            os << '+';
+        os << '+';
     }
 
     return os;
-        
+
 }

@@ -2,7 +2,7 @@
 #include "Move.h"
 
 Move::Move(){
-        invalid = true;
+    invalid = true;
 }
 
 Move::Move(int& _oldX, int& _oldY, int& _newX, int& _newY, Board* _gameBoard){

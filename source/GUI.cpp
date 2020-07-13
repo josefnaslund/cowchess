@@ -24,18 +24,18 @@ GUI::GUI(Board* _gameBoard)
     gameBoard = _gameBoard;
     turnTexture = NULL;
     checkTexture = NULL;
-    
+
 
 }
 
 GUI::~GUI(){
-        for (auto p : images){
-                SDL_DestroyTexture(p.second);
-        }
+    for (auto p : images){
+        SDL_DestroyTexture(p.second);
+    }
 
-        images.clear(); // remove previous content of vector
-        SDL_DestroyTexture(turnTexture);
-        SDL_DestroyTexture(checkTexture);
+    images.clear(); // remove previous content of vector
+    SDL_DestroyTexture(turnTexture);
+    SDL_DestroyTexture(checkTexture);
 }
 
 bool GUI::init(){
@@ -53,8 +53,8 @@ bool GUI::init(){
         std::cerr << "Error window: " << SDL_GetError();
 
     if (renderer == NULL) 
-       std::cerr << "Error renderer: " <<  SDL_GetError();
-    
+        std::cerr << "Error renderer: " <<  SDL_GetError();
+
 
     if (IMG_Init(IMG_INIT_PNG) != IMG_INIT_PNG){
         std::cerr << "Failed to init SDL_image (png)\n";
@@ -68,11 +68,11 @@ bool GUI::init(){
 }
 
 void GUI::drawBoard(){
-    
+
     // draw background color
     SDL_SetRenderDrawColor(renderer, 170, 120, 50, 255);
     SDL_RenderClear(renderer);
-    
+
     // a rectangle shape
     SDL_Rect r;
 
@@ -208,7 +208,7 @@ void GUI::drawAIstatus(){
     // }
 
     SDL_Rect r; 
-    
+
     // r.x = 34;  
     // r.y = 55; 
     // r.w = 50; 
@@ -218,7 +218,7 @@ void GUI::drawAIstatus(){
 
 
     // draw two borders around AI info
-    
+
     // draw first border
     r.x = LEFT_MARGIN / 4 - SQUARE_SIZE / 4 - 1;
     r.y = TOP_MARGIN + SQUARE_SIZE * 5 - 1;
@@ -248,7 +248,7 @@ void GUI::drawAIstatus(){
 
     // draw darker white color
     else {
-            
+
         SDL_SetRenderDrawColor( renderer, 125, 125, 125, 255 );
     }
 
@@ -382,15 +382,15 @@ void GUI::update(){
     drawBoard();
     drawPieces();
     if (gameBoard->getLastMove().isCheck()){
-            if (gameBoard->getLastMove().noMoves()){
-                drawTextMate();
-            }
-            else {
-                    drawTextCheck();
-            }
+        if (gameBoard->getLastMove().noMoves()){
+            drawTextMate();
+        }
+        else {
+            drawTextCheck();
+        }
     }
     else if (gameBoard->getLastMove().noMoves()){
-            drawTextDraw();
+        drawTextDraw();
     }
 
     drawAIstatus();

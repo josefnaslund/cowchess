@@ -1,9 +1,9 @@
 #include "Player.h"
 
 Player::Player(){
-        AI = false;
+    AI = false;
 }
 
 Player::Player(bool _AI){
-        AI = _AI;
+    AI = _AI;
 }

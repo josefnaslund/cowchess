@@ -27,7 +27,7 @@ class Board{
         const LastMove& getLastMove() {return lastMove;}
         bool getPlayerAI(bool player);
         Player* getPlayers() {return players;}
-        
+
 
 };
 

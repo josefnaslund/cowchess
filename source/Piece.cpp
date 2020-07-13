@@ -131,7 +131,7 @@ bool Piece::isChecked(const int& oldX, const int& oldY, const int& newX, const i
     delete newBoard[oldY][oldX]; // delete new dead piece from temp board
 
     for (int i = 0; i != 8; ++i){
-                
+
         delete[] newBoard[i];
     }
     delete[] newBoard;

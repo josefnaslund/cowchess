@@ -6,14 +6,14 @@
 using std::string;
 
 class Player {
-        private:
-            bool AI;
+    private:
+        bool AI;
 
-        public:
-            Player();
-            Player(bool _AI);
-            bool isAI() {return AI;}
-            void setAI(bool _AI) {AI = _AI;}
+    public:
+        Player();
+        Player(bool _AI);
+        bool isAI() {return AI;}
+        void setAI(bool _AI) {AI = _AI;}
 };
 
 #endif

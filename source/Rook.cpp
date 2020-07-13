@@ -109,7 +109,7 @@ bool Rook::validMove(const int& oldX, const int& oldY, const int& newX, const in
     if (valid && testCheck && isChecked(oldX, oldY, newX, newY)){
         // std::cout << "Rook: that will make us checked\n";
         valid = false;
-            
+
     }
 
 
@@ -124,7 +124,7 @@ bool Rook::controlsSquare(const int& oldX, const int& oldY, const int& newX, con
 
     // don't move to same pos
     if ( oldX == newX && oldY == newY){
-            valid = false;
+        valid = false;
     }
 
     // test if new pos. is on same row or col as piece.
@@ -195,7 +195,7 @@ bool Rook::controlsSquare(const int& oldX, const int& oldY, const int& newX, con
     if (valid && testCheck && isChecked(oldX, oldY, newX, newY)){
         // std::cout << "Rook: that will make us checked\n";
         valid = false;
-            
+
     }
 
 

@@ -62,81 +62,81 @@ int main( int argc, char* args[] )
                 if (!gameOver)
                 {
                     if (!gameBoard.playerCanMove()){
-                            gameOver = true;
+                        gameOver = true;
                     }
-		    else if ((e.type == SDL_FINGERDOWN || e.type == SDL_FINGERUP) && myTouch.touchEvents(e, gameBoard) && gameBoard.getPlayerAI(gameBoard.atMove()) == 0){
-			    
-			    // cout << "main: " << e.tfinger.x << ":" << e.tfinger.y << endl;
-			    // cout << "main: " << e.tfinger.x * SCREEN_WIDTH << ":" << e.tfinger.y * SCREEN_HEIGHT << endl;
+                    else if ((e.type == SDL_FINGERDOWN || e.type == SDL_FINGERUP) && myTouch.touchEvents(e, gameBoard) && gameBoard.getPlayerAI(gameBoard.atMove()) == 0){
+
+                        // cout << "main: " << e.tfinger.x << ":" << e.tfinger.y << endl;
+                        // cout << "main: " << e.tfinger.x * SCREEN_WIDTH << ":" << e.tfinger.y * SCREEN_HEIGHT << endl;
 
 
 
-			    if (gameBoard.getLastMove().noMoves()){
-				    gameOver = true;
-			    }
-		    }
+                        if (gameBoard.getLastMove().noMoves()){
+                            gameOver = true;
+                        }
+                    }
 
-		    else if (myMouse.mouseEvents(e, gameBoard) && gameBoard.getPlayerAI(gameBoard.atMove()) == 0){
-			    
-
-			    if (gameBoard.getLastMove().noMoves()){
-				    // mygui.drawTextMate();
-				    gameOver = true;
-			    }
-
-			    // else test check... then mygui.drawTextCheck().
-			    // move test section from GUI::drawTextCheck() to Board
-		    }
+                    else if (myMouse.mouseEvents(e, gameBoard) && gameBoard.getPlayerAI(gameBoard.atMove()) == 0){
 
 
-		} // end if !gameOver
+                        if (gameBoard.getLastMove().noMoves()){
+                            // mygui.drawTextMate();
+                            gameOver = true;
+                        }
 
-	    } // end while SDL_PollEvent...
-
-
-	    // AI moves
-		else {
-			if (!gameOver){
-				currentTime = SDL_GetTicks();
-				if (currentTime > lastTime + 1000) {
-
-					if ((gameBoard.getPlayerAI(gameBoard.atMove()) == 1) && (lastTime % 2 == gameBoard.atMove())){ // remove last condition?
-						Move move = ai[gameBoard.atMove()].pickMove();
-						if (!move.isInvalid()){
-							gameBoard.movePiece(
-									move.getOldX(),
-									move.getOldY(),
-									move.getNewX(),
-									move.getNewY()
-									);
-						}
-
-						else {
-							gameOver = true;
-						}
-
-						if (gameBoard.getLastMove().isCheck() && gameBoard.getLastMove().noMoves()){
-							// mygui.drawTextMate();
-							gameOver = true;
-						}
-					}
-
-					lastTime = currentTime;
-				}
-			}
-		}
-
-		if (currentUpdateTime > lastUpdateTime + 50){
-			mygui.update();
-			lastUpdateTime = currentUpdateTime;
-		}
+                        // else test check... then mygui.drawTextCheck().
+                        // move test section from GUI::drawTextCheck() to Board
+                    }
 
 
-	    }// end while not quit
+                } // end if !gameOver
 
-	} // end if mygui
-	cout << endl;
-	return EXIT_SUCCESS;
+            } // end while SDL_PollEvent...
+
+
+            // AI moves
+                else {
+                    if (!gameOver){
+                        currentTime = SDL_GetTicks();
+                        if (currentTime > lastTime + 1000) {
+
+                            if ((gameBoard.getPlayerAI(gameBoard.atMove()) == 1) && (lastTime % 2 == gameBoard.atMove())){ // remove last condition?
+                                Move move = ai[gameBoard.atMove()].pickMove();
+                                if (!move.isInvalid()){
+                                    gameBoard.movePiece(
+                                            move.getOldX(),
+                                            move.getOldY(),
+                                            move.getNewX(),
+                                            move.getNewY()
+                                            );
+                                }
+
+                                else {
+                                    gameOver = true;
+                                }
+
+                                if (gameBoard.getLastMove().isCheck() && gameBoard.getLastMove().noMoves()){
+                                    // mygui.drawTextMate();
+                                    gameOver = true;
+                                }
+                            }
+
+                            lastTime = currentTime;
+                        }
+                    }
+                }
+
+                if (currentUpdateTime > lastUpdateTime + 50){
+                    mygui.update();
+                    lastUpdateTime = currentUpdateTime;
+                }
+
+
+            }// end while not quit
+
+        } // end if mygui
+        cout << endl;
+        return EXIT_SUCCESS;
     }                                                                           
 
 

@@ -61,7 +61,7 @@ void AI::evaluateMoves(){
 
     // remember to deallocate
     for (int i = 0; i != 8; ++i){
-            tempBoard[i] = new Piece*[8];
+        tempBoard[i] = new Piece*[8];
     }
 
     for (auto m : moves){
@@ -72,7 +72,7 @@ void AI::evaluateMoves(){
         for (int i = 0; i != 8; ++i){
             for (int j = 0; j != 8; ++j){
                 tempBoard[i][j] = board[i][j];
-                }
+            }
         }
 
         double captureSquareValue = tempBoard[m.getNewY()][m.getNewX()]->getValue();
@@ -85,7 +85,7 @@ void AI::evaluateMoves(){
         tempBoard[m.getOldY()][m.getOldX()] = new Piece();
 
         double movePieceValue = tempBoard[m.getNewY()][m.getNewX()]->getValue();
-        
+
 
         // evaluate if there are more attackers than defenders
         // attacker is 'this' side, defender is 'other' side.
@@ -128,18 +128,18 @@ void AI::evaluateMoves(){
         // UNUSED
         //
         sort(attackerValues.begin(), attackerValues.end(), 
-            []( const double& a, const double &b) -> bool
-            {
-            return a > b;
-            }
-        );
+                []( const double& a, const double &b) -> bool
+                {
+                return a > b;
+                }
+            );
 
         sort(defenderValues.begin(), defenderValues.end(), 
-            []( const double& a, const double &b) -> bool
-            {
-            return a > b;
-            }
-        );
+                []( const double& a, const double &b) -> bool
+                {
+                return a > b;
+                }
+            );
 
 
 
@@ -153,12 +153,12 @@ void AI::evaluateMoves(){
         // cout << endl;
 
         if (!defenders){
-                collectedValue += captureSquareValue * 2;
+            collectedValue += captureSquareValue * 2;
         }
         else if (attackers > defenders){
             collectedValue += captureSquareValue * 1.5;
         }
-        
+
         // to prevent nothing happening
         // else if (attackers){
         //     collectedValue += captureSquareValue;
@@ -258,8 +258,8 @@ Move AI::pickMove(){
         // cout << "Size: " << evaluatedMoves.size() << endl;
 
         // for (auto p : evaluatedMoves){
-            // cout << "\nConsidering...\n";
-            // cout << p.first.getPiece()->getType() << " to " << (char)('a' + p.first.getNewX()) << p.first.getNewY() + 1 << " Value: " << p.second << endl;
+        // cout << "\nConsidering...\n";
+        // cout << p.first.getPiece()->getType() << " to " << (char)('a' + p.first.getNewX()) << p.first.getNewY() + 1 << " Value: " << p.second << endl;
         // }
         // cout << "end considering\n";
 
