@@ -5,6 +5,7 @@
 #include "King.h"
 #include "Pawn.h"
 #include "Knight.h"
+#include "Bishop.h"
 #include "constants.h"
 
 
@@ -81,6 +82,20 @@ void Board::setStandardBoard(){
 
     delete board[7][6];
     board[7][6] = new Knight(0, this);
+    
+    // bishops
+    delete board[0][2];
+    board[0][2] = new Bishop(1, this);
+
+    delete board[7][2];
+    board[7][2] = new Bishop(0, this);
+
+    delete board[0][5];
+    board[0][5] = new Bishop(1, this);
+
+    delete board[7][5];
+    board[7][5] = new Bishop(0, this);
+
 }
 
 Board::~Board(){
@@ -122,6 +137,7 @@ bool Board::movePiece(int oldX, int oldY, int newX, int newY){
         char lmType = board[oldY][oldX]->getType();
         bool lmCapt = board[newY][newX]->isAlive();
         char lmProm = 'u';
+        bool lmShortCastling = false, lmLongCastling = false;
 
 
         // detect passant
@@ -139,6 +155,8 @@ bool Board::movePiece(int oldX, int oldY, int newX, int newY){
             // move right Rook
             board[oldY][5] = board[oldY][7];
             board[oldY][7] = new Piece();
+            lmShortCastling = true;
+            
         }
 
 
@@ -150,6 +168,7 @@ bool Board::movePiece(int oldX, int oldY, int newX, int newY){
             // move right Rook
             board[oldY][3] = board[oldY][0];
             board[oldY][0] = new Piece();
+            lmLongCastling = true;
         }
 
 
@@ -194,7 +213,7 @@ bool Board::movePiece(int oldX, int oldY, int newX, int newY){
         bool lmNoMoves = !playerCanMove();
 
         lastMove = LastMove(oldX, oldY, newX, newY, lmType, lmCapt, lmProm,
-                lmCheck, lmNoMoves);
+                lmCheck, lmNoMoves, lmShortCastling, lmLongCastling);
 
 
         // print move list

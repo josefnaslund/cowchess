@@ -22,11 +22,14 @@ class LastMove {
         char promotion;
         bool check;
         bool noMovesPossible;
+        bool shortCastling;
+        bool longCastling;
 
     public:
         LastMove();
         LastMove(int _oldX, int _oldY, int _newX, int _newY, 
-                char _type, bool _capt, char _prom, bool _check, bool _noMoves);
+                char _type, bool _capt, char _prom, bool _check, bool _noMoves,
+                bool shortCastling, bool longCastling);
 
         const int& getOldX() const { return oldX; } 
         const int& getOldY() const { return oldY; } 
@@ -37,6 +40,9 @@ class LastMove {
         const char& getPromotion() const { return promotion; }
         const bool& isCheck() const {return check;}
         const bool& noMoves() const {return noMovesPossible;}
+        const bool& getShortCastling() const {return shortCastling;}
+        const bool& getLongCastling() const {return longCastling;}
+
 
 
 };

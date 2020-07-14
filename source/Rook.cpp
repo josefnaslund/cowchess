@@ -29,6 +29,10 @@ Rook::Rook(bool color, Board* _gameBoard){
 
 
 bool Rook::validMove(const int& oldX, const int& oldY, const int& newX, const int& newY, Piece*** b, bool testCheck){
+    return rookValidMove(oldX, oldY, newX, newY, b, testCheck);
+}
+
+bool Rook::rookValidMove(const int& oldX, const int& oldY, const int& newX, const int& newY, Piece*** b, bool testCheck){
 
     bool valid = true;
 
@@ -123,6 +127,10 @@ bool Rook::validMove(const int& oldX, const int& oldY, const int& newX, const in
 
 
 bool Rook::controlsSquare(const int& oldX, const int& oldY, const int& newX, const int& newY, Piece*** b, bool testCheck){
+    return rookControlsSquare(oldX, oldY, newX, newY, b, testCheck);
+}
+
+bool Rook::rookControlsSquare(const int& oldX, const int& oldY, const int& newX, const int& newY, Piece*** b, bool testCheck){
 
     bool valid = true;
 
