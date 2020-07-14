@@ -14,6 +14,7 @@ Piece::Piece(){
     img = piece_xpm;
     type = 'u';
     value = 0.0;
+    notMoved = true;
 }
 
 Piece::Piece(const bool& color, Board* _gameBoard){
@@ -32,7 +33,7 @@ Piece::Piece(const bool& color, Board* _gameBoard){
     }
 
     gameBoard = _gameBoard;
-
+    notMoved = true;
 } 
 
 

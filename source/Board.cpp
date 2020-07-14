@@ -118,6 +118,19 @@ bool Board::movePiece(int oldX, int oldY, int newX, int newY){
             delete board[lastMove.getNewY()][lastMove.getNewX()];
             board[lastMove.getNewY()][lastMove.getOldX()] = new Piece();
         }
+        
+        // detect short castling
+        if (board[oldY][oldX]->getType() == 'k' && newX-oldX == 2){
+
+            // delete old empty piece
+            delete board[oldY][5];
+            // move right Rook
+            board[oldY][5] = board[oldY][7];
+            board[oldY][7] = new Piece();
+        }
+
+
+
 
 
         // delete old piece
@@ -134,6 +147,9 @@ bool Board::movePiece(int oldX, int oldY, int newX, int newY){
 
         // increment moves/turn
         ++moveCount;
+
+        // set flag "piece notMoved" to false, for castling info
+        board[newY][newX]->hasMoved();
 
         // temp. promovation
         if ( 

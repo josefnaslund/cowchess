@@ -27,6 +27,8 @@ Pawn::Pawn(bool color, Board* _gameBoard){
 
     gameBoard = _gameBoard;
 
+    notMoved = false;
+
 }
 
 bool Pawn::validMove(const int& oldX, const int& oldY, const int& newX, const int& newY, Piece*** b, bool testCheck){

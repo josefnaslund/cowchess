@@ -53,6 +53,7 @@ bool Touch::touchEvents(SDL_Event& fe, Board& board){
 
     // if finger down
     if (fe.type == SDL_FINGERDOWN){
+        cout << "SDL_FINGERDOWN\n";
         // cout << "Touch at: " << fe.tfinger.x * SCREEN_WIDTH << ", " << fe.tfinger.y * SCREEN_HEIGHT << endl;
 
         // set to "not locked"
@@ -105,6 +106,7 @@ bool Touch::touchEvents(SDL_Event& fe, Board& board){
 
     // if left button release
     else if (fe.type == SDL_FINGERUP){
+        cout << "SDL_FINGERUP\n";
         // SDL_Delay(300);
 
         // if user is grabbing a piece and releasing the button

@@ -3,6 +3,8 @@
 #include "rook_w.xpm"
 #include "rook_b.xpm"
 
+using std::cout;
+using std::endl;
 
 Rook::Rook(bool color, Board* _gameBoard){
 
@@ -20,6 +22,8 @@ Rook::Rook(bool color, Board* _gameBoard){
     }
 
     gameBoard = _gameBoard;
+
+    notMoved = true;
 
 }
 
@@ -140,7 +144,6 @@ bool Rook::controlsSquare(const int& oldX, const int& oldY, const int& newX, con
                 for (int i = oldY + 1; i != newY; ++i){
                     if (b[i][oldX]->isAlive()){
                         valid = false;
-                        // std::cout << "Rook: BAD move. Piece in between\n";
                     }
                 }
 
@@ -150,7 +153,6 @@ bool Rook::controlsSquare(const int& oldX, const int& oldY, const int& newX, con
                 for (int i = oldY - 1; i != newY; --i){
                     if (b[i][oldX]->isAlive()){
                         valid = false;
-                        // std::cout << "Rook: BAD move. Piece in between\n";
                     }
                 }
 
