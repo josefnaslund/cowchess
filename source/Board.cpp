@@ -3,6 +3,7 @@
 #include "Piece.h"
 #include "Rook.h"
 #include "King.h"
+#include "Queen.h"
 #include "Pawn.h"
 #include "Knight.h"
 #include "Bishop.h"
@@ -95,6 +96,13 @@ void Board::setStandardBoard(){
 
     delete board[7][5];
     board[7][5] = new Bishop(0, this);
+
+    // queens
+    delete board[0][3];
+    board[0][3] = new Queen(1, this);
+
+    delete board[7][3];
+    board[7][3] = new Queen(0, this);
 
 }
 

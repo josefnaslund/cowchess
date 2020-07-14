@@ -5,11 +5,12 @@
 #include "Piece.h"
 
 
-class Bishop : public Piece 
+class Bishop : virtual public Piece 
 {
     public:
+        Bishop() {};
         Bishop(bool color, Board* _gameBoard);
-        bool validMove(const int& oldX, const int& oldY, const int& newX, const int& newY, Piece*** b, bool testCheck) override;
+        virtual bool validMove(const int& oldX, const int& oldY, const int& newX, const int& newY, Piece*** b, bool testCheck) override;
 
         bool bishopValidMove(const int& oldX, const int& oldY, const int& newX, const int& newY, Piece*** b, bool testCheck);
 
