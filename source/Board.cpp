@@ -130,6 +130,16 @@ bool Board::movePiece(int oldX, int oldY, int newX, int newY){
         }
 
 
+        // detect long castling
+        else if (board[oldY][oldX]->getType() == 'k' && newX-oldX == -2){
+
+            // delete old empty piece
+            delete board[oldY][3];
+            // move right Rook
+            board[oldY][3] = board[oldY][0];
+            board[oldY][0] = new Piece();
+        }
+
 
 
 

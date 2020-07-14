@@ -91,6 +91,50 @@ bool King::validMove(const int& oldX, const int& oldY, const int& newX, const in
             }
         } // end test short castling
 
+
+        // test for long castling
+        if (newY == oldY && notMoved && b[newY][0]->hasNotMoved() &&
+                // and is trying to move to 'C' column
+                newX == 2){
+
+            // check no pieces are in between
+
+            valid = true;
+
+            for (int x = 2; x != 4; ++x){
+                if (b[oldY][x]->isAlive()){
+                        valid = false;
+                        break;
+                }
+                    
+            }
+
+            if (valid){
+                // check if any other piece can attack this side's sqares from A to E.
+
+                for (int r = 0; r != 7; ++r){
+                    for (int c = 0; c != 7; ++c){
+
+                        // other piece finder
+                        if (b[r][c]->isAlive() && 
+                                b[r][c]->isWhite() != isWhite()){
+
+                            // can't attack columns 4, 5, 6 or 7
+                            for (int k = 0; k != 5; ++k){
+                                if (b[r][c]->controlsSquare(c, r, k, oldY, b, 1)){
+                                    valid = false;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+
+                }
+
+            }
+        } // end test long castling
+
+
     }
 
     // test if new pos contains piece of same color
