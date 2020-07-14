@@ -7,7 +7,7 @@
 DIRO := objects
 
 #OBJS specifies which files to compile as part of the project
-TEMPOBJS = main.o GUI.o Board.o Piece.o Mouse.o Touch.o Rook.o King.o Pawn.o AI.o Move.o LastMove.o Player.o
+TEMPOBJS = main.o GUI.o Board.o Piece.o Mouse.o Touch.o Rook.o King.o Pawn.o Knight.o AI.o Move.o LastMove.o Player.o
 
 # Replace path on objects
 OBJS = $(patsubst %.o,$(DIRO)/%.o,$(TEMPOBJS))
@@ -59,7 +59,7 @@ $(DIRO)/main.o : $(DIRCXX)/main.cpp $(DIRH)/constants.h $(DIRH)/GUI.h $(DIRH)/Mo
 $(DIRO)/GUI.o : $(DIRCXX)/GUI.cpp $(DIRH)/GUI.h $(DIRH)/constants.h $(DIRH)/Piece.h $(DIRIMG)/text_turn.xpm $(DIRIMG)/text_checkmate.xpm $(DIRIMG)/text_check.xpm $(DIRIMG)/text_draw.xpm
 	$(CXX) $(CXXFLAGS) $(OBJFLAGS) -c -o $@ $<
 
-$(DIRO)/Board.o : $(DIRCXX)/Board.cpp $(DIRH)/Board.h $(DIRH)/Piece.h $(DIRH)/Rook.h $(DIRH)/King.h $(DIRH)/Pawn.h $(DIRH)/constants.h $(DIRH)/LastMove.h $(DIRH)/Player.h
+$(DIRO)/Board.o : $(DIRCXX)/Board.cpp $(DIRH)/Board.h $(DIRH)/Piece.h $(DIRH)/Rook.h $(DIRH)/King.h $(DIRH)/Pawn.h $(DIRH)/Knight.h $(DIRH)/constants.h $(DIRH)/LastMove.h $(DIRH)/Player.h
 	$(CXX) $(CXXFLAGS) $(OBJFLAGS) -c -o $@ $<
 
 $(DIRO)/Piece.o : $(DIRCXX)/Piece.cpp $(DIRH)/Piece.h $(DIRH)/Board.h $(DIRIMG)/piece.xpm $(DIRIMG)/piece_w.xpm $(DIRIMG)/piece_b.xpm
@@ -77,6 +77,9 @@ $(DIRO)/King.o : $(DIRCXX)/King.cpp $(DIRH)/King.h $(DIRH)/Board.h $(DIRH)/Piece
 	$(CXX) $(CXXFLAGS) $(OBJFLAGS) -c -o $@ $<
 
 $(DIRO)/Pawn.o : $(DIRCXX)/Pawn.cpp $(DIRH)/Pawn.h $(DIRH)/Board.h $(DIRH)/Piece.h $(DIRIMG)/pawn_w.xpm $(DIRIMG)/pawn_b.xpm $(DIRH)/LastMove.h
+	$(CXX) $(CXXFLAGS) $(OBJFLAGS) -c -o $@ $<
+
+$(DIRO)/Knight.o : $(DIRCXX)/Knight.cpp $(DIRH)/Knight.h $(DIRH)/Board.h $(DIRH)/Piece.h $(DIRIMG)/knight_w.xpm $(DIRIMG)/knight_b.xpm
 	$(CXX) $(CXXFLAGS) $(OBJFLAGS) -c -o $@ $<
 
 $(DIRO)/AI.o : $(DIRCXX)/AI.cpp $(DIRH)/AI.h $(DIRH)/Move.h $(DIRH)/Piece.h $(DIRH)/Board.h

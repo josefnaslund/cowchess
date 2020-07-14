@@ -4,6 +4,7 @@
 #include "Rook.h"
 #include "King.h"
 #include "Pawn.h"
+#include "Knight.h"
 #include "constants.h"
 
 
@@ -68,7 +69,18 @@ void Board::setStandardBoard(){
         board[6][i] = new Pawn(0, this);
     }
 
+    // knights
+    delete board[0][1];
+    board[0][1] = new Knight(1, this);
 
+    delete board[7][1];
+    board[7][1] = new Knight(0, this);
+
+    delete board[0][6];
+    board[0][6] = new Knight(1, this);
+
+    delete board[7][6];
+    board[7][6] = new Knight(0, this);
 }
 
 Board::~Board(){

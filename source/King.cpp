@@ -101,7 +101,7 @@ bool King::validMove(const int& oldX, const int& oldY, const int& newX, const in
 
             valid = true;
 
-            for (int x = 2; x != 4; ++x){
+            for (int x = 1; x != 4; ++x){
                 if (b[oldY][x]->isAlive()){
                         valid = false;
                         break;
