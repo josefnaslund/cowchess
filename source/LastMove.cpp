@@ -13,11 +13,12 @@ LastMove::LastMove(){
     noMovesPossible = false;
     shortCastling = false;
     longCastling = false;
+    moveColor = 0;
 }
 
 LastMove::LastMove(int _oldX, int _oldY, int _newX, int _newY, 
         char _type, bool _capt, char _prom, bool _check, bool _noMoves, 
-        bool _shortCastling, bool _longCastling){
+        bool _shortCastling, bool _longCastling, bool _moveColor){
     oldX = _oldX; 
     oldY = _oldY; 
     newX = _newX; 
@@ -29,6 +30,7 @@ LastMove::LastMove(int _oldX, int _oldY, int _newX, int _newY,
     noMovesPossible = _noMoves;
     shortCastling = _shortCastling;
     longCastling = _longCastling;
+    moveColor = _moveColor;
 }
 
 std::ostream& operator<<(std::ostream& os, const LastMove& lm){
@@ -58,6 +60,7 @@ std::ostream& operator<<(std::ostream& os, const LastMove& lm){
             os << '-';
         }
 
+        // row
         os << char('a' + lm.getNewX()) << (lm.getNewY() + 1);
 
         if (lm.getPromotion() != 'u'){
@@ -65,11 +68,26 @@ std::ostream& operator<<(std::ostream& os, const LastMove& lm){
         }
     }
 
-    if (lm.isCheck() && lm.noMoves())
-        os << '#';
+    if (lm.isCheck() && lm.noMoves()){
+        os << "#\n";
+        // White wins
+        if (lm.getMoveColor() % 2){
+                os << "\t1 - 0\n";
+        }
+        // black wins
+        else {
+                os << "\t0 - 1\n";
+        }
+    }
 
-    else if (lm.isCheck())
+    else if (lm.isCheck()){
         os << '+';
+    }
+
+    // draw
+    else if (lm.noMoves()){
+        os << "\n½ - ½\n";
+    }
     
 
     return os;

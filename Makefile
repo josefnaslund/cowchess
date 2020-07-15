@@ -80,7 +80,7 @@ $(DIRO)/Bishop.o : $(DIRCXX)/Bishop.cpp $(DIRH)/Bishop.h $(DIRH)/Board.h $(DIRH)
 $(DIRO)/King.o : $(DIRCXX)/King.cpp $(DIRH)/King.h $(DIRH)/Board.h $(DIRH)/Piece.h $(DIRIMG)/king_w.xpm $(DIRIMG)/king_b.xpm
 	$(CXX) $(CXXFLAGS) $(OBJFLAGS) -c -o $@ $<
 
-$(DIRO)/Queen.o : $(DIRCXX)/Queen.cpp $(DIRH)/Queen.h $(DIRH)/Board.h $(DIRH)/Piece.h $(DIRIMG)/queen_w.xpm $(DIRIMG)/queen_b.xpm
+$(DIRO)/Queen.o : $(DIRCXX)/Queen.cpp $(DIRH)/Queen.h $(DIRH)/Rook.h $(DIRH)/Bishop.h $(DIRH)/Board.h $(DIRH)/Piece.h $(DIRIMG)/queen_w.xpm $(DIRIMG)/queen_b.xpm
 	$(CXX) $(CXXFLAGS) $(OBJFLAGS) -c -o $@ $<
 
 $(DIRO)/Pawn.o : $(DIRCXX)/Pawn.cpp $(DIRH)/Pawn.h $(DIRH)/Board.h $(DIRH)/Piece.h $(DIRIMG)/pawn_w.xpm $(DIRIMG)/pawn_b.xpm $(DIRH)/LastMove.h

@@ -146,6 +146,7 @@ bool Board::movePiece(int oldX, int oldY, int newX, int newY){
         bool lmCapt = board[newY][newX]->isAlive();
         char lmProm = 'u';
         bool lmShortCastling = false, lmLongCastling = false;
+        bool lmMoveColor = board[oldY][oldX]->isWhite();
 
 
         // detect passant
@@ -221,7 +222,7 @@ bool Board::movePiece(int oldX, int oldY, int newX, int newY){
         bool lmNoMoves = !playerCanMove();
 
         lastMove = LastMove(oldX, oldY, newX, newY, lmType, lmCapt, lmProm,
-                lmCheck, lmNoMoves, lmShortCastling, lmLongCastling);
+                lmCheck, lmNoMoves, lmShortCastling, lmLongCastling, lmMoveColor);
 
 
         // print move list

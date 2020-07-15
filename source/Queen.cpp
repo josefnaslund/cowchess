@@ -7,27 +7,32 @@
 using std::cout;
 using std::endl;
 
-Queen::Queen(bool color, Board* _gameBoard){
+Queen::Queen(bool color, Board* _gameBoard) 
+    : 
+        Piece(color, _gameBoard),
+        Rook(color, _gameBoard),
+        Bishop(color, _gameBoard){ 
 
-    alive = true;
-    white = color;
-    type = 'q';
-    value = 9.0;
+
+            alive = true;
+            white = color;
+            type = 'q';
+            value = 9.0;
 
 
-    if (color){
-        img = queen_w_xpm;
-    }
+            if (color){
+                img = queen_w_xpm;
+            }
 
-    else {
-        img = queen_b_xpm;
-    }
+            else {
+                img = queen_b_xpm;
+            }
 
-    gameBoard = _gameBoard;
+            gameBoard = _gameBoard;
 
-    notMoved = true;
+            notMoved = true;
 
-}
+        }
 
 bool Queen::validMove(const int& oldX, const int& oldY, const int& newX, const int& newY, Piece*** b, bool testCheck){
 

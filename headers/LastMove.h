@@ -24,12 +24,13 @@ class LastMove {
         bool noMovesPossible;
         bool shortCastling;
         bool longCastling;
+        bool moveColor;
 
     public:
         LastMove();
         LastMove(int _oldX, int _oldY, int _newX, int _newY, 
                 char _type, bool _capt, char _prom, bool _check, bool _noMoves,
-                bool shortCastling, bool longCastling);
+                bool shortCastling, bool longCastling, bool _moveColor);
 
         const int& getOldX() const { return oldX; } 
         const int& getOldY() const { return oldY; } 
@@ -42,6 +43,7 @@ class LastMove {
         const bool& noMoves() const {return noMovesPossible;}
         const bool& getShortCastling() const {return shortCastling;}
         const bool& getLongCastling() const {return longCastling;}
+        const bool& getMoveColor() const { return moveColor;}
 
 
 

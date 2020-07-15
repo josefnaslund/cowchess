@@ -12,7 +12,7 @@ Bishop::Bishop(bool color, Board* _gameBoard){
 
     alive = true;
     white = color;
-    type = 'r';
+    type = 'b';
     value = 3.0;
 
     if (color){

@@ -33,11 +33,11 @@ Knight::Knight(bool color, Board* _gameBoard){
 bool Knight::validMove(const int& oldX, const int& oldY, const int& newX, const int& newY, Piece*** b, bool testCheck){
     bool valid = false;
 
-    if (abs(oldX - newX) == 2 && abs(oldY - newY) == 1 && ((isWhite() != gameBoard->getBoard()[newY][newX]->isWhite()) || !gameBoard->getBoard()[newY][newX]->isAlive())){
+    if (abs(oldX - newX) == 2 && abs(oldY - newY) == 1 && ((isWhite() != b[newY][newX]->isWhite()) || !b[newY][newX]->isAlive())){
         valid = true;
     }
 
-    else if (abs(oldX - newX) == 1 && abs(oldY - newY) == 2 && ((isWhite() != gameBoard->getBoard()[newY][newX]->isWhite()) || !gameBoard->getBoard()[newY][newX]->isAlive())){
+    else if (abs(oldX - newX) == 1 && abs(oldY - newY) == 2 && ((isWhite() != b[newY][newX]->isWhite()) || !b[newY][newX]->isAlive())){
         valid = true;
     }
 

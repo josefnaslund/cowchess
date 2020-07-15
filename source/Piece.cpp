@@ -59,7 +59,8 @@ bool Piece::isChecked(Piece*** testBoard){
     // see if other players pieces can take king
     for (int x = 0; x != 8; ++x){
         for (int y = 0; y != 8; ++y){
-            if (testBoard[y][x]->isAlive() && (testBoard[y][x]->isWhite() != testBoard[kingY][kingX]->isWhite()) && testBoard[y][x]->validMove(x, y, kingX, kingY, testBoard, false)){
+            if (testBoard[y][x]->isAlive() && (testBoard[y][x]->isWhite() != testBoard[kingY][kingX]->isWhite()) &&
+                testBoard[y][x]->validMove(x, y, kingX, kingY, testBoard, false)){
                 checked = true;
                 break;
             }
