@@ -1,4 +1,6 @@
 #include <iostream>
+#include <iomanip>
+#include <string>
 #include "Board.h"
 #include "Piece.h"
 #include "Rook.h"
@@ -228,7 +230,7 @@ bool Board::movePiece(int oldX, int oldY, int newX, int newY){
         // print move list
 
         if (!atMove())
-            cout << moveCount / 2 + moveCount % 2 << ". ";
+            cout << std::setw(5) << std::string(std::to_string(moveCount / 2 + moveCount % 2) + ". ");
         cout << lastMove << std::flush;
         if (atMove())
             cout << endl;
