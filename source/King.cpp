@@ -49,8 +49,7 @@ bool King::validMove(const int& oldX, const int& oldY, const int& newX, const in
         //
         // short castling
         // first check that neither piece have moved
-
-        if (newY == oldY && notMoved && b[newY][7]->hasNotMoved() &&
+        if (newY == oldY && b[newY][7]->isAlive() && notMoved && b[newY][7]->hasNotMoved() &&
                 // and is trying to move to 'G' column
                 newX == 6){
 
@@ -92,8 +91,10 @@ bool King::validMove(const int& oldX, const int& oldY, const int& newX, const in
         } // end test short castling
 
 
+        //
         // test for long castling
-        if (newY == oldY && notMoved && b[newY][0]->hasNotMoved() &&
+        //
+        if (newY == oldY && b[newY][0]->isAlive() && notMoved && b[newY][0]->hasNotMoved() &&
                 // and is trying to move to 'C' column
                 newX == 2){
 
