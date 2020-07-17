@@ -172,7 +172,11 @@ bool Board::movePiece(int oldX, int oldY, int newX, int newY){
                 board[oldY][oldX] = new Rook(col, this);
             }
 
-            if (promotionChar == 'q'){
+            else if (promotionChar == 'b'){
+                board[oldY][oldX] = new Bishop(col, this);
+            }
+
+            else if (promotionChar == 'q'){
                 board[oldY][oldX] = new Queen(col, this);
             }
 

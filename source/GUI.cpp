@@ -12,9 +12,11 @@
 #include "knight_w.xpm"
 #include "rook_w.xpm"
 #include "queen_w.xpm"
+#include "bishop_w.xpm"
 #include "knight_b.xpm"
 #include "rook_b.xpm"
 #include "queen_b.xpm"
+#include "bishop_b.xpm"
 
 using std::cout; 
 using std::endl;
@@ -42,7 +44,7 @@ GUI::~GUI(){
     SDL_DestroyTexture(turnTexture);
     SDL_DestroyTexture(checkTexture);
 
-    for (int i = 0; i != 3; ++i){
+    for (int i = 0; i != 4; ++i){
         if (promotionTextureWhite)
             SDL_DestroyTexture(promotionTextureWhite[i]);
         if (promotionTextureBlack)
@@ -291,37 +293,49 @@ void GUI::drawAIstatus(){
 void GUI::drawPromotionPieces(bool color){
 
     SDL_Rect r;
-
+    
     // border
     r.x = LEFT_MARGIN / 2 - SQUARE_SIZE / 2 - 1;
     r.y = TOP_MARGIN + SQUARE_SIZE * 2 - 1;
     r.w = SQUARE_SIZE + 2;
-    r.h = SQUARE_SIZE * 3 + 2;
+    r.h = SQUARE_SIZE * 4 + 2;
+    SDL_SetRenderDrawColor( renderer, 0, 0, 0, 255 );
+    SDL_RenderFillRect( renderer, &r);
+
+    // area
+    r.x = LEFT_MARGIN / 2 - SQUARE_SIZE / 2;
+    r.y = TOP_MARGIN + SQUARE_SIZE * 2;
+    r.w = SQUARE_SIZE;
+    r.h = SQUARE_SIZE * 4;
     SDL_SetRenderDrawColor( renderer, 125, 125, 125, 255 );
     SDL_RenderFillRect( renderer, &r);
 
 
     // load white images to texture
     if (color && !promotionTextureWhite){
-        promotionTextureWhite = new SDL_Texture*[3];
+        promotionTextureWhite = new SDL_Texture*[4];
         loadTexture(knight_w_xpm);
         promotionTextureWhite[0] = texture;
         loadTexture(rook_w_xpm);
         promotionTextureWhite[1] = texture;
-        loadTexture(queen_w_xpm);
+        loadTexture(bishop_w_xpm);
         promotionTextureWhite[2] = texture;
+        loadTexture(queen_w_xpm);
+        promotionTextureWhite[3] = texture;
         texture = NULL;
     }
 
     // load black images to texture
     if (!color && !promotionTextureBlack){
-        promotionTextureBlack = new SDL_Texture*[3];
+        promotionTextureBlack = new SDL_Texture*[4];
         loadTexture(knight_b_xpm);
         promotionTextureBlack[0] = texture;
         loadTexture(rook_b_xpm);
         promotionTextureBlack[1] = texture;
-        loadTexture(queen_b_xpm);
+        loadTexture(bishop_b_xpm);
         promotionTextureBlack[2] = texture;
+        loadTexture(queen_b_xpm);
+        promotionTextureBlack[3] = texture;
         texture = NULL;
     }
 
@@ -331,7 +345,7 @@ void GUI::drawPromotionPieces(bool color){
     r.w = SQUARE_SIZE;
     r.h = SQUARE_SIZE;
 
-    for (int i = 0; i != 3; ++i){
+    for (int i = 0; i != 4; ++i){
         if (color && promotionTextureWhite) {
             SDL_RenderCopy(renderer, promotionTextureWhite[i], nullptr, &r);
         }

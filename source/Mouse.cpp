@@ -130,10 +130,20 @@ bool Mouse::mouseEvents(SDL_Event& e, Board& board){
                     buttonPress = true;
                 }
 
-                // queen pos.
+                // bishop pos.
                 else if (
                         e.button.y >= TOP_MARGIN + SQUARE_SIZE * 4 && 
                         e.button.y < TOP_MARGIN + SQUARE_SIZE * 5
+                        )
+                {
+                    gameBoard->setPromotionChar('b');
+                    buttonPress = true;
+                }
+
+                // queen pos.
+                else if (
+                        e.button.y >= TOP_MARGIN + SQUARE_SIZE * 5 && 
+                        e.button.y < TOP_MARGIN + SQUARE_SIZE * 6
                         )
                 {
                     gameBoard->setPromotionChar('q');
@@ -153,9 +163,6 @@ bool Mouse::mouseEvents(SDL_Event& e, Board& board){
                 }
             }
         }
-
-
-
 
 
     }
