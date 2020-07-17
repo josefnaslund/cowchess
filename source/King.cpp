@@ -53,31 +53,37 @@ bool King::validMove(const int& oldX, const int& oldY, const int& newX, const in
                 // and is trying to move to 'G' column
                 newX == 6){
 
-            // check no pieces are in between
-
-            valid = true;
-
+            valid = true; // try to falsify
+            
+            // check no pieces are in between on F-G
             for (int x = 5; x != 7; ++x){
                 if (b[oldY][x]->isAlive()){
                         valid = false;
+                        cout << "Piece in between\n";
                         break;
                 }
                     
             }
 
             if (valid){
-                // check if any other piece can attack this side's sqares from E to H.
+                // check if any other piece can attack this side's sqares from E to G.
 
-                for (int r = 0; r != 7; ++r){
-                    for (int c = 0; c != 7; ++c){
+                for (int r = 0; r != 8; ++r){
+                    for (int c = 0; c != 8; ++c){
 
                         // other piece finder
                         if (b[r][c]->isAlive() && 
                                 b[r][c]->isWhite() != isWhite()){
 
+                            // debug
+                            if (b[r][c]->getType() == 'q'){
+                                cout << "\nq at r=" << r << " c=" << c << endl;
+                            }
+
                             // can't attack columns 4, 5, 6 or 7
-                            for (int k = 4; k != 8; ++k){
+                            for (int k = 4; k != 7; ++k){
                                 if (b[r][c]->controlsSquare(c, r, k, oldY, b, 1)){
+                                    cout << "attack from r=" << r << " c=" << c << endl;
                                     valid = false;
                                     break;
                                 }
@@ -111,17 +117,17 @@ bool King::validMove(const int& oldX, const int& oldY, const int& newX, const in
             }
 
             if (valid){
-                // check if any other piece can attack this side's sqares from A to E.
+                // check if any other piece can attack this side's sqares from C to E.
 
-                for (int r = 0; r != 7; ++r){
-                    for (int c = 0; c != 7; ++c){
+                for (int r = 0; r != 8; ++r){
+                    for (int c = 0; c != 8; ++c){
 
                         // other piece finder
                         if (b[r][c]->isAlive() && 
                                 b[r][c]->isWhite() != isWhite()){
 
-                            // can't attack columns 4, 5, 6 or 7
-                            for (int k = 0; k != 5; ++k){
+                            // can't attack columns 2, 3, 4 (C, D, E)
+                            for (int k = 2; k != 5; ++k){
                                 if (b[r][c]->controlsSquare(c, r, k, oldY, b, 1)){
                                     valid = false;
                                     break;
