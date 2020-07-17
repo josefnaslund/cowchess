@@ -83,8 +83,8 @@ bool Touch::touchEvents(SDL_Event& fe, Board& board){
         if (!clickedPiece && 
                 fe.tfinger.x * SCREEN_WIDTH >= (LEFT_MARGIN / 4 - SQUARE_SIZE / 4) && 
                 fe.tfinger.x * SCREEN_WIDTH <= (LEFT_MARGIN / 4 + SQUARE_SIZE / 4) && 
-                fe.tfinger.y * SCREEN_HEIGHT >= (TOP_MARGIN + SQUARE_SIZE * 5) && 
-                fe.tfinger.y * SCREEN_HEIGHT <= (TOP_MARGIN + SQUARE_SIZE * 5 + SQUARE_SIZE / 2)){
+                fe.tfinger.y * SCREEN_HEIGHT >= (TOP_MARGIN + SQUARE_SIZE * 7.5) && 
+                fe.tfinger.y * SCREEN_HEIGHT <= (TOP_MARGIN + SQUARE_SIZE * 7.5 + SQUARE_SIZE / 2)){
             Player* players = gameBoard->getPlayers();
             players[1].setAI(!players[1].isAI());
         }
