@@ -126,10 +126,20 @@ bool Touch::touchEvents(SDL_Event& fe, Board& board){
                     buttonPress = true;
                 }
 
-                // queen pos.
+                // bishop pos.
                 else if (
                         fe.tfinger.y * SCREEN_HEIGHT >= TOP_MARGIN + SQUARE_SIZE * 4 && 
                         fe.tfinger.y * SCREEN_HEIGHT < TOP_MARGIN + SQUARE_SIZE * 5
+                        )
+                {
+                    gameBoard->setPromotionChar('b');
+                    buttonPress = true;
+                }
+
+                // queen pos.
+                else if (
+                        fe.tfinger.y * SCREEN_HEIGHT >= TOP_MARGIN + SQUARE_SIZE * 5 && 
+                        fe.tfinger.y * SCREEN_HEIGHT < TOP_MARGIN + SQUARE_SIZE * 6
                         )
                 {
                     gameBoard->setPromotionChar('q');
