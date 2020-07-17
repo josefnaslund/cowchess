@@ -137,6 +137,11 @@ Board::~Board(){
     // delete player array
     delete[] players;
 
+    // delete vector captured pieces
+    for (auto p : capturedPieces){
+        delete p;
+    }
+
 }
 
 
@@ -215,7 +220,7 @@ bool Board::movePiece(int oldX, int oldY, int newX, int newY){
         // detect passant
         if (lmType == 'p' && (!lmCapt) && (oldX != newX)){
             lmCapt = true;
-            delete board[lastMove.getNewY()][lastMove.getNewX()];
+            capturedPieces.push_back(board[lastMove.getNewY()][lastMove.getNewX()]);
             board[lastMove.getNewY()][lastMove.getOldX()] = new Piece();
         }
 
@@ -246,15 +251,22 @@ bool Board::movePiece(int oldX, int oldY, int newX, int newY){
 
 
 
-        // delete old piece
-        delete board[newY][newX];
+        // for the piece/empty piece at new position
+        // store in vector if catpure
+        if (board[newY][newX]->isAlive()){
+            capturedPieces.push_back(board[newY][newX]);
+        }
+        else {
+            // delete old piece
+            delete board[newY][newX];
+        }
 
 
         // replace new square with old piece
         board[newY][newX] = board[oldY][oldX];
 
 
-        // kill old piece
+        // kill old piece position
         board[oldY][oldX] = new Piece();
 
 

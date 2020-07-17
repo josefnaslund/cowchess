@@ -1,10 +1,13 @@
 #ifndef BOARD_H
 #define BOARD_H
 
+#include <vector>
 #include "LastMove.h"
 #include "Player.h"
 
 class Piece; // Forward declatation for pointers
+
+using std::vector;
 
 class Board{
     private:
@@ -19,6 +22,8 @@ class Board{
         int promotionOldY;
         int promotionNewX;
         int promotionNewY;
+        vector<Piece*> capturedPieces;
+        
 
 
     public:
@@ -41,6 +46,7 @@ class Board{
         const int& getPromotionOldY() const {return promotionOldY;}
         const int& getPromotionNewX() const {return promotionNewX;}
         const int& getPromotionNewY() const {return promotionNewY;}
+        const vector<Piece*>& getCapturedPieces() const {return capturedPieces;}
 
 };
 

@@ -53,6 +53,8 @@ GUI::~GUI(){
 
     delete[] promotionTextureWhite;
     delete[] promotionTextureBlack;
+
+
 }
 
 bool GUI::init(){
@@ -289,11 +291,55 @@ void GUI::drawAIstatus(){
 }
 
 
+void GUI::drawCapturedPieces(){
+
+    SDL_Rect r;
+    r.h = SQUARE_SIZE;
+    r.w = SQUARE_SIZE;
+    r.y = TOP_MARGIN;
+    int imgIndex;
+
+    // draw both colors, iterate through vector twice
+    for (int i = 0; i != 2; ++i){
+
+        r.x = LEFT_MARGIN + SQUARE_SIZE * 8.2;
+        int count = 0;
+
+        for (auto p : gameBoard->getCapturedPieces()){
+
+            if (i == p->isWhite()){
+                imgIndex = findImage(p->getImage());
+                ++count;
+                
+
+                // if image exists
+                if (imgIndex != -1 && images[imgIndex].second) {
+                    SDL_RenderCopy(renderer, images[imgIndex].second, nullptr, &r);
+                }
+
+                // if no img with that name, draw red square
+                else {
+                    SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+                    SDL_RenderFillRect( renderer, &r );
+                    std::cerr << "Error: can't find image of captured piece\n";
+                }
+                r.x += SQUARE_SIZE / 3;
+
+                if (count == 5){
+                    r.x = LEFT_MARGIN + SQUARE_SIZE * 8.2;
+                    r.y += SQUARE_SIZE;
+                    count = 0;
+                }
+            }
+        }
+        r.y = TOP_MARGIN + SQUARE_SIZE * 5;
+    }
+}
 
 void GUI::drawPromotionPieces(bool color){
 
     SDL_Rect r;
-    
+
     // border
     r.x = LEFT_MARGIN / 2 - SQUARE_SIZE / 2 - 1;
     r.y = TOP_MARGIN + SQUARE_SIZE * 2 - 1;
@@ -492,6 +538,8 @@ void GUI::update(){
     }
 
     drawAIstatus();
+
+    drawCapturedPieces();
 
     SDL_RenderPresent(renderer);
     // cout << "Updated()\n";

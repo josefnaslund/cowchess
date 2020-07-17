@@ -84,6 +84,12 @@ class GUI {
         void drawAIstatus();
 
         /**
+         * @brief Drawing captured pieces on right side of the board, grouping
+         * by color.
+         */
+        void drawCapturedPieces();
+
+        /**
          * @brief Draws pieces to choose from on promotion
          */
         void drawPromotionPieces(bool color);
