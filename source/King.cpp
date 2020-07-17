@@ -59,7 +59,6 @@ bool King::validMove(const int& oldX, const int& oldY, const int& newX, const in
             for (int x = 5; x != 7; ++x){
                 if (b[oldY][x]->isAlive()){
                         valid = false;
-                        cout << "Piece in between\n";
                         break;
                 }
                     
@@ -77,13 +76,11 @@ bool King::validMove(const int& oldX, const int& oldY, const int& newX, const in
 
                             // debug
                             if (b[r][c]->getType() == 'q'){
-                                cout << "\nq at r=" << r << " c=" << c << endl;
                             }
 
                             // can't attack columns 4, 5, 6 or 7
                             for (int k = 4; k != 7; ++k){
                                 if (b[r][c]->controlsSquare(c, r, k, oldY, b, 1)){
-                                    cout << "attack from r=" << r << " c=" << c << endl;
                                     valid = false;
                                     break;
                                 }
