@@ -4,7 +4,7 @@
 #include <string>
 #include <SDL2/SDL.h>
 #include <vector>
-#include <utility>
+#include <utility> // std::pair
 
 class Board; // Forward declaration
 
@@ -21,6 +21,8 @@ class GUI {
         Board* gameBoard;
         SDL_Texture* turnTexture;
         SDL_Texture* checkTexture;
+        SDL_Texture** promotionTextureWhite;
+        SDL_Texture** promotionTextureBlack;
 
 
     public:
@@ -80,6 +82,11 @@ class GUI {
          * @brief Draws squares with status of AI activation.
          */
         void drawAIstatus();
+
+        /**
+         * @brief Draws pieces to choose from on promotion
+         */
+        void drawPromotionPieces(bool color);
 
         /**
          * @brief Loads textures of board's pieces to vector-pair "images".

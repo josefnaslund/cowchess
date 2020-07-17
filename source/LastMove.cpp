@@ -86,7 +86,7 @@ std::ostream& operator<<(std::ostream& os, const LastMove& lm){
 
     // draw
     else if (lm.noMoves()){
-        os << "\n½ - ½\n";
+        os << "\n\t½ - ½\n";
     }
     
 

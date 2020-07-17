@@ -98,9 +98,57 @@ bool Touch::touchEvents(SDL_Event& fe, Board& board){
             players[0].setAI(!players[0].isAI());
         }
 
+        // if promotion, choose among promotion squares
+        else if (!clickedPiece && gameBoard->isPromotion()){
+            bool buttonPress = false;
+            if (
+                    fe.button.x >= LEFT_MARGIN / 2 - SQUARE_SIZE / 2 &&
+                    fe.button.x < LEFT_MARGIN / 2 + SQUARE_SIZE / 2
+               ){
+                // knight pos.
+                if (
+                        fe.button.y >= TOP_MARGIN + SQUARE_SIZE * 2 && 
+                        fe.button.y < TOP_MARGIN + SQUARE_SIZE * 3
+                   )
+                {
+                    gameBoard->setPromotionChar('n');
+                    buttonPress = true;
+                }
 
+                // rook pos.
+                else if (
+                        fe.button.y >= TOP_MARGIN + SQUARE_SIZE * 3 && 
+                        fe.button.y < TOP_MARGIN + SQUARE_SIZE * 4
 
+                        )
+                {
+                    gameBoard->setPromotionChar('r');
+                    buttonPress = true;
+                }
 
+                // queen pos.
+                else if (
+                        fe.button.y >= TOP_MARGIN + SQUARE_SIZE * 4 && 
+                        fe.button.y < TOP_MARGIN + SQUARE_SIZE * 5
+                        )
+                {
+                    gameBoard->setPromotionChar('q');
+                    buttonPress = true;
+                }
+
+                if (buttonPress){
+                    if (gameBoard->movePiece(
+                                gameBoard->getPromotionOldX(),
+                                gameBoard->getPromotionOldY(),
+                                gameBoard->getPromotionNewX(),
+                                gameBoard->getPromotionNewY())
+                       )
+                    {
+                        moveMade = true;
+                    }
+                }
+            }
+        }
 
     }
 

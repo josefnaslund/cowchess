@@ -273,6 +273,12 @@ Move AI::pickMove(){
 
     }
 
+    // test if AI makes promotion move
+    if (m.getPiece()->getType() == 'p' && (m.getNewY() == 0 || m.getNewY() == 7)){
+            gameBoard->setPromotion(1);
+            gameBoard->setPromotionChar('q');
+            }
+
 
     return m;
 }

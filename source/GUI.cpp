@@ -1,6 +1,5 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
-#include <string>
 #include <cstring>
 #include <iostream>
 #include "GUI.h"
@@ -10,6 +9,12 @@
 #include "text_check.xpm"
 #include "text_checkmate.xpm"
 #include "text_draw.xpm"
+#include "knight_w.xpm"
+#include "rook_w.xpm"
+#include "queen_w.xpm"
+#include "knight_b.xpm"
+#include "rook_b.xpm"
+#include "queen_b.xpm"
 
 using std::cout; 
 using std::endl;
@@ -24,8 +29,8 @@ GUI::GUI(Board* _gameBoard)
     gameBoard = _gameBoard;
     turnTexture = NULL;
     checkTexture = NULL;
-
-
+    promotionTextureWhite = NULL;
+    promotionTextureBlack = NULL;
 }
 
 GUI::~GUI(){
@@ -36,6 +41,16 @@ GUI::~GUI(){
     images.clear(); // remove previous content of vector
     SDL_DestroyTexture(turnTexture);
     SDL_DestroyTexture(checkTexture);
+
+    for (int i = 0; i != 3; ++i){
+        if (promotionTextureWhite)
+            SDL_DestroyTexture(promotionTextureWhite[i]);
+        if (promotionTextureBlack)
+            SDL_DestroyTexture(promotionTextureBlack[i]);
+    }
+
+    delete[] promotionTextureWhite;
+    delete[] promotionTextureBlack;
 }
 
 bool GUI::init(){
@@ -133,7 +148,6 @@ void GUI::drawTextMate(){
     SDL_RenderCopy(renderer, checkmate, NULL, &r);
 
     SDL_DestroyTexture(checkmate);
-
 }
 
 void GUI::drawTextDraw(){
@@ -149,7 +163,6 @@ void GUI::drawTextDraw(){
     SDL_RenderCopy(renderer, checkmate, NULL, &r);
 
     SDL_DestroyTexture(checkmate);
-
 }
 
 void GUI::drawTurn(){
@@ -275,6 +288,72 @@ void GUI::drawAIstatus(){
 
 
 
+void GUI::drawPromotionPieces(bool color){
+
+    SDL_Rect r;
+
+    // border
+    r.x = LEFT_MARGIN / 2 - SQUARE_SIZE / 2 - 1;
+    r.y = TOP_MARGIN + SQUARE_SIZE * 2 - 1;
+    r.w = SQUARE_SIZE + 2;
+    r.h = SQUARE_SIZE * 3 + 2;
+    SDL_SetRenderDrawColor( renderer, 125, 125, 125, 255 );
+    SDL_RenderFillRect( renderer, &r);
+
+
+    // load white images to texture
+    if (color && !promotionTextureWhite){
+        promotionTextureWhite = new SDL_Texture*[3];
+        loadTexture(knight_w_xpm);
+        promotionTextureWhite[0] = texture;
+        loadTexture(rook_w_xpm);
+        promotionTextureWhite[1] = texture;
+        loadTexture(queen_w_xpm);
+        promotionTextureWhite[2] = texture;
+        texture = NULL;
+    }
+
+    // load black images to texture
+    if (!color && !promotionTextureBlack){
+        promotionTextureBlack = new SDL_Texture*[3];
+        loadTexture(knight_b_xpm);
+        promotionTextureBlack[0] = texture;
+        loadTexture(rook_b_xpm);
+        promotionTextureBlack[1] = texture;
+        loadTexture(queen_b_xpm);
+        promotionTextureBlack[2] = texture;
+        texture = NULL;
+    }
+
+    // draw all pieces
+    r.x = LEFT_MARGIN / 2 - SQUARE_SIZE / 2;
+    r.y = TOP_MARGIN + SQUARE_SIZE * 2;
+    r.w = SQUARE_SIZE;
+    r.h = SQUARE_SIZE;
+
+    for (int i = 0; i != 3; ++i){
+        if (color && promotionTextureWhite) {
+            SDL_RenderCopy(renderer, promotionTextureWhite[i], nullptr, &r);
+        }
+
+        else if (!color && promotionTextureBlack) {
+            SDL_RenderCopy(renderer, promotionTextureBlack[i], nullptr, &r);
+        }
+
+        // if no img with that name, draw red square
+        else {
+            SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+            SDL_RenderFillRect( renderer, &r );
+            std::cerr << "Error: can't find image\n";
+        }
+
+        r.y = TOP_MARGIN + SQUARE_SIZE * 2 + SQUARE_SIZE * i + SQUARE_SIZE;
+
+    }
+}
+
+
+
 void GUI::loadImages(){
     Piece*** board = gameBoard->getBoard();
 
@@ -391,6 +470,11 @@ void GUI::update(){
     }
     else if (gameBoard->getLastMove().noMoves()){
         drawTextDraw();
+    }
+
+
+    if (gameBoard->isPromotion()){
+        drawPromotionPieces(gameBoard->atMove());
     }
 
     drawAIstatus();

@@ -16,6 +16,14 @@ using std::cout;
 using std::endl;
 
 Board::Board(){
+    // for use by promotion
+    promotion = false;
+    promotionChar = 'u';
+    promotionOldX = -1;
+    promotionOldY = -1;
+    promotionNewX = -1;
+    promotionNewY = -1;
+
     players = new Player[2];
     players[0] = Player(0);
     players[1] = Player(0);
@@ -85,7 +93,7 @@ void Board::setStandardBoard(){
 
     delete board[7][6];
     board[7][6] = new Knight(0, this);
-    
+
     // bishops
     delete board[0][2];
     board[0][2] = new Bishop(1, this);
@@ -150,6 +158,55 @@ bool Board::movePiece(int oldX, int oldY, int newX, int newY){
         bool lmShortCastling = false, lmLongCastling = false;
         bool lmMoveColor = board[oldY][oldX]->isWhite();
 
+        // temp. promotion
+        if (promotion && promotionChar != 'u'){
+            lmProm = promotionChar;
+            bool col = board[oldY][oldX]->isWhite();
+            delete board[oldY][oldX];
+
+            if (promotionChar == 'n'){
+                board[oldY][oldX] = new Knight(col, this);
+            }
+
+            else if (promotionChar == 'r'){
+                board[oldY][oldX] = new Rook(col, this);
+            }
+
+            if (promotionChar == 'q'){
+                board[oldY][oldX] = new Queen(col, this);
+            }
+
+
+
+            // store for LastMove object
+            lmProm = board[newY][newX]->getType();
+
+            lmProm = promotionChar;
+            promotionChar = 'u';
+            promotion = false;
+        }
+
+        // the promotion move has been made but not choosen
+        else if (promotion){
+            return false;
+        }
+
+        // set 'promotion'
+        else if ( 
+                (board[oldY][oldX]->getType() == 'p') &&
+                (newY == 0 || newY == 7)
+                ) 
+        {
+            promotion = true;
+            promotionOldX = oldX;
+            promotionOldY = oldY;
+            promotionNewX = newX;
+            promotionNewY = newY;
+            return false;
+        }
+
+        else {
+        }
 
         // detect passant
         if (lmType == 'p' && (!lmCapt) && (oldX != newX)){
@@ -157,7 +214,7 @@ bool Board::movePiece(int oldX, int oldY, int newX, int newY){
             delete board[lastMove.getNewY()][lastMove.getNewX()];
             board[lastMove.getNewY()][lastMove.getOldX()] = new Piece();
         }
-        
+
         // detect short castling
         if (board[oldY][oldX]->getType() == 'k' && newX-oldX == 2){
 
@@ -167,7 +224,7 @@ bool Board::movePiece(int oldX, int oldY, int newX, int newY){
             board[oldY][5] = board[oldY][7];
             board[oldY][7] = new Piece();
             lmShortCastling = true;
-            
+
         }
 
 
@@ -203,22 +260,7 @@ bool Board::movePiece(int oldX, int oldY, int newX, int newY){
         // set flag "piece notMoved" to false, for castling info
         board[newY][newX]->hasMoved();
 
-        // temp. promovation
-        if ( 
-                (board[newY][newX]->getType() == 'p') &&
-                (newY == 0 || newY == 7)
-           ) 
-        {
 
-
-            bool col = board[newY][newX]->isWhite();
-            delete board[newY][newX];
-            board[newY][newX] = new Rook(col, this);
-
-            // store for LastMove object
-            lmProm = board[newY][newX]->getType();
-
-        }
 
         bool lmCheck = testCheck();
         bool lmNoMoves = !playerCanMove();
