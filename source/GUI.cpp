@@ -294,8 +294,8 @@ void GUI::drawAIstatus(){
 void GUI::drawCapturedPieces(){
 
     SDL_Rect r;
-    r.h = SQUARE_SIZE;
-    r.w = SQUARE_SIZE;
+    r.h = SQUARE_SIZE / 2;
+    r.w = SQUARE_SIZE / 2;
     r.y = TOP_MARGIN;
     int imgIndex;
 
@@ -307,7 +307,7 @@ void GUI::drawCapturedPieces(){
 
         for (auto p : gameBoard->getCapturedPieces()){
 
-            if (i == p->isWhite()){
+            if (i != p->isWhite()){
                 imgIndex = findImage(p->getImage());
                 ++count;
                 
@@ -327,12 +327,12 @@ void GUI::drawCapturedPieces(){
 
                 if (count == 5){
                     r.x = LEFT_MARGIN + SQUARE_SIZE * 8.2;
-                    r.y += SQUARE_SIZE;
+                    r.y += SQUARE_SIZE / 2;
                     count = 0;
                 }
             }
         }
-        r.y = TOP_MARGIN + SQUARE_SIZE * 5;
+        r.y = TOP_MARGIN + SQUARE_SIZE * 6;
     }
 }
 
