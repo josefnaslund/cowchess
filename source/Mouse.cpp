@@ -87,17 +87,17 @@ bool Mouse::mouseEvents(SDL_Event& e, Board& board){
         if (!clickedPiece && 
                 e.button.x >= (LEFT_MARGIN / 4 - SQUARE_SIZE / 4) && 
                 e.button.x <= (LEFT_MARGIN / 4 + SQUARE_SIZE / 4) && 
-                e.button.y >= (TOP_MARGIN + SQUARE_SIZE * 5) && 
-                e.button.y <= (TOP_MARGIN + SQUARE_SIZE * 5 + SQUARE_SIZE / 2)){
+                e.button.y >= (TOP_MARGIN + SQUARE_SIZE * 7.5) && 
+                e.button.y <= (TOP_MARGIN + SQUARE_SIZE * 7.5 + SQUARE_SIZE / 2)){
             Player* players = gameBoard->getPlayers();
             players[1].setAI(!players[1].isAI());
         }
-        // ... or select square right
+        // ... or select AI square right
         else if (!clickedPiece && 
                 e.button.x >= (LEFT_MARGIN / 4 * 3 - SQUARE_SIZE / 4) && 
                 e.button.x <= (LEFT_MARGIN / 4 * 3 + SQUARE_SIZE / 4) && 
-                e.button.y >= (TOP_MARGIN + SQUARE_SIZE * 5) && 
-                e.button.y <= (TOP_MARGIN + SQUARE_SIZE * 5 + SQUARE_SIZE / 2)){
+                e.button.y >= (TOP_MARGIN + SQUARE_SIZE * 7.5) && 
+                e.button.y <= (TOP_MARGIN + SQUARE_SIZE * 7.5 + SQUARE_SIZE / 2)){
             Player* players = gameBoard->getPlayers();
             players[0].setAI(!players[0].isAI());
         }

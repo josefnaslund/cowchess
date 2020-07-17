@@ -234,7 +234,7 @@ void GUI::drawAIstatus(){
 
     // draw first border
     r.x = LEFT_MARGIN / 4 - SQUARE_SIZE / 4 - 1;
-    r.y = TOP_MARGIN + SQUARE_SIZE * 5 - 1;
+    r.y = TOP_MARGIN + SQUARE_SIZE * 7.5 - 1;
     r.w = SQUARE_SIZE / 2 + 2;
     r.h = SQUARE_SIZE / 2 + 2;
 
@@ -249,7 +249,7 @@ void GUI::drawAIstatus(){
 
     // draw player 1 info
     r.x = LEFT_MARGIN / 4 - SQUARE_SIZE / 4;
-    r.y = TOP_MARGIN + SQUARE_SIZE * 5;
+    r.y = TOP_MARGIN + SQUARE_SIZE * 7.5;
     r.w = SQUARE_SIZE / 2;
     r.h = SQUARE_SIZE / 2;
 
@@ -268,7 +268,7 @@ void GUI::drawAIstatus(){
     SDL_RenderFillRect( renderer, &r);
 
     r.x = LEFT_MARGIN / 4 * 3 - SQUARE_SIZE / 4;
-    r.y = TOP_MARGIN + SQUARE_SIZE * 5;
+    r.y = TOP_MARGIN + SQUARE_SIZE * 7.5;
 
     // draw darker
     if (gameBoard->getPlayerAI(0)){
