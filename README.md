@@ -8,10 +8,8 @@ Developed on Ubuntu 18.04 and Debian 10. Tested is also done on different
 Raspberry Pi's (Raspbian and Raspberry Pi OS).
 
 ## Current state
-* Checking and mate is possible.
-* Only King and Rook pieces. No castling yet. Will work on Pawn this week.
-* AI players are set in main.cpp file at this moment. AI is very basic, piece
-hungry.
+* Working chess game with all pieces. It seem to conform with standard rules.
+* AI and graphics can be improved.
 
 ## Some known dependencies
 make, gcc/build-essentials
