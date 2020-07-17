@@ -102,13 +102,13 @@ bool Touch::touchEvents(SDL_Event& fe, Board& board){
         else if (!clickedPiece && gameBoard->isPromotion()){
             bool buttonPress = false;
             if (
-                    fe.tfinger.x >= LEFT_MARGIN / 2 - SQUARE_SIZE / 2 &&
-                    fe.tfinger.x < LEFT_MARGIN / 2 + SQUARE_SIZE / 2
+                    fe.tfinger.x * SCREEN_WIDTH >= LEFT_MARGIN / 2 - SQUARE_SIZE / 2 &&
+                    fe.tfinger.x * SCREEN_WIDTH < LEFT_MARGIN / 2 + SQUARE_SIZE / 2
                ){
                 // knight pos.
                 if (
-                        fe.tfinger.y >= TOP_MARGIN + SQUARE_SIZE * 2 && 
-                        fe.tfinger.y < TOP_MARGIN + SQUARE_SIZE * 3
+                        fe.tfinger.y * SCREEN_HEIGHT >= TOP_MARGIN + SQUARE_SIZE * 2 && 
+                        fe.tfinger.y * SCREEN_HEIGHT < TOP_MARGIN + SQUARE_SIZE * 3
                    )
                 {
                     gameBoard->setPromotionChar('n');
@@ -117,8 +117,8 @@ bool Touch::touchEvents(SDL_Event& fe, Board& board){
 
                 // rook pos.
                 else if (
-                        fe.tfinger.y >= TOP_MARGIN + SQUARE_SIZE * 3 && 
-                        fe.tfinger.y < TOP_MARGIN + SQUARE_SIZE * 4
+                        fe.tfinger.y * SCREEN_HEIGHT >= TOP_MARGIN + SQUARE_SIZE * 3 && 
+                        fe.tfinger.y * SCREEN_HEIGHT < TOP_MARGIN + SQUARE_SIZE * 4
 
                         )
                 {
@@ -128,8 +128,8 @@ bool Touch::touchEvents(SDL_Event& fe, Board& board){
 
                 // queen pos.
                 else if (
-                        fe.tfinger.y >= TOP_MARGIN + SQUARE_SIZE * 4 && 
-                        fe.tfinger.y < TOP_MARGIN + SQUARE_SIZE * 5
+                        fe.tfinger.y * SCREEN_HEIGHT >= TOP_MARGIN + SQUARE_SIZE * 4 && 
+                        fe.tfinger.y * SCREEN_HEIGHT < TOP_MARGIN + SQUARE_SIZE * 5
                         )
                 {
                     gameBoard->setPromotionChar('q');
