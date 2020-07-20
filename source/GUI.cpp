@@ -542,15 +542,31 @@ void GUI::drawCurrentPieceMouse(){
     r.h= SQUARE_SIZE;
     r.w = SQUARE_SIZE;
 
-    // draw square to cover piece square
+    // draw highlighted square to cover piece square
     SDL_SetRenderDrawColor(renderer, 100, 50, 50, 255);
     SDL_RenderFillRect( renderer, &r );
 
-    // draw piece at mouse position
+    
+    // draw highlighted square to cover current square
     tempX = mouse->getAbsoluteCurrentPosition().first;
     tempY = mouse->getAbsoluteCurrentPosition().second;
+    if (
+            tempX > LEFT_MARGIN && 
+            tempX < LEFT_MARGIN + SQUARE_SIZE * 8 &&
+            tempY > TOP_MARGIN &&
+            tempY < TOP_MARGIN + SQUARE_SIZE * 8
+            ){
+        r.x = tempX - ((tempX - LEFT_MARGIN) % SQUARE_SIZE);
+        r.y = tempY - ((tempY - TOP_MARGIN) % SQUARE_SIZE);
 
 
+        SDL_SetRenderDrawColor(renderer, 150, 50, 50, 255);
+        SDL_RenderFillRect( renderer, &r );
+    }
+
+
+
+    // draw piece at mouse position
     r.x = tempX - diffX;
     r.y = tempY - diffY;
     int tempIndex = findImage(
@@ -587,11 +603,27 @@ void GUI::drawCurrentPieceTouch(){
     SDL_SetRenderDrawColor(renderer, 100, 50, 50, 255);
     SDL_RenderFillRect( renderer, &r );
 
-    // draw piece at mouse position
+
+    // draw highlighted square to cover current square
     tempX = touch->getAbsoluteCurrentPosition().first;
     tempY = touch->getAbsoluteCurrentPosition().second;
+    if (
+
+            tempX > LEFT_MARGIN && 
+            tempX < LEFT_MARGIN + SQUARE_SIZE * 8 &&
+            tempY > TOP_MARGIN &&
+            tempY < TOP_MARGIN + SQUARE_SIZE * 8
+            ){
+        r.x = tempX - ((tempX - LEFT_MARGIN) % SQUARE_SIZE);
+        r.y = tempY - ((tempY - TOP_MARGIN) % SQUARE_SIZE);
 
 
+        SDL_SetRenderDrawColor(renderer, 150, 50, 50, 255);
+        SDL_RenderFillRect( renderer, &r );
+    }
+
+
+    // draw piece at mouse position
     r.x = tempX - diffX;
     r.y = tempY - diffY;
     int tempIndex = findImage(
