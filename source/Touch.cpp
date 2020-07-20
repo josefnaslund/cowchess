@@ -57,6 +57,7 @@ bool Touch::touchEvents(SDL_Event& fe, Board& board){
 
     absoluteCurrentPosition.first = fe.tfinger.x * SCREEN_WIDTH;
     absoluteCurrentPosition.second = fe.tfinger.y * SCREEN_HEIGHT;
+    // cout << "Touch: fingar at (x=" << (absoluteCurrentPosition.first) << ") (y=" << absoluteCurrentPosition.second << ") %" << fe.tfinger.x << " %" << fe.tfinger.y << endl;
 
     // if finger down
     if (fe.type == SDL_FINGERDOWN){
@@ -79,13 +80,13 @@ bool Touch::touchEvents(SDL_Event& fe, Board& board){
         if (clickedPiece && clickedPiece->isAlive()){
 
             setLocked(true);
-            if (arrX == -1 || arrY == -1)
-                std::cerr << "__This should not happen __" << arrX << " " << arrY << "\n";
-
             setPosX(arrX);
             setPosY(arrY);
-            absoluteLockedPosition.first = fe.button.x * SCREEN_HEIGHT;
-            absoluteLockedPosition.second = fe.button.y * SCREEN_WIDTH;
+            absoluteLockedPosition.first = static_cast<int>(fe.tfinger.x * SCREEN_WIDTH);
+            absoluteLockedPosition.second = static_cast<int>(fe.tfinger.y * SCREEN_HEIGHT);
+
+            if (arrX == -1 || arrY == -1)
+                std::cerr << "__This should not happen __" << arrX << " " << arrY << "\n";
         }
 
         // no piece clicked, but clicked at GUI AI select square left

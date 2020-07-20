@@ -66,7 +66,7 @@ int main( int argc, char* args[] )
                     // if (!gameBoard.playerCanMove()){
                     //     gameOver = true;
                     // }
-                    if ((e.type == SDL_FINGERDOWN || e.type == SDL_FINGERUP) && myTouch.touchEvents(e, gameBoard) && gameBoard.getPlayerAI(gameBoard.atMove()) == 0){
+                    if ((e.type == SDL_FINGERDOWN || e.type == SDL_FINGERUP || e.type == SDL_FINGERMOTION) && myTouch.touchEvents(e, gameBoard) && gameBoard.getPlayerAI(gameBoard.atMove()) == 0){
 
                         // cout << "main: " << e.tfinger.x << ":" << e.tfinger.y << endl;
                         // cout << "main: " << e.tfinger.x * SCREEN_WIDTH << ":" << e.tfinger.y * SCREEN_HEIGHT << endl;

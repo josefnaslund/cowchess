@@ -580,7 +580,7 @@ void GUI::drawCurrentPieceTouch(){
     SDL_Rect r;
     r.x = squareX;
     r.y = squareY;
-    r.h= SQUARE_SIZE;
+    r.h = SQUARE_SIZE;
     r.w = SQUARE_SIZE;
 
     // draw square to cover piece square
