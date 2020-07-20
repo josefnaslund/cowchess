@@ -2,6 +2,7 @@
 #define TOUCH_H
 
 #include <SDL2/SDL.h>
+#include <utility>
 #include "Board.h"
 
 class Touch {
@@ -9,6 +10,8 @@ class Touch {
         int posX;
         int posY;
         bool locked;
+        std::pair<int, int> absoluteLockedPosition;
+        std::pair<int, int> absoluteCurrentPosition;
         Board* gameBoard;
 
     public:
@@ -20,6 +23,9 @@ class Touch {
 
         bool isLocked() const {return locked;}
         void setLocked(bool _l) {locked = _l;}
+
+        std::pair<int, int> getAbsoluteLockedPosition() { return absoluteLockedPosition;}
+        std::pair<int, int> getAbsoluteCurrentPosition() { return absoluteCurrentPosition;}
 
         bool getIndexPos(const int& guiX, const int& guiY, int& arrX, int& arrY);
         bool touchEvents(SDL_Event& fe, Board& board);

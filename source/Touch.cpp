@@ -11,6 +11,9 @@ Touch::Touch(Board* _gameBoard){
     posX = 0;
     posY = 0;
     gameBoard = _gameBoard;
+    locked = false;
+    absoluteLockedPosition = std::make_pair(0, 0);
+    absoluteCurrentPosition = std::make_pair(0, 0);
 }
 
 void Touch::setPosX(int _x){
@@ -47,9 +50,13 @@ bool Touch::getIndexPos(const int& guiX, const int& guiY, int& arrX, int& arrY){
 }
 
 bool Touch::touchEvents(SDL_Event& fe, Board& board){
+    // hide mouse cursor when touch is used
     SDL_ShowCursor(SDL_DISABLE);
+
     bool moveMade = false;
 
+    absoluteCurrentPosition.first = fe.tfinger.x * SCREEN_WIDTH;
+    absoluteCurrentPosition.second = fe.tfinger.y * SCREEN_HEIGHT;
 
     // if finger down
     if (fe.type == SDL_FINGERDOWN){
@@ -77,6 +84,8 @@ bool Touch::touchEvents(SDL_Event& fe, Board& board){
 
             setPosX(arrX);
             setPosY(arrY);
+            absoluteLockedPosition.first = fe.button.x * SCREEN_HEIGHT;
+            absoluteLockedPosition.second = fe.button.y * SCREEN_WIDTH;
         }
 
         // no piece clicked, but clicked at GUI AI select square left
@@ -159,10 +168,9 @@ bool Touch::touchEvents(SDL_Event& fe, Board& board){
                 }
             }
         }
-
     }
 
-    // if left button release
+    // if touch finger release
     else if (fe.type == SDL_FINGERUP){
         // cout << "SDL_FINGERUP\n";
         // SDL_Delay(300);
@@ -184,7 +192,7 @@ bool Touch::touchEvents(SDL_Event& fe, Board& board){
                     }
                 }
             }
-
+            setLocked(false);
         }
     }
 

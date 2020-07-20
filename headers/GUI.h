@@ -5,6 +5,8 @@
 #include <SDL2/SDL.h>
 #include <vector>
 #include <utility> // std::pair
+#include "Mouse.h"
+#include "Touch.h"
 
 class Board; // Forward declaration
 
@@ -23,6 +25,8 @@ class GUI {
         SDL_Texture* checkTexture;
         SDL_Texture** promotionTextureWhite;
         SDL_Texture** promotionTextureBlack;
+        Mouse* mouse;
+        Touch* touch;
 
 
     public:
@@ -45,6 +49,20 @@ class GUI {
          * @return True if success
          */
         bool init();
+
+        /**
+         * @brief Set a pointer to mouse object
+         *
+         * @param _mouse
+         */
+        void setMouse(Mouse* _mouse);
+
+        /**
+         * @brief Set a pointer to touch object
+         *
+         * @param _touch
+         */
+        void setTouch(Touch* _touch);
 
 
         /**
@@ -112,6 +130,18 @@ class GUI {
          * @brief Draws pieces on the current board to rendererer.
          */
         void drawPieces();
+
+        /**
+         * @brief Draw a gripped piece to mouse positions, and replaces pieces
+         * home square.
+         */
+        void drawCurrentPieceMouse();
+
+        /**
+         * @brief Draw a gripped piece to touch positions, and replaces pieces
+         * home square.
+         */
+        void drawCurrentPieceTouch();
 
         bool close(); //????
 

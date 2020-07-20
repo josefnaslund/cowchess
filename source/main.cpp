@@ -28,6 +28,8 @@ int main( int argc, char* args[] )
     bool quit = false;
 
     GUI mygui = GUI(&gameBoard);
+    mygui.setMouse(&myMouse);
+    mygui.setTouch(&myTouch);
 
     if (mygui.init()){
         SDL_Delay(100);

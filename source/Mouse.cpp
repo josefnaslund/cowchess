@@ -11,6 +11,9 @@ Mouse::Mouse(Board* _gameBoard){
     posX = 0;
     posY = 0;
     gameBoard = _gameBoard;
+    locked = false;
+    absoluteLockedPosition = std::make_pair(0, 0);
+    absoluteCurrentPosition = std::make_pair(0, 0);
 }
 
 void Mouse::setPosX(int _x){
@@ -50,6 +53,9 @@ bool Mouse::mouseEvents(SDL_Event& e, Board& board){
 
     bool moveMade = false;
 
+    absoluteCurrentPosition.first = e.button.x;
+    absoluteCurrentPosition.second = e.button.y;
+
     // to prevent mouse buttons other than left to interfere
     if (e.button.button != SDL_BUTTON_LEFT){
         ; // do nothing
@@ -81,6 +87,8 @@ bool Mouse::mouseEvents(SDL_Event& e, Board& board){
 
             setPosX(arrX);
             setPosY(arrY);
+            absoluteLockedPosition.first = e.button.x;
+            absoluteLockedPosition.second = e.button.y;
         }
 
         // no piece clicked, but clicked at GUI AI select square left
@@ -163,8 +171,6 @@ bool Mouse::mouseEvents(SDL_Event& e, Board& board){
                 }
             }
         }
-
-
     }
 
     // if left button release
@@ -188,7 +194,7 @@ bool Mouse::mouseEvents(SDL_Event& e, Board& board){
                     }
                 }
             }
-
+            setLocked(false);
         }
     }
 

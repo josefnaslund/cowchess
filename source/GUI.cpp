@@ -86,6 +86,14 @@ bool GUI::init(){
     return renderer != NULL;
 }
 
+void GUI::setMouse(Mouse* _mouse){
+    mouse = _mouse;
+}
+
+void GUI::setTouch(Touch* _touch){
+    touch = _touch;
+}
+
 void GUI::drawBoard(){
 
     // draw background color
@@ -310,7 +318,7 @@ void GUI::drawCapturedPieces(){
             if (i != p->isWhite()){
                 imgIndex = findImage(p->getImage());
                 ++count;
-                
+
 
                 // if image exists
                 if (imgIndex != -1 && images[imgIndex].second) {
@@ -515,6 +523,90 @@ bool GUI::loadTexture(const char** img){
     return true;
 }
 
+void GUI::drawCurrentPieceMouse(){
+    // absolute position of locked piece
+    int tempX = mouse->getAbsoluteLockedPosition().first;
+    int tempY = mouse->getAbsoluteLockedPosition().second;
+
+    // the position within the square
+    int diffX =  (tempX - LEFT_MARGIN) % SQUARE_SIZE;
+    int diffY =  (tempY - TOP_MARGIN) % SQUARE_SIZE;
+
+    // position of upper left corner of square
+    int squareX = tempX - diffX;
+    int squareY = tempY - diffY;
+
+    SDL_Rect r;
+    r.x = squareX;
+    r.y = squareY;
+    r.h= SQUARE_SIZE;
+    r.w = SQUARE_SIZE;
+
+    // draw square to cover piece square
+    SDL_SetRenderDrawColor(renderer, 100, 50, 50, 255);
+    SDL_RenderFillRect( renderer, &r );
+
+    // draw piece at mouse position
+    tempX = mouse->getAbsoluteCurrentPosition().first;
+    tempY = mouse->getAbsoluteCurrentPosition().second;
+
+
+    r.x = tempX - diffX;
+    r.y = tempY - diffY;
+    int tempIndex = findImage(
+            gameBoard->getBoard()[mouse->getPosY()][mouse->getPosX()]->getImage()
+            );
+
+    if (tempIndex != -1){
+        SDL_RenderCopy(renderer, images[tempIndex].second, nullptr, &r);
+
+    }
+}
+
+
+void GUI::drawCurrentPieceTouch(){
+    // absolute position of locked piece
+    int tempX = touch->getAbsoluteLockedPosition().first;
+    int tempY = touch->getAbsoluteLockedPosition().second;
+
+    // the position within the square
+    int diffX =  (tempX - LEFT_MARGIN) % SQUARE_SIZE;
+    int diffY =  (tempY - TOP_MARGIN) % SQUARE_SIZE;
+
+    // position of upper left corner of square
+    int squareX = tempX - diffX;
+    int squareY = tempY - diffY;
+
+    SDL_Rect r;
+    r.x = squareX;
+    r.y = squareY;
+    r.h= SQUARE_SIZE;
+    r.w = SQUARE_SIZE;
+
+    // draw square to cover piece square
+    SDL_SetRenderDrawColor(renderer, 100, 50, 50, 255);
+    SDL_RenderFillRect( renderer, &r );
+
+    // draw piece at mouse position
+    tempX = touch->getAbsoluteCurrentPosition().first;
+    tempY = touch->getAbsoluteCurrentPosition().second;
+
+
+    r.x = tempX - diffX;
+    r.y = tempY - diffY;
+    int tempIndex = findImage(
+            gameBoard->getBoard()[touch->getPosY()][touch->getPosX()]->getImage()
+            );
+
+    if (tempIndex != -1){
+        SDL_RenderCopy(renderer, images[tempIndex].second, nullptr, &r);
+    }
+
+
+
+
+}
+
 
 void GUI::update(){
     // cout << "Running update()\n";
@@ -540,6 +632,14 @@ void GUI::update(){
     drawAIstatus();
 
     drawCapturedPieces();
+
+    if (mouse->isLocked()){
+        drawCurrentPieceMouse();
+    }
+
+    else if (touch->isLocked()){
+        drawCurrentPieceTouch();
+    }
 
     SDL_RenderPresent(renderer);
     // cout << "Updated()\n";
