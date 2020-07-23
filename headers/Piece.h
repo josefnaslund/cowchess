@@ -34,7 +34,7 @@ class Piece {
         bool isChecked(Piece*** b);
         bool isChecked(const int& oldX, const int& oldY, const int& newX, const int& newY);
 
-        const double& getValue() const {return value;}
+        virtual double getValue() {return value;}
 
         bool hasNotMoved() const {return notMoved;}
         void hasMoved() {notMoved = false;}

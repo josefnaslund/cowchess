@@ -10,9 +10,11 @@ class Piece; // Forward declatation for pointers
 using std::vector;
 
 class Board{
+    protected:
+        Piece*** board;
+
     private:
         Player* players;
-        Piece*** board;
         int moveCount;
         void setStandardBoard();
         LastMove lastMove;
@@ -23,11 +25,13 @@ class Board{
         int promotionNewX;
         int promotionNewY;
         vector<Piece*> capturedPieces;
+        bool silent;
         
 
 
     public:
         Board();
+        Board(const Board& _gameBoard);
         ~Board();
         Piece*** getBoard() {return board;}
         Piece* getPieceAt(int arrX, int arrY);
@@ -36,17 +40,19 @@ class Board{
         bool testCheck();
         bool testMate();
         bool playerCanMove();
-        const LastMove& getLastMove() {return lastMove;}
-        bool getPlayerAI(bool player);
+        const LastMove& getLastMove() const {return lastMove;}
+        bool getPlayerAI(bool player) const;
         Player* getPlayers() {return players;}
-        bool isPromotion() {return promotion;}
+        const bool isPromotion() const {return promotion;}
         void setPromotion(bool prom) {promotion = prom;}
         void setPromotionChar(char p) {promotionChar = p;}
         const int& getPromotionOldX() const {return promotionOldX;}
         const int& getPromotionOldY() const {return promotionOldY;}
         const int& getPromotionNewX() const {return promotionNewX;}
         const int& getPromotionNewY() const {return promotionNewY;}
+        const char& getPromotionChar() const {return promotionChar;}
         const vector<Piece*>& getCapturedPieces() const {return capturedPieces;}
+        void setSilent() {silent = true;}
 
 };
 

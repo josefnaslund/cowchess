@@ -7,7 +7,7 @@
 DIRO := objects
 
 #OBJS specifies which files to compile as part of the project
-TEMPOBJS = main.o GUI.o Board.o Piece.o Mouse.o Touch.o Rook.o King.o Queen.o Pawn.o Knight.o Bishop.o AI.o Move.o LastMove.o Player.o
+TEMPOBJS = main.o GUI.o Board.o Piece.o Mouse.o Touch.o Rook.o King.o Queen.o Pawn.o Knight.o Bishop.o AI.o AIMove.o LastMove.o Player.o
 
 # Replace path on objects
 OBJS = $(patsubst %.o,$(DIRO)/%.o,$(TEMPOBJS))
@@ -53,10 +53,10 @@ $(OBJ_NAME) : $(OBJS)
 # 	$(CXX) $(CXXFLAGS) $(OBJFLAGS) -c -o $@ $<
 
 
-$(DIRO)/main.o : $(DIRCXX)/main.cpp $(DIRH)/constants.h $(DIRH)/GUI.h $(DIRH)/Mouse.h $(DIRH)/Touch.h $(DIRH)/AI.h $(DIRH)/Move.h
+$(DIRO)/main.o : $(DIRCXX)/main.cpp $(DIRH)/constants.h $(DIRH)/GUI.h $(DIRH)/Mouse.h $(DIRH)/Touch.h $(DIRH)/AI.h $(DIRH)/AIMove.h $(DIRH)/Board.h
 	$(CXX) $(CXXFLAGS) $(OBJFLAGS) -c -o $@ $<
 
-$(DIRO)/GUI.o : $(DIRCXX)/GUI.cpp $(DIRH)/GUI.h $(DIRH)/constants.h $(DIRH)/Piece.h $(DIRIMG)/text_turn.xpm $(DIRIMG)/text_checkmate.xpm $(DIRIMG)/text_check.xpm $(DIRIMG)/text_draw.xpm $(DIRIMG)/queen_w.xpm $(DIRIMG)/queen_b.xpm $(DIRIMG)/rook_w.xpm $(DIRIMG)/rook_b.xpm $(DIRIMG)/knight_b.xpm $(DIRIMG)/knight_w.xpm $(DIRIMG)/bishop_w.xpm $(DIRIMG)/bishop_b.xpm
+$(DIRO)/GUI.o : $(DIRCXX)/GUI.cpp $(DIRH)/GUI.h $(DIRH)/Mouse.h $(DIRH)/Touch.h $(DIRH)/constants.h $(DIRH)/Piece.h $(DIRIMG)/text_turn.xpm $(DIRIMG)/text_checkmate.xpm $(DIRIMG)/text_check.xpm $(DIRIMG)/text_draw.xpm $(DIRIMG)/queen_w.xpm $(DIRIMG)/queen_b.xpm $(DIRIMG)/rook_w.xpm $(DIRIMG)/rook_b.xpm $(DIRIMG)/knight_b.xpm $(DIRIMG)/knight_w.xpm $(DIRIMG)/bishop_w.xpm $(DIRIMG)/bishop_b.xpm
 	$(CXX) $(CXXFLAGS) $(OBJFLAGS) -c -o $@ $<
 
 $(DIRO)/Board.o : $(DIRCXX)/Board.cpp $(DIRH)/Board.h $(DIRH)/Piece.h $(DIRH)/Rook.h $(DIRH)/Bishop.h $(DIRH)/King.h $(DIRH)/Pawn.h $(DIRH)/Knight.h $(DIRH)/constants.h $(DIRH)/LastMove.h $(DIRH)/Player.h $(DIRH)/Queen.h
@@ -89,10 +89,10 @@ $(DIRO)/Pawn.o : $(DIRCXX)/Pawn.cpp $(DIRH)/Pawn.h $(DIRH)/Board.h $(DIRH)/Piece
 $(DIRO)/Knight.o : $(DIRCXX)/Knight.cpp $(DIRH)/Knight.h $(DIRH)/Board.h $(DIRH)/Piece.h $(DIRIMG)/knight_w.xpm $(DIRIMG)/knight_b.xpm
 	$(CXX) $(CXXFLAGS) $(OBJFLAGS) -c -o $@ $<
 
-$(DIRO)/AI.o : $(DIRCXX)/AI.cpp $(DIRH)/AI.h $(DIRH)/Move.h $(DIRH)/Piece.h $(DIRH)/Board.h
+$(DIRO)/AI.o : $(DIRCXX)/AI.cpp $(DIRH)/AI.h $(DIRH)/AIMove.h $(DIRH)/Piece.h $(DIRH)/Board.h
 	$(CXX) $(CXXFLAGS) $(OBJFLAGS) -c -o $@ $<
 
-$(DIRO)/Move.o : $(DIRCXX)/Move.cpp $(DIRH)/Move.h $(DIRH)/Piece.h $(DIRH)/Board.h
+$(DIRO)/AIMove.o : $(DIRCXX)/AIMove.cpp $(DIRH)/AIMove.h $(DIRH)/Piece.h $(DIRH)/Board.h
 	$(CXX) $(CXXFLAGS) $(OBJFLAGS) -c -o $@ $<
 
 $(DIRO)/LastMove.o : $(DIRCXX)/LastMove.cpp $(DIRH)/LastMove.h

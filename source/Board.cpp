@@ -47,6 +47,65 @@ Board::Board(){
     }
 
     setStandardBoard();
+
+    silent = false;
+}
+
+// copy constructor used by AI
+Board::Board(const Board& _gameBoard){
+    this->promotion = _gameBoard.isPromotion();
+    this->promotionChar = _gameBoard.getPromotionChar();
+    this->promotionOldX = _gameBoard.getPromotionOldX();
+    this->promotionOldY = _gameBoard.getPromotionOldY();
+    this->promotionNewX = _gameBoard.getPromotionNewX();
+    this->promotionNewY = _gameBoard.getPromotionNewY();
+
+    players = new Player[2];
+    players[0] = _gameBoard.getPlayerAI(0);
+    players[1] = _gameBoard.getPlayerAI(1);
+
+    lastMove = _gameBoard.getLastMove();
+
+    board = new Piece**[8];
+    for (int i = 0; i != 8; ++i){
+        board[i] = new Piece*[8];
+    }
+
+    moveCount = _gameBoard.atMove();
+
+    // copy old board to new
+    for (int i = 0; i != 8; ++i){
+        for (int j = 0; j != 8; ++j){
+            if (_gameBoard.board[i][j]->getType() != 'u'){
+                char type = _gameBoard.board[i][j]->getType();
+                bool color = _gameBoard.board[i][j]->isWhite();
+                if (type == 'k'){
+                    board[i][j] = new King(color, this);
+                }
+                else if (type == 'q'){
+                    board[i][j] = new Queen(color, this);
+                }
+                else if (type == 'b'){
+                    board[i][j] = new Bishop(color, this);
+                }
+                else if (type == 'n'){
+                    board[i][j] = new Knight(color, this);
+                }
+                else if (type == 'r'){
+                    board[i][j] = new Rook(color, this);
+                }
+                else if (type == 'p'){
+                    board[i][j] = new Pawn(color, this);
+                }
+            }
+
+            else {
+                board[i][j] = new Piece();
+            }
+        }
+    }
+
+    silent = true;
 }
 
 
@@ -287,13 +346,15 @@ bool Board::movePiece(int oldX, int oldY, int newX, int newY){
 
         // print move list
 
-        if (!atMove())
-            cout << std::setw(5) << std::string(std::to_string(moveCount / 2 + moveCount % 2) + ". ");
-        cout << lastMove << std::flush;
-        if (atMove())
-            cout << endl;
-        else
-            cout << " ";
+        if (!silent){
+            if (!atMove())
+                cout << std::setw(5) << std::string(std::to_string(moveCount / 2 + moveCount % 2) + ". ");
+            cout << lastMove << std::flush;
+            if (atMove())
+                cout << endl;
+            else
+                cout << " ";
+        }
 
 
 
@@ -391,6 +452,6 @@ bool Board::playerCanMove(){
     return false;       
 }
 
-bool Board::getPlayerAI(bool player){
+bool Board::getPlayerAI(bool player) const {
     return players[player].isAI();
 }

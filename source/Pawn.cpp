@@ -317,3 +317,30 @@ bool Pawn::controlsSquare (const int& oldX, const int& oldY, const int& newX, co
 
     return valid;
 }
+
+double Pawn::getValue() {
+    double val = value;
+
+    for (int y = 0; y != 8; ++y){
+        for (int x = 0; x != 8; ++x){
+            if (this == gameBoard->getBoard()[y][x]){
+
+                // in central squares and is controlling center square
+                if (x > 2 || x < 5){
+                    for (int i = 3; i != 5; ++i){
+                        for (int j = 3; j != 5; ++j){
+                            if (i != j && controlsSquare(x, y, i, j, gameBoard->getBoard(), false)){
+                                val +=  0.5;
+                            }
+                        }
+                    }
+                }
+                break;
+            }
+        }
+    }
+
+    return val;
+}
+
+

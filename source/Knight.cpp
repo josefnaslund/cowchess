@@ -68,3 +68,22 @@ bool Knight::controlsSquare(const int& oldX, const int& oldY, const int& newX, c
 
     return valid;
 }
+
+double Knight::getValue() {
+    double val = value;
+    for (int g = 0; g != 8; ++g){
+        for (int h = 0; h != 8; ++h){
+            if (this == gameBoard->getBoard()[g][h]){
+                for (int i = 3; i != 5; ++i){
+                    for (int j = 3; j != 5; ++j){
+                        if (controlsSquare(h, g, i, j, gameBoard->getBoard(), false)){
+                            val +=  0.5;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return val;
+}
+

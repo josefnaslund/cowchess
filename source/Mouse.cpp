@@ -79,7 +79,7 @@ bool Mouse::mouseEvents(SDL_Event& e, Board& board){
         }
 
         // if there is a piece at clicked pos
-        if (clickedPiece && clickedPiece->isAlive()){
+        if (clickedPiece && clickedPiece->isAlive() && !gameBoard->getPlayers()[gameBoard->atMove()].isAI()){
 
             setLocked(true);
             if (arrX == -1 || arrY == -1)

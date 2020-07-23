@@ -2,36 +2,31 @@
 #define AI_H
 
 #include <vector>
-#include <utility>
-#include "Move.h"
+#include "AIMove.h"
 #include "Piece.h"
 #include "Board.h"
 
-using std::vector;
-using std::pair;
 
 class AI {
     private:
+        int ply;
         bool color;
-        Piece*** board;
         Board* gameBoard;
-        vector<Move> moves;
-        vector<pair<Move, double>> evaluatedMoves;
 
-        bool collectMoves();
-        void evaluateMoves();
-        void sortMoves();
-        int countBestMoves();
-        int randomInt(int max);
+
+        // returnera alla giltiga drag för en spelare vid ett givet bräde
+        std::vector<std::pair<AIMove, double>> collectMoves(bool side, Board* gb);
+
+        // värdera positionens netto för spelaren
+        double evaluatePosition(Board* gb, bool side);
+
+
+        double searchNetto(AIMove move, int depth, Board* gb, bool moveSide, bool absoluteSide);
 
     public:
         AI(bool _color, Board* _gameBoard);
-        bool getColor() const { return color; }
-        Move pickMove();
-
-
-
-
+        AIMove pickMove();
+        void setPly(const int& _ply) { ply = _ply;}
 };
 
 #endif

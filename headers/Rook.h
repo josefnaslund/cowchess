@@ -16,6 +16,8 @@ class Rook : public virtual Piece
         bool controlsSquare(const int& oldX, const int& oldY, const int& newX, const int& newY, Piece*** b, bool testCheck) override;
 
         bool rookControlsSquare(const int& oldX, const int& oldY, const int& newX, const int& newY, Piece*** b, bool testCheck);
+
+        double getValue() override;
 };
 
 #endif

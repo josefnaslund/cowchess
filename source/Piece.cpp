@@ -52,17 +52,40 @@ bool Piece::isChecked(Piece*** testBoard){
     }
 
     if (kingX == -1 || kingY == -1){
-        std::cerr << "Error - No king?!?!\n";
+        std::cerr << "Piece: Error - No king?!?! color=" << white << "\n";
+        for (int i = 0; i != 8; ++i){
+            for  (int j = 0; j != 8; ++j){
+                if (testBoard[7 - i][j]->isAlive()){
+                    if (testBoard[7 - i][j]->isWhite()){
+                        cerr << (char)(std::toupper(testBoard[7 - i][j]->getType()));
+                    }
+                    else {
+                        cerr << (testBoard[7 - i][j]->getType());
+                    }
+                }
+                else{
+                    cerr << "_";
+                }
+
+
+            }
+            cerr << endl;
+        }
+
+        // cause this is used by AI too.
+        checked = true;
     }
 
+    else {
 
-    // see if other players pieces can take king
-    for (int x = 0; x != 8; ++x){
-        for (int y = 0; y != 8; ++y){
-            if (testBoard[y][x]->isAlive() && (testBoard[y][x]->isWhite() != testBoard[kingY][kingX]->isWhite()) &&
-                testBoard[y][x]->validMove(x, y, kingX, kingY, testBoard, false)){
-                checked = true;
-                break;
+        // see if other players pieces can take king
+        for (int x = 0; x != 8; ++x){
+            for (int y = 0; y != 8; ++y){
+                if (testBoard[y][x]->isAlive() && (testBoard[y][x]->isWhite() != testBoard[kingY][kingX]->isWhite()) &&
+                        testBoard[y][x]->validMove(x, y, kingX, kingY, testBoard, false)){
+                    checked = true;
+                    break;
+                }
             }
         }
     }

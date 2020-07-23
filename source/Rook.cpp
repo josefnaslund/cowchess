@@ -212,3 +212,28 @@ bool Rook::rookControlsSquare(const int& oldX, const int& oldY, const int& newX,
 
     return valid;
 }
+
+double Rook::getValue(){
+    double val = value;
+    if (notMoved){
+        if (white){
+            if (gameBoard->getBoard()[0][4]->getType() == 'k' &&
+                    gameBoard->getBoard()[0][4]->hasNotMoved()){
+
+                val += 0.5;
+            }
+
+        }
+        else {
+
+            if (gameBoard->getBoard()[7][4]->getType() == 'k' &&
+                    gameBoard->getBoard()[7][4]->hasNotMoved()){
+
+                val += 0.5;
+            }
+        }
+
+    }
+    return val;
+
+}

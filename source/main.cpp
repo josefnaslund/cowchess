@@ -2,12 +2,13 @@
 #include <stdio.h>                                                              
 #include <iostream>                                                             
 #include <vector>                                                             
+#include <string>
 #include "constants.h"                                                          
 #include "GUI.h"                                                                
 #include "Mouse.h"
 #include "Touch.h"
 #include "AI.h"
-#include "Move.h"
+#include "AIMove.h"
 
 using std::cout; 
 using std::endl; 
@@ -17,13 +18,49 @@ using std::vector;
 
 int main( int argc, char* args[] )                                              
 {                                                                               
+    int whitePly = 2;
+    int blackPly = 2;
+
+    if (argc > 1 && argc < 4){
+        try {
+            whitePly = std::stoi(args[1]);
+            cout << "AI for white is set to " << whitePly << ". (default=2)\n";
+
+        }
+        catch (std::invalid_argument const& e){
+            cerr << "Error: Invalid argument.\n";
+            exit(EXIT_FAILURE);
+        }
+        catch (std::out_of_range const& e){
+            cerr << "Error: Argument out of range\n";
+            exit(EXIT_FAILURE);
+        }
+    }
+
+    if (argc == 3){
+        try {
+            blackPly = std::stoi(args[2]);
+            cout << "AI for black is set to " << blackPly << ". (default=2)\n";
+        }
+        catch (std::invalid_argument const& e){
+            cerr << "Error: Invalid argument.\n";
+            exit(EXIT_FAILURE);
+        }
+        catch (std::out_of_range const& e){
+            cerr << "Error: Argument out of range\n";
+            exit(EXIT_FAILURE);
+        }
+    }
 
 
+    bool aiIsMoving = false;
     bool gameOver = false;
     Board gameBoard = Board();                                                           
     Mouse myMouse = Mouse(&gameBoard);
     Touch myTouch = Touch(&gameBoard);
     AI ai[] = {AI(0, &gameBoard), AI(1, &gameBoard)} ;
+    ai[1].setPly(whitePly);
+    ai[0].setPly(blackPly);
 
     bool quit = false;
 
@@ -101,11 +138,12 @@ int main( int argc, char* args[] )
                 else {
                     if (!gameOver){
                         currentTime = SDL_GetTicks();
-                        if (currentTime > lastTime + 1000) {
+                        if (currentTime > (lastTime + 1000) && !aiIsMoving) {
 
                             if ((gameBoard.getPlayerAI(gameBoard.atMove()) == 1) && (lastTime % 2 == gameBoard.atMove())){ // remove last condition?
-                                Move move = ai[gameBoard.atMove()].pickMove();
-                                if (!move.isInvalid()){
+                                aiIsMoving = true;
+                                AIMove move = ai[gameBoard.atMove()].pickMove();
+                                if (!(move.getOldX() == -1)){
                                     gameBoard.movePiece(
                                             move.getOldX(),
                                             move.getOldY(),
@@ -123,22 +161,32 @@ int main( int argc, char* args[] )
                                     gameOver = true;
                                 }
                             }
-
                             lastTime = currentTime;
+                            aiIsMoving = false;
                         }
-                    }
+                    } // end (if not gameOver)
+                } // end else
+
+                // update every 50ms except when AI has just made
+                // a move. To avoid to AI moves floating together
+                if (currentUpdateTime > lastUpdateTime + 50 && 
+                        (currentTime - lastTime > 600)){
+                    mygui.update();
+                    lastUpdateTime = currentUpdateTime;
                 }
 
                 if (currentUpdateTime > lastUpdateTime + 50){
                     mygui.update();
                     lastUpdateTime = currentUpdateTime;
+                    mygui.update();
+
                 }
 
 
             }// end while not quit
 
+
         } // end if mygui
-        cout << endl;
         return EXIT_SUCCESS;
     }                                                                           
 
