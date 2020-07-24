@@ -9,7 +9,7 @@
 
 class AI {
     private:
-        int ply;
+        int maxPly;
         bool color;
         Board* gameBoard;
 
@@ -21,12 +21,12 @@ class AI {
         double evaluatePosition(Board* gb, bool side);
 
 
-        double searchNetto(AIMove move, int depth, Board* gb, bool moveSide, bool absoluteSide);
+        double searchNetto(AIMove move, const int& depth, Board* gb, bool moveSide, bool absoluteSide);
 
     public:
         AI(bool _color, Board* _gameBoard);
         AIMove pickMove();
-        void setPly(const int& _ply) { ply = _ply;}
+        void setPly(const int& _ply) { maxPly = _ply;}
 };
 
 #endif

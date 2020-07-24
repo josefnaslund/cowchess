@@ -18,13 +18,13 @@ using std::vector;
 
 int main( int argc, char* args[] )                                              
 {                                                                               
-    int whitePly = 2;
-    int blackPly = 2;
+    int whitePly = 4;
+    int blackPly = 4;
 
     if (argc > 1 && argc < 4){
         try {
             whitePly = std::stoi(args[1]);
-            cout << "AI for white is set to " << whitePly << ". (default=2)\n";
+            cout << "AI for white is set to " << whitePly << ". (default=4)\n";
 
         }
         catch (std::invalid_argument const& e){
@@ -40,7 +40,7 @@ int main( int argc, char* args[] )
     if (argc == 3){
         try {
             blackPly = std::stoi(args[2]);
-            cout << "AI for black is set to " << blackPly << ". (default=2)\n";
+            cout << "AI for black is set to " << blackPly << ". (default=4)\n";
         }
         catch (std::invalid_argument const& e){
             cerr << "Error: Invalid argument.\n";
@@ -143,6 +143,7 @@ int main( int argc, char* args[] )
                             if ((gameBoard.getPlayerAI(gameBoard.atMove()) == 1) && (lastTime % 2 == gameBoard.atMove())){ // remove last condition?
                                 aiIsMoving = true;
                                 AIMove move = ai[gameBoard.atMove()].pickMove();
+
                                 if (!(move.getOldX() == -1)){
                                     gameBoard.movePiece(
                                             move.getOldX(),
@@ -160,7 +161,11 @@ int main( int argc, char* args[] )
                                     // mygui.drawTextMate();
                                     gameOver = true;
                                 }
+
+                            mygui.update();
+
                             }
+
                             lastTime = currentTime;
                             aiIsMoving = false;
                         }
@@ -168,7 +173,7 @@ int main( int argc, char* args[] )
                 } // end else
 
                 // update every 50ms except when AI has just made
-                // a move. To avoid to AI moves floating together
+                // a move. To avoid two AI moves floating together
                 if (currentUpdateTime > lastUpdateTime + 50 && 
                         (currentTime - lastTime > 600)){
                     mygui.update();

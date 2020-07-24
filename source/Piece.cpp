@@ -52,25 +52,25 @@ bool Piece::isChecked(Piece*** testBoard){
     }
 
     if (kingX == -1 || kingY == -1){
-        std::cerr << "Piece: Error - No king?!?! color=" << white << "\n";
-        for (int i = 0; i != 8; ++i){
-            for  (int j = 0; j != 8; ++j){
-                if (testBoard[7 - i][j]->isAlive()){
-                    if (testBoard[7 - i][j]->isWhite()){
-                        cerr << (char)(std::toupper(testBoard[7 - i][j]->getType()));
-                    }
-                    else {
-                        cerr << (testBoard[7 - i][j]->getType());
-                    }
-                }
-                else{
-                    cerr << "_";
-                }
+        // std::cerr << "Piece: Error - No king?!?! color=" << white << "\n";
+        // for (int i = 0; i != 8; ++i){
+        //     for  (int j = 0; j != 8; ++j){
+        //         if (testBoard[7 - i][j]->isAlive()){
+        //             if (testBoard[7 - i][j]->isWhite()){
+        //                 cerr << (char)(std::toupper(testBoard[7 - i][j]->getType()));
+        //             }
+        //             else {
+        //                 cerr << (testBoard[7 - i][j]->getType());
+        //             }
+        //         }
+        //         else{
+        //             cerr << "_";
+        //         }
 
 
-            }
-            cerr << endl;
-        }
+        //     }
+        //     cerr << endl;
+        // }
 
         // cause this is used by AI too.
         checked = true;
