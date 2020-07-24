@@ -18,13 +18,13 @@ using std::vector;
 
 int main( int argc, char* args[] )                                              
 {                                                                               
-    int whitePly = 4;
-    int blackPly = 4;
+    int whitePly = 2;
+    int blackPly = 2;
 
     if (argc > 1 && argc < 4){
         try {
             whitePly = std::stoi(args[1]);
-            cout << "AI for white is set to " << whitePly << ". (default=4)\n";
+            cout << "AI for white is set to " << whitePly << ". (default=2)\n";
 
         }
         catch (std::invalid_argument const& e){
@@ -40,7 +40,7 @@ int main( int argc, char* args[] )
     if (argc == 3){
         try {
             blackPly = std::stoi(args[2]);
-            cout << "AI for black is set to " << blackPly << ". (default=4)\n";
+            cout << "AI for black is set to " << blackPly << ". (default=2)\n";
         }
         catch (std::invalid_argument const& e){
             cerr << "Error: Invalid argument.\n";

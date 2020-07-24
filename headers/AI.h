@@ -23,6 +23,8 @@ class AI {
 
         double searchNetto(AIMove move, const int& depth, Board* gb, bool moveSide, bool absoluteSide);
 
+        int randomInt(int max);
+
     public:
         AI(bool _color, Board* _gameBoard);
         AIMove pickMove();

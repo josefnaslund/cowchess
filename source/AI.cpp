@@ -19,9 +19,9 @@ AI::AI(bool _color, Board* _gameBoard) {
 
     // these values are updated from main anyhow
     if (color) 
-        maxPly = 4; // white
+        maxPly = 2; // white
     else
-        maxPly = 4; // black
+        maxPly = 2; // black
 }
 
 
@@ -188,53 +188,19 @@ AIMove AI::pickMove(){
     // cout << endl;
 
 
-
-
-    // ply 4 takes to long time on all moves
-    int tempPly = (maxPly >= 4 ? 3 : maxPly);
-
     // evaluate moves one by one 
     for (auto& p : allMoves){
-        p.second = searchNetto(p.first, tempPly, gameBoard, color, color);
+        p.second = searchNetto(p.first, maxPly, gameBoard, color, color);
     }
 
-    
+
     if (!allMoves.empty()){
         // find max move value (second value of pair in vector)
         hiIndex = std::max_element(allMoves.begin(), allMoves.end(), 
                 [](const pair<AIMove, double>& a, const pair<AIMove, double>& b){
                 return a.second < b.second;
                 }) - allMoves.begin();
-        double highest = allMoves[hiIndex].second;
-
-        // sort out the 3 (at most) best moves of the 
-        // best moves, within about 5% of the top best move
-        vector<pair<AIMove, double>> tempBestMoves;
-        double difference = 0.0;
-        while ( (tempBestMoves.size() < 3) && (difference < 0.06) ){
-            for (auto& p : allMoves){
-                if (p.second * (1 - difference) >= highest){ 
-                    tempBestMoves.push_back(p);
-                    if (tempBestMoves.size() == 5){
-                        break;
-                    }
-                }
-            }
-            difference += 0.01;
-        }
-
-        // cout << "///////////////\n";
-        // cout << "Found " << tempBestMoves.size() << " best moves from total " << allMoves.size() << ".\n";
-        // for (auto& p : tempBestMoves){
-        //     cout << "Value: " << p.second << endl;
-        // }
-        if (tempBestMoves.size() > 1){
-            // cout << "Now running at " << maxPly << " ply.\n";
-            for (auto& p : tempBestMoves){
-                p.second = searchNetto(p.first, maxPly, gameBoard, color, color);
-                // cout << "Value=" <<  p.second << endl;
-            }
-        }
+        double highestValue = allMoves[hiIndex].second;
 
 
         hiIndex = std::max_element(allMoves.begin(), allMoves.end(), 
@@ -242,35 +208,45 @@ AIMove AI::pickMove(){
                 return a.second < b.second;
                 }) - allMoves.begin();
 
-        highest = tempBestMoves[hiIndex].second;
-        allMoves.clear();
-        allMoves = tempBestMoves;
+        highestValue = allMoves[hiIndex].second;
 
-        // cout << "Highest: " << highest << endl;
-        // cout << "||||||||||||||||\n";
+        // ...and randomly pick one within top range of best moves
+        vector<pair<AIMove, double>> randomQualifyMoves;
+        for (auto& p : allMoves){
+            if (std::abs(p.second - highestValue) <= 0.05){
+                randomQualifyMoves.push_back(p);
+            }
+        }
+        AIMove theMove = randomQualifyMoves[randomInt(randomQualifyMoves.size() - 1)].first;
+
+        cout << "\n-----------------------\n";
+        cout << "Evaluation of moves:\n";
+        cout << "-----------------------\n";
+        for (auto p : allMoves){
+
+            cout << (char)('a' + p.first.getOldX()) << 1 + p.first.getOldY() <<
+                " to " << 
+                (char)('a' + p.first.getNewX()) << 1 + p.first.getNewY() <<
+                " value=" << std::to_string(p.second) << endl;
+        }
+        cout << endl;
+
+        // test if AI makes promotion
+        if (gameBoard->getBoard()[theMove.getOldY()][theMove.getOldX()]->getType() == 'p' &&
+                (theMove.getNewY() == 7 || !theMove.getNewY())
+           ){
+            // cout << "###############\n";
+            // cout << "AI PROMOTION\n";
+            // cout << "###############\n";
+            gameBoard->setPromotion(true);
+            gameBoard->setPromotionChar('q');
+        }
+
+
+        return theMove;
+
+
     }
-
-
-
-
-
-
-    // ...and randomly pick one
-
-
-
-    // cout << "\n-----------------------\n";
-    // cout << "Evaluation of moves:\n";
-    // cout << "-----------------------\n";
-    // for (auto p : allMoves){
-
-    //     cout << (char)('a' + p.first.getOldX()) << 1 + p.first.getOldY() <<
-    //         " to " << 
-    //         (char)('a' + p.first.getNewX()) << 1 + p.first.getNewY() <<
-    //         " value=" << std::to_string(p.second) << endl;
-    // }
-    // cout << endl;
-
 
     // if (!allMoves.empty()){
     //     // find best
@@ -296,11 +272,7 @@ AIMove AI::pickMove(){
     //     // END debug
     // }
 
-    if (allMoves.empty()){
-        return AIMove(-1, -1, -1, -1);
-    }
-    // test if AI makes promotion
-    AIMove theMove = allMoves[hiIndex].first;
+    return AIMove(-1, -1, -1, -1);
 
     // cerr << "////////////\n";
     // cerr << "DEBUG\n";
@@ -309,17 +281,19 @@ AIMove AI::pickMove(){
     // cerr << "// row=" << theMove.getNewY() << endl;
 
 
-    if (gameBoard->getBoard()[theMove.getOldY()][theMove.getOldX()]->getType() == 'p' &&
-            (theMove.getNewY() == 7 || !theMove.getNewY())
-       ){
-        // cout << "###############\n";
-        // cout << "AI PROMOTION\n";
-        // cout << "###############\n";
-        gameBoard->setPromotion(true);
-        gameBoard->setPromotionChar('q');
+
+}
+
+
+int AI::randomInt(int max){
+    std::uniform_int_distribution<int> u(0, max);
+    std::default_random_engine e;
+    e.seed(time(0));
+
+    // throw away some for greater randomness
+    for (int i = 0; i != 5; ++i){
+        u(e);
     }
 
-
-    return allMoves[hiIndex].first;
-
+    return u(e);
 }
