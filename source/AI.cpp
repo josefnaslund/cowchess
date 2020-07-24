@@ -109,6 +109,7 @@ double AI::searchNetto(AIMove move, const int& depth, Board* gb, bool moveSide,
                 //     (char)(gbPtr->getLastMove().getNewX() + 'a') << 1 + (gbPtr->getLastMove().getNewY()) << "\n";
                 if (*beta > 999.0 + depth){
                     *beta = 999.0 + depth;
+                    cout << "alfa=" << *alfa << " beta=" << *beta << endl;
                 }
                 return 999.0 + depth; // high number for checkmate
             }
@@ -119,6 +120,9 @@ double AI::searchNetto(AIMove move, const int& depth, Board* gb, bool moveSide,
             //     (char)(gbPtr->getLastMove().getNewX() + 'a') << (1 + gbPtr->getLastMove().getNewY()) << "\n";
             if (*beta > 0.0){
                 *beta = 0.0;
+
+                cout << "alfa=" << *alfa << " beta=" << *beta << endl;
+
             }
             return 0.0; // 0.0 will look good if AI player is behind in material, bad if ahead
         }
@@ -128,12 +132,14 @@ double AI::searchNetto(AIMove move, const int& depth, Board* gb, bool moveSide,
                 // cout << "1.3: -999\n";
                 if (*alfa < -999.0){
                     *alfa = -999.0;
+                    cout << "alfa=" << *alfa << " beta=" << *beta << endl;
                 }
                 return -999.0;
             }
 
             if (*alfa < 0.0){
                 *alfa = 0.0;
+                cout << "alfa=" << *alfa << " beta=" << *beta << endl;
             }
 
             // cout << "1.4: 0\n";
@@ -154,11 +160,13 @@ double AI::searchNetto(AIMove move, const int& depth, Board* gb, bool moveSide,
             if (*beta > val){
                 cout << "UPDATE BETA\n";
                 *beta = val;
+                cout << "alfa=" << *alfa << " beta=" << *beta << endl;
             }
         }
         else{
             if (*alfa < val){
                 *alfa = val;
+                cout << "alfa=" << *alfa << " beta=" << *beta << endl;
             }
         }
         return val;
@@ -174,19 +182,33 @@ double AI::searchNetto(AIMove move, const int& depth, Board* gb, bool moveSide,
         // for every pair of moves/doubles, called by reference
         for (auto& p : possibleMoves){
             double ev = searchNetto(p.first, depth - 1, gbPtr, !moveSide, absoluteSide, alfa, beta);
-            if (moveSide != absoluteSide){
+            if (moveSide == absoluteSide && ev == -9999){
+                return -9999;
+            }
+
+            else if (moveSide != absoluteSide && ev == 9999){
+                return 9999;
+            }
+
+            if (moveSide == absoluteSide){
                 if (ev > *alfa){
                     *alfa = ev;
                 }
             }
-            if (moveSide == absoluteSide){
+            if (moveSide != absoluteSide){
                 if (ev < *beta){
                     *beta = ev;
                 }
             }
 
-            if (alfa >= beta){
+            if (moveSide == absoluteSide && alfa >= beta){
+                cout << "\t\t***beta cutoff****\n";
                 return -9999;
+            }
+
+            else if (moveSide != absoluteSide && beta <= alfa){
+                cout << "\t\t****alfa cutoff****\n";
+                return 9999;
             }
 
             p.second = ev;
