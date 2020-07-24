@@ -84,6 +84,8 @@ double AI::evaluatePosition(Board* gb, bool side){
 double AI::searchNetto(AIMove move, const int& depth, Board* gb, bool moveSide, 
         bool absoluteSide, double* alfa, double* beta){
 
+    // *alfa = -9999;
+    // *beta = 9999;
     // make a copy of the game board and transfer the move
     Board newGameBoard = *gb; // remove one of these
     Board* gbPtr = &newGameBoard; // remove one of these
@@ -107,10 +109,6 @@ double AI::searchNetto(AIMove move, const int& depth, Board* gb, bool moveSide,
                 // cout << "1.1: 0 " << (char)('a' + gbPtr->getLastMove().getOldX()) << 
                 //     (1 + gbPtr->getLastMove().getOldY()) << " to " <<
                 //     (char)(gbPtr->getLastMove().getNewX() + 'a') << 1 + (gbPtr->getLastMove().getNewY()) << "\n";
-                if (*beta > 999.0 + depth){
-                    *beta = 999.0 + depth;
-                    cout << "alfa=" << *alfa << " beta=" << *beta << endl;
-                }
                 return 999.0 + depth; // high number for checkmate
             }
 
@@ -118,35 +116,21 @@ double AI::searchNetto(AIMove move, const int& depth, Board* gb, bool moveSide,
             // cout << "1.2: 0.0 " << (char)('a' + gbPtr->getLastMove().getOldX()) << 
             //     (1+gbPtr->getLastMove().getOldY()) << " to " <<
             //     (char)(gbPtr->getLastMove().getNewX() + 'a') << (1 + gbPtr->getLastMove().getNewY()) << "\n";
-            if (*beta > 0.0){
-                *beta = 0.0;
 
-                cout << "alfa=" << *alfa << " beta=" << *beta << endl;
-
-            }
             return 0.0; // 0.0 will look good if AI player is behind in material, bad if ahead
         }
         else {
             // AI will avoid checkmate
             if (gbPtr->getLastMove().isCheck()){
                 // cout << "1.3: -999\n";
-                if (*alfa < -999.0){
-                    *alfa = -999.0;
-                    cout << "alfa=" << *alfa << " beta=" << *beta << endl;
-                }
                 return -999.0;
             }
 
-            if (*alfa < 0.0){
-                *alfa = 0.0;
-                cout << "alfa=" << *alfa << " beta=" << *beta << endl;
-            }
 
             // cout << "1.4: 0\n";
             return 0.0; // 0.0 will look good if AI player is behind in material, bad if ahead
         }
     }
-
 
     // to end the recursion
     if (depth == 0){
@@ -156,78 +140,77 @@ double AI::searchNetto(AIMove move, const int& depth, Board* gb, bool moveSide,
         //    1 + move.getNewY() << " then ..." << endl;
 
         double val = evaluatePosition(gbPtr, absoluteSide);
-        if (absoluteSide == moveSide){
-            if (*beta > val){
-                cout << "UPDATE BETA\n";
-                *beta = val;
-                cout << "alfa=" << *alfa << " beta=" << *beta << endl;
-            }
-        }
-        else{
-            if (*alfa < val){
-                *alfa = val;
-                cout << "alfa=" << *alfa << " beta=" << *beta << endl;
-            }
-        }
+
         return val;
     }
 
-    // continue search for other sides moves
 
-    vector<pair<AIMove, double>> possibleMoves = collectMoves(!moveSide, gbPtr);
 
-    // if there are moves, should always be possible moves at this point
-    if (!possibleMoves.empty()){
+    if (moveSide != absoluteSide){
+        // continue search for other sides moves
+        vector<pair<AIMove, double>> possibleMoves = collectMoves(!moveSide, gbPtr);
 
-        // for every pair of moves/doubles, called by reference
-        for (auto& p : possibleMoves){
-            double ev = searchNetto(p.first, depth - 1, gbPtr, !moveSide, absoluteSide, alfa, beta);
-            if (moveSide == absoluteSide && ev == -9999){
-                return -9999;
-            }
+        // if there are moves, should always be possible moves at this point
+        if (!possibleMoves.empty()){
 
-            else if (moveSide != absoluteSide && ev == 9999){
-                return 9999;
-            }
+            double value = -9999.0; // 'infinite' negative
 
-            if (moveSide == absoluteSide){
-                if (ev > *alfa){
-                    *alfa = ev;
+            // for every pair of moves/doubles, called by reference
+            for (auto& p : possibleMoves){
+                value = std::max(searchNetto(p.first, depth - 1, gbPtr, !moveSide, absoluteSide, alfa, beta), value);
+                *alfa = std::max(*alfa, value);
+
+                // cout << "moveSide=" << moveSide << " absoluteSide=" << absoluteSide << " a=" << *alfa << " b=" << *beta << " val=" << value << endl;
+                if (alfa >= beta){
+                    cout << "\t\t\t****beta cut-off*********\n";
+                    break;
+
                 }
-            }
-            if (moveSide != absoluteSide){
-                if (ev < *beta){
-                    *beta = ev;
-                }
+
+                p.second = value;
             }
 
-            if (moveSide == absoluteSide && alfa >= beta){
-                cout << "\t\t***beta cutoff****\n";
-                return -9999;
-            }
-
-            else if (moveSide != absoluteSide && beta <= alfa){
-                cout << "\t\t****alfa cutoff****\n";
-                return 9999;
-            }
-
-            p.second = ev;
+            // AI will assume other player makes his best
+            return (*std::max_element(possibleMoves.begin(), possibleMoves.end(), 
+                        [](const pair<AIMove, double>& a, const pair<AIMove, double>&b){
+                        return a.second < b.second;
+                        })).second;
         }
+
+
+
+
     }
 
-    // AI will assume other player makes his best
-    if (moveSide == absoluteSide){
+    // moveSide == absoluteSide
+    else { 
+        // continue search for other sides moves
+        vector<pair<AIMove, double>> possibleMoves = collectMoves(!moveSide, gbPtr);
+        double value = 9999.0;
+
+
+        // if there are moves, should always be possible moves at this point
+        if (!possibleMoves.empty()){
+
+            // for every pair of moves/doubles, called by reference
+            for (auto& p : possibleMoves){
+                value = std::min(searchNetto(p.first, depth - 1, gbPtr, !moveSide, absoluteSide, alfa, beta), value);
+                *beta = std::min(value, *beta);
+                // cout << "moveSide=" << moveSide << " absoluteSide=" << absoluteSide << " a=" << *alfa << " b=" << *beta << " val=" << value << endl;
+                if (beta <= alfa){
+                    cout << "\t\t\t*****alfa cut-off*******\n";
+                    break;
+                }
+
+                p.second = value;
+            }
+        }
+        // AI will pick his best move
         return (*std::min_element(possibleMoves.begin(), possibleMoves.end(), 
                     [](const pair<AIMove, double>& a, const pair<AIMove, double>&b){
                     return a.second < b.second;
                     })).second;
     }
-
-    // AI will pick his best move
-    return (*std::max_element(possibleMoves.begin(), possibleMoves.end(), 
-                [](const pair<AIMove, double>& a, const pair<AIMove, double>&b){
-                return a.second < b.second;
-                })).second;
 }
 
 
@@ -257,26 +240,13 @@ AIMove AI::pickMove(){
     // ply 4 takes to long time on all moves
     int tempPly = (maxPly >= 4 ? 3 : maxPly);
 
-    // evaluate first move tree
-    allMoves[0].second = searchNetto(allMoves[0].first, tempPly, gameBoard, color, color, alfaPtr, betaPtr);
-    cout << "\n--------------------\n";
-    cout << "first:\n";
-    cout << "alpha=" << alfa << endl;
-    cout << "beta=" << beta << endl;
-
-    // evaluate rest
-    for (auto it = allMoves.begin() + 1; it != allMoves.end(); ++it){
+    // evaluate all on lower ply
+    for (auto it = allMoves.begin(); it != allMoves.end(); ++it){
         (*it).second = searchNetto((*it).first, tempPly, gameBoard, color, color, alfaPtr, betaPtr);
-        cout << "alpha=" << alfa << endl;
-        cout << "beta=" << beta << endl;
     }
-    cout << "/////\n";
 
 
     if (!allMoves.empty()){
-
-        alfa = -9999; 
-        beta = 9999;
 
         // find max move value (second value of pair in vector)
         hiIndex = std::max_element(allMoves.begin(), allMoves.end(), 
@@ -289,36 +259,36 @@ AIMove AI::pickMove(){
         // best moves, within about 5% of the top best move
         vector<pair<AIMove, double>> tempBestMoves;
         double difference = 0.0;
-        while ( (tempBestMoves.size() < 3) && (difference < 0.06) ){
-            for (auto& p : allMoves){
-                if (p.second * (1 - difference) >= highest){ 
-                    tempBestMoves.push_back(p);
-                    if (tempBestMoves.size() == 5){
-                        break;
-                    }
+        while ( (tempBestMoves.size() < 40) && (difference < 4) ){
+            for (auto it = allMoves.begin(); it != allMoves.end(); ++it){
+                if ((*it).second * (1 - difference) >= highest){ 
+                    tempBestMoves.push_back(*it);
+                    allMoves.erase(it);
+                    break;
                 }
             }
             difference += 0.01;
         }
-
-        // cout << "///////////////\n";
-        // cout << "Found " << tempBestMoves.size() << " best moves from total " << allMoves.size() << ".\n";
-        // for (auto& p : tempBestMoves){
-        //     cout << "Value: " << p.second << endl;
-        // }
+        cout << "\ntempBestMoves.size()=" << tempBestMoves.size() << endl;
+        cout << "///////////////\n";
+        cout << "Found " << tempBestMoves.size() << " best moves from total " << allMoves.size() << ".\n";
+        for (auto& p : tempBestMoves){
+            cout << (char)('a' + p.first.getOldX()) << 1 + p.first.getOldY() << " to " << (char)('a' + p.first.getNewX()) << 1 + p.first.getNewY() << " Value: " << p.second << endl;
+        }
+        
         if (tempBestMoves.size() > 1){
-            // cout << "Now running at " << maxPly << " ply.\n";
+            cout << "Now running at " << maxPly << " ply.\n";
             for (auto& p : tempBestMoves){
                 p.second = searchNetto(p.first, maxPly, gameBoard, color, color, alfaPtr, betaPtr);
-                // cout << "Value=" <<  p.second << endl;
+                cout << (char)('a' + p.first.getOldX()) << p.first.getOldY() + 1 << " to " << (char)('a' + p.first.getNewX()) << 1 + p.first.getNewY() << " Value=" <<  p.second << endl;
             }
         }
 
 
-        hiIndex = std::max_element(allMoves.begin(), allMoves.end(), 
+        hiIndex = std::max_element(tempBestMoves.begin(), tempBestMoves.end(), 
                 [](const pair<AIMove, double>& a, const pair<AIMove, double>& b){
                 return a.second < b.second;
-                }) - allMoves.begin();
+                }) - tempBestMoves.begin();
 
         highest = tempBestMoves[hiIndex].second;
         allMoves.clear();
