@@ -81,7 +81,8 @@ double AI::evaluatePosition(Board* gb, bool side){
 
 
 // recursive search until mate, stalemate or depth is 0
-double AI::searchNetto(AIMove move, const int& depth, Board* gb, bool moveSide, bool absoluteSide){
+double AI::searchNetto(AIMove move, const int& depth, Board* gb, bool moveSide, 
+        bool absoluteSide, double* alfa, double* beta){
 
     // make a copy of the game board and transfer the move
     Board newGameBoard = *gb; // remove one of these
@@ -99,7 +100,6 @@ double AI::searchNetto(AIMove move, const int& depth, Board* gb, bool moveSide, 
 
 
     // End recursion if no possible moves
-    // todo test for checkmate, stalemate, etc. 
     // Stalemate could be beneficial if other side has more value
     if (gbPtr->getLastMove().noMoves()) {
         if (absoluteSide == moveSide){
@@ -107,6 +107,9 @@ double AI::searchNetto(AIMove move, const int& depth, Board* gb, bool moveSide, 
                 // cout << "1.1: 0 " << (char)('a' + gbPtr->getLastMove().getOldX()) << 
                 //     (1 + gbPtr->getLastMove().getOldY()) << " to " <<
                 //     (char)(gbPtr->getLastMove().getNewX() + 'a') << 1 + (gbPtr->getLastMove().getNewY()) << "\n";
+                if (*beta > 999.0 + depth){
+                    *beta = 999.0 + depth;
+                }
                 return 999.0 + depth; // high number for checkmate
             }
 
@@ -114,13 +117,23 @@ double AI::searchNetto(AIMove move, const int& depth, Board* gb, bool moveSide, 
             // cout << "1.2: 0.0 " << (char)('a' + gbPtr->getLastMove().getOldX()) << 
             //     (1+gbPtr->getLastMove().getOldY()) << " to " <<
             //     (char)(gbPtr->getLastMove().getNewX() + 'a') << (1 + gbPtr->getLastMove().getNewY()) << "\n";
+            if (*beta > 0.0){
+                *beta = 0.0;
+            }
             return 0.0; // 0.0 will look good if AI player is behind in material, bad if ahead
         }
         else {
             // AI will avoid checkmate
             if (gbPtr->getLastMove().isCheck()){
                 // cout << "1.3: -999\n";
+                if (*alfa < -999.0){
+                    *alfa = -999.0;
+                }
                 return -999.0;
+            }
+
+            if (*alfa < 0.0){
+                *alfa = 0.0;
             }
 
             // cout << "1.4: 0\n";
@@ -136,7 +149,19 @@ double AI::searchNetto(AIMove move, const int& depth, Board* gb, bool moveSide, 
         //    " to " << (char)('a' + move.getNewX()) <<
         //    1 + move.getNewY() << " then ..." << endl;
 
-        return evaluatePosition(gbPtr, absoluteSide);
+        double val = evaluatePosition(gbPtr, absoluteSide);
+        if (absoluteSide == moveSide){
+            if (*beta > val){
+                cout << "UPDATE BETA\n";
+                *beta = val;
+            }
+        }
+        else{
+            if (*alfa < val){
+                *alfa = val;
+            }
+        }
+        return val;
     }
 
     // continue search for other sides moves
@@ -148,7 +173,22 @@ double AI::searchNetto(AIMove move, const int& depth, Board* gb, bool moveSide, 
 
         // for every pair of moves/doubles, called by reference
         for (auto& p : possibleMoves){
-            double ev = searchNetto(p.first, depth - 1, gbPtr, !moveSide, absoluteSide);
+            double ev = searchNetto(p.first, depth - 1, gbPtr, !moveSide, absoluteSide, alfa, beta);
+            if (moveSide != absoluteSide){
+                if (ev > *alfa){
+                    *alfa = ev;
+                }
+            }
+            if (moveSide == absoluteSide){
+                if (ev < *beta){
+                    *beta = ev;
+                }
+            }
+
+            if (alfa >= beta){
+                return -9999;
+            }
+
             p.second = ev;
         }
     }
@@ -174,6 +214,11 @@ AIMove AI::pickMove(){
     // cout << "Start picking move...\n";
     int hiIndex = -1;
 
+    double alfa = -9999, beta = 9999;
+    double *alfaPtr = &alfa;  // negative 'infinity'
+    double *betaPtr = &beta; // positive 'infinity'
+
+
     // collect moves
     vector<pair<AIMove, double>> allMoves = collectMoves(color, gameBoard);
 
@@ -187,19 +232,30 @@ AIMove AI::pickMove(){
     // }
     // cout << endl;
 
-
-
-
     // ply 4 takes to long time on all moves
     int tempPly = (maxPly >= 4 ? 3 : maxPly);
 
-    // evaluate moves one by one 
-    for (auto& p : allMoves){
-        p.second = searchNetto(p.first, tempPly, gameBoard, color, color);
-    }
+    // evaluate first move tree
+    allMoves[0].second = searchNetto(allMoves[0].first, tempPly, gameBoard, color, color, alfaPtr, betaPtr);
+    cout << "\n--------------------\n";
+    cout << "first:\n";
+    cout << "alpha=" << alfa << endl;
+    cout << "beta=" << beta << endl;
 
-    
+    // evaluate rest
+    for (auto it = allMoves.begin() + 1; it != allMoves.end(); ++it){
+        (*it).second = searchNetto((*it).first, tempPly, gameBoard, color, color, alfaPtr, betaPtr);
+        cout << "alpha=" << alfa << endl;
+        cout << "beta=" << beta << endl;
+    }
+    cout << "/////\n";
+
+
     if (!allMoves.empty()){
+
+        alfa = -9999; 
+        beta = 9999;
+
         // find max move value (second value of pair in vector)
         hiIndex = std::max_element(allMoves.begin(), allMoves.end(), 
                 [](const pair<AIMove, double>& a, const pair<AIMove, double>& b){
@@ -231,7 +287,7 @@ AIMove AI::pickMove(){
         if (tempBestMoves.size() > 1){
             // cout << "Now running at " << maxPly << " ply.\n";
             for (auto& p : tempBestMoves){
-                p.second = searchNetto(p.first, maxPly, gameBoard, color, color);
+                p.second = searchNetto(p.first, maxPly, gameBoard, color, color, alfaPtr, betaPtr);
                 // cout << "Value=" <<  p.second << endl;
             }
         }
@@ -251,50 +307,7 @@ AIMove AI::pickMove(){
     }
 
 
-
-
-
-
     // ...and randomly pick one
-
-
-
-    // cout << "\n-----------------------\n";
-    // cout << "Evaluation of moves:\n";
-    // cout << "-----------------------\n";
-    // for (auto p : allMoves){
-
-    //     cout << (char)('a' + p.first.getOldX()) << 1 + p.first.getOldY() <<
-    //         " to " << 
-    //         (char)('a' + p.first.getNewX()) << 1 + p.first.getNewY() <<
-    //         " value=" << std::to_string(p.second) << endl;
-    // }
-    // cout << endl;
-
-
-    // if (!allMoves.empty()){
-    //     // find best
-    //     hiIndex = std::max_element(allMoves.begin(), allMoves.end(), 
-    //             [](const pair<AIMove, double>& a, const pair<AIMove, double>& b){
-    //             return a.second < b.second;
-    //             }) - allMoves.begin();
-
-    //     // Debug - print all possible moves and respective value
-    //     cerr << "\n##########################\n";
-    //     cerr << "All moves and evaluation:\n";
-    //     for (size_t i = 0; i != allMoves.size(); ++i){
-    //         AIMove tempMove = allMoves[i].first;
-    //         cerr << i << ". " << (char)('a' + tempMove.getOldX()) << 
-    //             tempMove.getOldY() + 1 <<
-    //             " to " << (char)('a' + tempMove.getNewX()) <<
-    //             1 + tempMove.getNewY() << " Value=" <<
-    //             std::to_string(allMoves[i].second) << endl;
-
-    //     }
-    //     cerr << "Highest value: " << allMoves[hiIndex].second << endl;
-    //     cerr << "--------------------------\n";
-    //     // END debug
-    // }
 
     if (allMoves.empty()){
         return AIMove(-1, -1, -1, -1);
@@ -302,19 +315,10 @@ AIMove AI::pickMove(){
     // test if AI makes promotion
     AIMove theMove = allMoves[hiIndex].first;
 
-    // cerr << "////////////\n";
-    // cerr << "DEBUG\n";
-    // cerr << "////////////\n";
-    // cerr << "// type=" <<  gameBoard->getBoard()[theMove.getNewY()][theMove.getNewX()]->getType() << endl;
-    // cerr << "// row=" << theMove.getNewY() << endl;
-
-
     if (gameBoard->getBoard()[theMove.getOldY()][theMove.getOldX()]->getType() == 'p' &&
             (theMove.getNewY() == 7 || !theMove.getNewY())
        ){
-        // cout << "###############\n";
-        // cout << "AI PROMOTION\n";
-        // cout << "###############\n";
+        // AI makes promotion
         gameBoard->setPromotion(true);
         gameBoard->setPromotionChar('q');
     }

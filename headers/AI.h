@@ -21,7 +21,8 @@ class AI {
         double evaluatePosition(Board* gb, bool side);
 
 
-        double searchNetto(AIMove move, const int& depth, Board* gb, bool moveSide, bool absoluteSide);
+        double searchNetto(AIMove move, const int& depth, Board* gb, 
+                bool moveSide, bool absoluteSide, double* alfa, double* beta);
 
     public:
         AI(bool _color, Board* _gameBoard);
