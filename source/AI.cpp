@@ -219,17 +219,17 @@ AIMove AI::pickMove(){
         }
         AIMove theMove = randomQualifyMoves[randomInt(randomQualifyMoves.size() - 1)].first;
 
-        cout << "\n-----------------------\n";
-        cout << "Evaluation of moves:\n";
-        cout << "-----------------------\n";
-        for (auto p : allMoves){
+        // cout << "\n-----------------------\n";
+        // cout << "Evaluation of moves:\n";
+        // cout << "-----------------------\n";
+        // for (auto p : allMoves){
 
-            cout << (char)('a' + p.first.getOldX()) << 1 + p.first.getOldY() <<
-                " to " << 
-                (char)('a' + p.first.getNewX()) << 1 + p.first.getNewY() <<
-                " value=" << std::to_string(p.second) << endl;
-        }
-        cout << endl;
+        //     cout << (char)('a' + p.first.getOldX()) << 1 + p.first.getOldY() <<
+        //         " to " << 
+        //         (char)('a' + p.first.getNewX()) << 1 + p.first.getNewY() <<
+        //         " value=" << std::to_string(p.second) << endl;
+        // }
+        // cout << endl;
 
         // test if AI makes promotion
         if (gameBoard->getBoard()[theMove.getOldY()][theMove.getOldX()]->getType() == 'p' &&
