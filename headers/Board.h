@@ -36,22 +36,22 @@ class Board{
         Piece*** getBoard() {return board;}
         Piece* getPieceAt(int arrX, int arrY);
         bool movePiece(int oldX, int oldY, int newX, int newY);
-        bool atMove() const { return moveCount % 2;}
+        [[nodiscard]] bool atMove() const { return moveCount % 2;}
         bool testCheck();
-        bool testMate();
+        // bool testMate();
         bool playerCanMove();
-        const LastMove& getLastMove() const {return lastMove;}
-        bool getPlayerAI(bool player) const;
+        [[nodiscard]] const LastMove& getLastMove() const {return lastMove;}
+        [[nodiscard]] bool getPlayerAI(bool player) const;
         Player* getPlayers() {return players;}
-        const bool isPromotion() const {return promotion;}
+        [[nodiscard]] bool isPromotion() const {return promotion;}
         void setPromotion(bool prom) {promotion = prom;}
         void setPromotionChar(char p) {promotionChar = p;}
-        const int& getPromotionOldX() const {return promotionOldX;}
-        const int& getPromotionOldY() const {return promotionOldY;}
-        const int& getPromotionNewX() const {return promotionNewX;}
-        const int& getPromotionNewY() const {return promotionNewY;}
-        const char& getPromotionChar() const {return promotionChar;}
-        const vector<Piece*>& getCapturedPieces() const {return capturedPieces;}
+        [[nodiscard]] const int& getPromotionOldX() const {return promotionOldX;}
+        [[nodiscard]] const int& getPromotionOldY() const {return promotionOldY;}
+        [[nodiscard]] const int& getPromotionNewX() const {return promotionNewX;}
+        [[nodiscard]] const int& getPromotionNewY() const {return promotionNewY;}
+        [[nodiscard]] const char& getPromotionChar() const {return promotionChar;}
+        [[nodiscard]] const vector<Piece*>& getCapturedPieces() const {return capturedPieces;}
         void setSilent() {silent = true;}
 
 };

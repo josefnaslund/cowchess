@@ -1,6 +1,5 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
-#include <cstring>
 #include <iostream>
 #include "GUI.h"
 #include "constants.h"
@@ -23,16 +22,18 @@ using std::endl;
 
 GUI::GUI(Board* _gameBoard)
 {
-    window = NULL;
-    renderer = NULL;
-    texture = NULL;
+    window = nullptr;
+    renderer = nullptr;
+    texture = nullptr;
     images = std::vector<std::pair<const char**, SDL_Texture*>> {};
-    surface = NULL;
+    surface = nullptr;
     gameBoard = _gameBoard;
-    turnTexture = NULL;
-    checkTexture = NULL;
-    promotionTextureWhite = NULL;
-    promotionTextureBlack = NULL;
+    turnTexture = nullptr;
+    checkTexture = nullptr;
+    promotionTextureWhite = nullptr;
+    promotionTextureBlack = nullptr;
+    mouse = nullptr;
+    touch = nullptr;
 }
 
 GUI::~GUI(){
@@ -66,12 +67,12 @@ bool GUI::init(){
          SDL_WINDOW_SHOWN
         );
 
-    if (window != NULL)
+    if (window != nullptr)
         renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
     else 
         std::cerr << "Error window: " << SDL_GetError();
 
-    if (renderer == NULL) 
+    if (renderer == nullptr)
         std::cerr << "Error renderer: " <<  SDL_GetError();
 
 
@@ -83,7 +84,7 @@ bool GUI::init(){
         std::cerr << "Failed to init SDL_image (jpg)\n";
     }
 
-    return renderer != NULL;
+    return renderer != nullptr;
 }
 
 void GUI::setMouse(Mouse* _mouse){
@@ -132,7 +133,7 @@ void GUI::drawBoard(){
 
 
 void GUI::drawTextCheck(){
-    if (checkTexture == NULL){
+    if (checkTexture == nullptr){
         loadTexture(text_check_xpm);
         checkTexture = texture;
     }
@@ -143,7 +144,7 @@ void GUI::drawTextCheck(){
     r.w = 74; 
     r.h = 32; 
 
-    SDL_RenderCopy(renderer, checkTexture, NULL, &r);
+    SDL_RenderCopy(renderer, checkTexture, nullptr, &r);
 
 }
 
@@ -157,7 +158,7 @@ void GUI::drawTextMate(){
     r.w = 190; 
     r.h = 45; 
 
-    SDL_RenderCopy(renderer, checkmate, NULL, &r);
+    SDL_RenderCopy(renderer, checkmate, nullptr, &r);
 
     SDL_DestroyTexture(checkmate);
 }
@@ -172,7 +173,7 @@ void GUI::drawTextDraw(){
     r.w = 85; 
     r.h = 45; 
 
-    SDL_RenderCopy(renderer, checkmate, NULL, &r);
+    SDL_RenderCopy(renderer, checkmate, nullptr, &r);
 
     SDL_DestroyTexture(checkmate);
 }
@@ -180,7 +181,7 @@ void GUI::drawTextDraw(){
 void GUI::drawTurn(){
 
     // draw turn text image
-    if (turnTexture == NULL){
+    if (turnTexture == nullptr){
         loadTexture(text_turn_xpm);
         turnTexture = texture;
     }
@@ -191,7 +192,7 @@ void GUI::drawTurn(){
     r.w = 50; 
     r.h = 17; 
 
-    SDL_RenderCopy(renderer, turnTexture, NULL, &r);
+    SDL_RenderCopy(renderer, turnTexture, nullptr, &r);
 
     // draw squares with turn info
     // draw border around turn-square
@@ -266,7 +267,7 @@ void GUI::drawAIstatus(){
     r.h = SQUARE_SIZE / 2;
 
     // draw brighter white color if player is ai
-    if (gameBoard->getPlayerAI(1)){
+    if (gameBoard->getPlayerAI(true)){
         // set to light color
         SDL_SetRenderDrawColor( renderer, 200, 200, 200, 255 );
     }
@@ -283,13 +284,13 @@ void GUI::drawAIstatus(){
     r.y = TOP_MARGIN + SQUARE_SIZE * 7.5;
 
     // draw darker
-    if (gameBoard->getPlayerAI(0)){
+    if (gameBoard->getPlayerAI(false)){
         // set to light color
         SDL_SetRenderDrawColor( renderer, 50, 50, 50, 255 );
     }
 
 
-    // draw brigher
+    // draw brighter color
     else {
         // set to dark color
         SDL_SetRenderDrawColor( renderer, 125, 125, 125, 255 );
@@ -376,7 +377,7 @@ void GUI::drawPromotionPieces(bool color){
         promotionTextureWhite[2] = texture;
         loadTexture(queen_w_xpm);
         promotionTextureWhite[3] = texture;
-        texture = NULL;
+        texture = nullptr;
     }
 
     // load black images to texture
@@ -390,7 +391,7 @@ void GUI::drawPromotionPieces(bool color){
         promotionTextureBlack[2] = texture;
         loadTexture(queen_b_xpm);
         promotionTextureBlack[3] = texture;
-        texture = NULL;
+        texture = nullptr;
     }
 
     // draw all pieces
@@ -447,7 +448,7 @@ void GUI::loadImages(){
 
                         };
                         images.push_back(newPair);
-                        texture = NULL;
+                        texture = nullptr;
                     }
                 }
 
@@ -509,17 +510,17 @@ void GUI::drawPieces(){
 }
 
 bool GUI::loadTexture(const char** img){
-    texture = NULL;
+    texture = nullptr;
 
     surface = IMG_ReadXPMFromArray((char**)img);
 
     texture = SDL_CreateTextureFromSurface(renderer, surface);
     if (!texture){
         std::cerr << "Can't load texture: " << img << std::endl;
-        return 0;
+        return false;
     }
     SDL_FreeSurface(surface);
-    surface = NULL;
+    surface = nullptr;
     return true;
 }
 

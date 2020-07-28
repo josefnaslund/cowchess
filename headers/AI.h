@@ -21,9 +21,9 @@ class AI {
         double evaluatePosition(Board* gb, bool side);
 
 
-        double searchNetto(AIMove move, const int& depth, Board* gb, bool moveSide, bool absoluteSide);
+        double searchBalance(AIMove move, const int& depth, Board* gb, bool moveSide, bool absoluteSide);
 
-        int randomInt(int max);
+        int randomInt(const int& max);
 
     public:
         AI(bool _color, Board* _gameBoard);

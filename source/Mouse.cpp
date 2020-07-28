@@ -71,7 +71,7 @@ bool Mouse::mouseEvents(SDL_Event& e, Board& board){
 
         int arrX = -1, arrY = -1;
 
-        Piece* clickedPiece = NULL;
+        Piece* clickedPiece = nullptr;
 
         if (getIndexPos(e.button.x, e.button.y, arrX, arrY)){
             //cout << "Mouse: arrpos: [" << arrY << "][" << arrX << "]\n";
@@ -91,7 +91,7 @@ bool Mouse::mouseEvents(SDL_Event& e, Board& board){
             absoluteLockedPosition.second = e.button.y;
         }
 
-        // no piece clicked, but clicked at GUI AI select square left
+        // no piece clicked, but clicked at GUI AI select square left (White player)
         if (!clickedPiece && 
                 e.button.x >= (LEFT_MARGIN / 4 - SQUARE_SIZE / 4) && 
                 e.button.x <= (LEFT_MARGIN / 4 + SQUARE_SIZE / 4) && 
@@ -100,7 +100,7 @@ bool Mouse::mouseEvents(SDL_Event& e, Board& board){
             Player* players = gameBoard->getPlayers();
             players[1].setAI(!players[1].isAI());
         }
-        // ... or select AI square right
+        // ... or select AI square right (Black player)
         else if (!clickedPiece && 
                 e.button.x >= (LEFT_MARGIN / 4 * 3 - SQUARE_SIZE / 4) && 
                 e.button.x <= (LEFT_MARGIN / 4 * 3 + SQUARE_SIZE / 4) && 

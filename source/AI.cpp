@@ -2,6 +2,7 @@
 #include <algorithm>
 #include <random>
 #include <ctime>
+#include <chrono>
 #include <utility>
 #include <string>
 #include "AI.h"
@@ -13,15 +14,13 @@ using std::vector;
 using std::sort;
 using std::pair;
 
+
 AI::AI(bool _color, Board* _gameBoard) {
     color = _color;
     gameBoard = _gameBoard;
 
     // these values are updated from main anyhow
-    if (color) 
-        maxPly = 2; // white
-    else
-        maxPly = 2; // black
+    maxPly = 2; // white
 }
 
 
@@ -39,11 +38,11 @@ std::vector<std::pair<AIMove, double>> AI::collectMoves(bool side, Board* gb){
                     if (
                             b[i][j]->isAlive() && 
                             (b[i][j]->isWhite() == side) &&
-                            b[i][j]->validMove(j, i, l, k, b, 1) &&
+                            b[i][j]->validMove(j, i, l, k, b, true) &&
                             !gb->getLastMove().noMoves()
                        )
                     {
-                        allMoves.push_back(std::make_pair(AIMove(j, i, l, k), 0.0));
+                        allMoves.emplace_back(AIMove(j, i, l, k), 0.0);
                         // cout << "\nAI: Found move " << (char)('a' + j) <<  
                         // i + 1 << " -> " << (char)('a' + l) << k + i << " 
                         // Piece is color= " << b[j][i]->isWhite() << " type=" 
@@ -81,7 +80,7 @@ double AI::evaluatePosition(Board* gb, bool side){
 
 
 // recursive search until mate, stalemate or depth is 0
-double AI::searchNetto(AIMove move, const int& depth, Board* gb, bool moveSide, bool absoluteSide){
+double AI::searchBalance(AIMove move, const int& depth, Board* gb, bool moveSide, bool absoluteSide){
 
     // make a copy of the game board and transfer the move
     Board newGameBoard = *gb; // remove one of these
@@ -99,7 +98,6 @@ double AI::searchNetto(AIMove move, const int& depth, Board* gb, bool moveSide, 
 
 
     // End recursion if no possible moves
-    // todo test for checkmate, stalemate, etc. 
     // Stalemate could be beneficial if other side has more value
     if (gbPtr->getLastMove().noMoves()) {
         if (absoluteSide == moveSide){
@@ -148,7 +146,7 @@ double AI::searchNetto(AIMove move, const int& depth, Board* gb, bool moveSide, 
 
         // for every pair of moves/doubles, called by reference
         for (auto& p : possibleMoves){
-            double ev = searchNetto(p.first, depth - 1, gbPtr, !moveSide, absoluteSide);
+            double ev = searchBalance(p.first, depth - 1, gbPtr, !moveSide, absoluteSide);
             p.second = ev;
         }
     }
@@ -171,8 +169,7 @@ double AI::searchNetto(AIMove move, const int& depth, Board* gb, bool moveSide, 
 
 // pickMove
 AIMove AI::pickMove(){
-    // cout << "Start picking move...\n";
-    int hiIndex = -1;
+
 
     // collect moves
     vector<pair<AIMove, double>> allMoves = collectMoves(color, gameBoard);
@@ -190,25 +187,17 @@ AIMove AI::pickMove(){
 
     // evaluate moves one by one 
     for (auto& p : allMoves){
-        p.second = searchNetto(p.first, maxPly, gameBoard, color, color);
+        p.second = searchBalance(p.first, maxPly, gameBoard, color, color);
     }
 
 
     if (!allMoves.empty()){
         // find max move value (second value of pair in vector)
-        hiIndex = std::max_element(allMoves.begin(), allMoves.end(), 
+        int hiIndex = std::max_element(allMoves.begin(), allMoves.end(),
                 [](const pair<AIMove, double>& a, const pair<AIMove, double>& b){
                 return a.second < b.second;
                 }) - allMoves.begin();
         double highestValue = allMoves[hiIndex].second;
-
-
-        hiIndex = std::max_element(allMoves.begin(), allMoves.end(), 
-                [](const pair<AIMove, double>& a, const pair<AIMove, double>& b){
-                return a.second < b.second;
-                }) - allMoves.begin();
-
-        highestValue = allMoves[hiIndex].second;
 
         // ...and randomly pick one within top range of best moves
         vector<pair<AIMove, double>> randomQualifyMoves;
@@ -217,7 +206,7 @@ AIMove AI::pickMove(){
                 randomQualifyMoves.push_back(p);
             }
         }
-        AIMove theMove = randomQualifyMoves[randomInt(randomQualifyMoves.size() - 1)].first;
+        AIMove theMove = randomQualifyMoves[randomInt(static_cast<int>(randomQualifyMoves.size()) - 1)].first;
 
         // cout << "\n-----------------------\n";
         // cout << "Evaluation of moves:\n";
@@ -285,15 +274,18 @@ AIMove AI::pickMove(){
 }
 
 
-int AI::randomInt(int max){
+int AI::randomInt(const int& max){
     std::uniform_int_distribution<int> u(0, max);
-    std::default_random_engine e;
-    e.seed(time(0));
+    std::default_random_engine e(
+            std::chrono::duration_cast<std::chrono::microseconds>(
+                    std::chrono::high_resolution_clock::now().time_since_epoch()
+            ).count()
+            );
+    //e.seed(time(nullptr));
 
     // throw away some for greater randomness
     for (int i = 0; i != 5; ++i){
         u(e);
     }
-
     return u(e);
 }

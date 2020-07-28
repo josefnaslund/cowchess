@@ -9,16 +9,16 @@ class AIMove {
         int oldY;
         int newX;
         int newY;
-        Piece* piece;
+        // Piece* piece;
 
 
     public:
         AIMove(int _oldX, int oldY, int _newX, int _newY);
 
-        const int& getOldX() const { return oldX;}
-        const int& getOldY() const { return oldY;}
-        const int& getNewX() const { return newX;}
-        const int& getNewY() const { return newY;}
+        [[nodiscard]] const int& getOldX() const { return oldX;}
+        [[nodiscard]] const int& getOldY() const { return oldY;}
+        [[nodiscard]] const int& getNewX() const { return newX;}
+        [[nodiscard]] const int& getNewY() const { return newY;}
 };
 
 #endif

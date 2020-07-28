@@ -13,7 +13,7 @@ LastMove::LastMove(){
     noMovesPossible = false;
     shortCastling = false;
     longCastling = false;
-    moveColor = 0;
+    moveColor = false;
 }
 
 LastMove::LastMove(int _oldX, int _oldY, int _newX, int _newY, 

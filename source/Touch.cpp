@@ -24,7 +24,6 @@ void Touch::setPosY(int _y){
     posY = _y;
 }
 
-
 bool Touch::getIndexPos(const int& guiX, const int& guiY, int& arrX, int& arrY){
 
     if (guiX <= LEFT_MARGIN || guiX >= LEFT_MARGIN + 8 * SQUARE_SIZE ||
@@ -33,7 +32,6 @@ bool Touch::getIndexPos(const int& guiX, const int& guiY, int& arrX, int& arrY){
     }
 
     // cout << "Touch - Piece at pos: " << guiX << "," << guiY << " : ";
-
 
     // chess position x
     arrX = (guiX - LEFT_MARGIN) / 50;
@@ -44,9 +42,7 @@ bool Touch::getIndexPos(const int& guiX, const int& guiY, int& arrX, int& arrY){
 
     //cout << arrY + 1 << endl;
 
-
     return true;
-
 }
 
 bool Touch::touchEvents(SDL_Event& fe, Board& board){
@@ -69,9 +65,9 @@ bool Touch::touchEvents(SDL_Event& fe, Board& board){
 
         int arrX = -1, arrY = -1;
 
-        Piece* clickedPiece = NULL;
+        Piece* clickedPiece = nullptr;
 
-        if (getIndexPos(fe.tfinger.x * SCREEN_WIDTH, fe.tfinger.y * SCREEN_HEIGHT, arrX, arrY)){
+        if (getIndexPos(static_cast<int>(fe.tfinger.x * SCREEN_WIDTH), static_cast<int>(fe.tfinger.y * SCREEN_HEIGHT), arrX, arrY)){
             //cout << "Mouse: arrpos: [" << arrY << "][" << arrX << "]\n";
             clickedPiece = board.getPieceAt(arrX, arrY);
         }
@@ -180,7 +176,7 @@ bool Touch::touchEvents(SDL_Event& fe, Board& board){
         if (isLocked()){
 
             int arrX = -1, arrY = -1;
-            if (getIndexPos(fe.tfinger.x * SCREEN_WIDTH, fe.tfinger.y * SCREEN_HEIGHT, arrX, arrY)){
+            if (getIndexPos(static_cast<int>(fe.tfinger.x * SCREEN_WIDTH), static_cast<int>(fe.tfinger.y * SCREEN_HEIGHT), arrX, arrY)){
                 if (arrX != getPosX() || arrY != getPosY()){
 
                     if ( board.movePiece( getPosX(),
@@ -196,7 +192,6 @@ bool Touch::touchEvents(SDL_Event& fe, Board& board){
             setLocked(false);
         }
     }
-
     return moveMade;
 }
 
