@@ -651,12 +651,12 @@ void GUI::drawLastMove() {
         SDL_Rect r;
         r.w = 10;
         r.h = 10;
-        SDL_SetRenderDrawColor(renderer, 240, 60, 0, 5);
+        SDL_SetRenderDrawColor(renderer, 240, 60, 0, 10);
 
-        int x1 = LEFT_MARGIN + SQUARE_SIZE * lm.getOldX() + SQUARE_SIZE / 2 - 5;;
-        int x2 = LEFT_MARGIN + SQUARE_SIZE * lm.getNewX() + SQUARE_SIZE / 2 - 5;;
-        int y1 = TOP_MARGIN + SQUARE_SIZE * (7 - lm.getOldY()) + SQUARE_SIZE / 2 - 5;;
-        int y2 = TOP_MARGIN + SQUARE_SIZE * (7 - lm.getNewY()) + SQUARE_SIZE / 2 - 5;;
+        int x1 = LEFT_MARGIN + SQUARE_SIZE * lm.getOldX() + SQUARE_SIZE / 2 - 5;
+        int x2 = LEFT_MARGIN + SQUARE_SIZE * lm.getNewX() + SQUARE_SIZE / 2 - 5;
+        int y1 = TOP_MARGIN + SQUARE_SIZE * (7 - lm.getOldY()) + SQUARE_SIZE / 2 - 5;
+        int y2 = TOP_MARGIN + SQUARE_SIZE * (7 - lm.getNewY()) + SQUARE_SIZE / 2 - 5;
 
         if (x1 == x2){
             while (y1 != y2) {
@@ -670,7 +670,7 @@ void GUI::drawLastMove() {
             }
         }
         else {
-            SDL_SetRenderDrawColor(renderer, 240, 60, 0, 5);
+            SDL_SetRenderDrawColor(renderer, 240, 60, 0, 20);
 
             int dx = x2 - x1;
             int dy = y2 - y1;
