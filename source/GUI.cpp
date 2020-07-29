@@ -67,13 +67,17 @@ bool GUI::init(){
          SDL_WINDOW_SHOWN
         );
 
-    if (window != nullptr)
+    if (window != nullptr) {
         renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-    else 
+        SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
+    }
+    else {
         std::cerr << "Error window: " << SDL_GetError();
+    }
 
-    if (renderer == nullptr)
-        std::cerr << "Error renderer: " <<  SDL_GetError();
+    if (renderer == nullptr) {
+        std::cerr << "Error renderer: " << SDL_GetError();
+    }
 
 
     if (IMG_Init(IMG_INIT_PNG) != IMG_INIT_PNG){
@@ -83,6 +87,8 @@ bool GUI::init(){
     if (IMG_Init(IMG_INIT_JPG) != IMG_INIT_JPG){
         std::cerr << "Failed to init SDL_image (jpg)\n";
     }
+
+
 
     return renderer != nullptr;
 }
@@ -142,7 +148,7 @@ void GUI::drawTextCheck(){
     r.x = 27;  
     r.y = 200; 
     r.w = 74; 
-    r.h = 32; 
+    r.h = 32;
 
     SDL_RenderCopy(renderer, checkTexture, nullptr, &r);
 
@@ -544,7 +550,7 @@ void GUI::drawCurrentPieceMouse(){
     r.w = SQUARE_SIZE;
 
     // draw highlighted square to cover piece square
-    SDL_SetRenderDrawColor(renderer, 100, 50, 50, 255);
+    SDL_SetRenderDrawColor(renderer, 100, 50, 50, 200);
     SDL_RenderFillRect( renderer, &r );
 
     
@@ -561,7 +567,7 @@ void GUI::drawCurrentPieceMouse(){
         r.y = tempY - ((tempY - TOP_MARGIN) % SQUARE_SIZE);
 
 
-        SDL_SetRenderDrawColor(renderer, 150, 50, 50, 255);
+        SDL_SetRenderDrawColor(renderer, 150, 50, 50, 200);
         SDL_RenderFillRect( renderer, &r );
     }
 
@@ -601,7 +607,7 @@ void GUI::drawCurrentPieceTouch(){
     r.w = SQUARE_SIZE;
 
     // draw square to cover piece square
-    SDL_SetRenderDrawColor(renderer, 100, 50, 50, 255);
+    SDL_SetRenderDrawColor(renderer, 100, 50, 50, 200);
     SDL_RenderFillRect( renderer, &r );
 
 
@@ -619,7 +625,7 @@ void GUI::drawCurrentPieceTouch(){
         r.y = tempY - ((tempY - TOP_MARGIN) % SQUARE_SIZE);
 
 
-        SDL_SetRenderDrawColor(renderer, 150, 50, 50, 255);
+        SDL_SetRenderDrawColor(renderer, 150, 50, 50, 200);
         SDL_RenderFillRect( renderer, &r );
     }
 
@@ -634,16 +640,65 @@ void GUI::drawCurrentPieceTouch(){
     if (tempIndex != -1){
         SDL_RenderCopy(renderer, images[tempIndex].second, nullptr, &r);
     }
-
-
-
-
 }
 
 
+
+
+void GUI::drawLastMove() {
+    LastMove lm = gameBoard->getLastMove();
+    if (lm.getOldX() != -1) {
+        SDL_Rect r;
+        r.w = 10;
+        r.h = 10;
+        SDL_SetRenderDrawColor(renderer, 240, 60, 0, 5);
+
+        int x1 = LEFT_MARGIN + SQUARE_SIZE * lm.getOldX() + SQUARE_SIZE / 2 - 5;;
+        int x2 = LEFT_MARGIN + SQUARE_SIZE * lm.getNewX() + SQUARE_SIZE / 2 - 5;;
+        int y1 = TOP_MARGIN + SQUARE_SIZE * (7 - lm.getOldY()) + SQUARE_SIZE / 2 - 5;;
+        int y2 = TOP_MARGIN + SQUARE_SIZE * (7 - lm.getNewY()) + SQUARE_SIZE / 2 - 5;;
+
+        if (x1 == x2){
+            while (y1 != y2) {
+                r.x = x1;
+                r.y = y1;
+
+                SDL_RenderFillRect(renderer, &r);
+
+                // increment or decrement y1
+                y1 = y1 < y2 ? y1 + 1 : y1 - 1;
+            }
+        }
+        else {
+            SDL_SetRenderDrawColor(renderer, 240, 60, 0, 5);
+
+            int dx = x2 - x1;
+            int dy = y2 - y1;
+            int x = x1;
+
+            while (x != x2) {
+                r.x = x;
+                r.y = y1 + dy * (x - x1) / dx;
+
+                SDL_RenderFillRect(renderer, &r);
+
+                // increment or decrement x
+                x = x < x2 ? x + 1 : x - 1;
+            }
+        }
+    }
+}
+
 void GUI::update(){
-    // cout << "Running update()\n";
+
+    // draw the board
     drawBoard();
+
+    // draw last move line
+    drawLastMove();
+
+
+    // draw the pieces
     drawPieces();
     if (gameBoard->getLastMove().isCheck()){
         if (gameBoard->getLastMove().noMoves()){
@@ -658,14 +713,19 @@ void GUI::update(){
     }
 
 
+    // draw promotion alternatives
     if (gameBoard->isPromotion()){
         drawPromotionPieces(gameBoard->atMove());
     }
 
+    // draw AI on/off info box
     drawAIstatus();
 
+    // draw captured pieces
     drawCapturedPieces();
 
+
+    // draw a moving piece
     if (mouse->isLocked()){
         drawCurrentPieceMouse();
     }
@@ -674,6 +734,6 @@ void GUI::update(){
         drawCurrentPieceTouch();
     }
 
+    // done - lets present to screen
     SDL_RenderPresent(renderer);
-    // cout << "Updated()\n";
 }

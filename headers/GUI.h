@@ -145,6 +145,12 @@ class GUI {
 
         bool close(); //????
 
+
+        /**
+         * @brief Draws a straight line highlighting the last move
+         */
+        void drawLastMove();
+
         /**
          * @brief Calls members drawBoard(), drawPieces() and
          * SDL_RenderPresent().
