@@ -3,8 +3,7 @@
 #include "rook_w.xpm"
 #include "rook_b.xpm"
 
-using std::cout;
-using std::endl;
+using std::cout, std::endl;
 
 Rook::Rook(bool color, Board* _gameBoard){
 

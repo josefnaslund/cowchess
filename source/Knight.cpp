@@ -4,9 +4,7 @@
 #include "knight_b.xpm"
 
 
-using std::abs;
-using std::cout;
-using std::endl;
+using std::abs, std::cout, std::endl;
 
 Knight::Knight(bool color, Board* _gameBoard){
 

@@ -4,8 +4,7 @@
 #include "Piece.h"
 #include "Player.h"
 
-using std::cout; 
-using std::endl;
+using std::cout, std::endl;
 
 Touch::Touch(Board* _gameBoard){
     posX = 0;

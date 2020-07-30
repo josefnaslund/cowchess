@@ -17,8 +17,7 @@
 #include "queen_b.xpm"
 #include "bishop_b.xpm"
 
-using std::cout; 
-using std::endl;
+using std::cout, std::endl;
 
 GUI::GUI(Board* _gameBoard)
 {

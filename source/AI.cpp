@@ -7,12 +7,7 @@
 #include <string>
 #include "AI.h"
 
-using std::cout; 
-using std::endl; 
-using std::cerr; 
-using std::vector; 
-using std::sort;
-using std::pair;
+using std::cout, std::endl, std::cerr, std::vector, std::sort, std::pair;
 
 
 AI::AI(bool _color, Board* _gameBoard) {

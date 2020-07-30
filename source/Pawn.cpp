@@ -5,9 +5,7 @@
 #include "pawn_b.xpm"
 
 
-using std::abs;
-using std::cout;
-using std::endl;
+using std::abs, std::cout, std::endl;
 
 Pawn::Pawn(bool color, Board* _gameBoard){
 

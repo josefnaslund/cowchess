@@ -12,8 +12,7 @@
 #include "constants.h"
 
 
-using std::cout; 
-using std::endl;
+using std::cout, std::endl;
 
 Board::Board(){
     // for use by promotion

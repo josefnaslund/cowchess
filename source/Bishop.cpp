@@ -4,9 +4,7 @@
 #include "bishop_w.xpm"
 #include "bishop_b.xpm"
 
-using std::cout;
-using std::endl;
-using std::abs;
+using std::cout, std::endl, std::abs;
 
 Bishop::Bishop(bool color, Board* _gameBoard){
 
