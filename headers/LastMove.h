@@ -32,18 +32,18 @@ class LastMove {
                 char _type, bool _capt, char _prom, bool _check, bool _noMoves,
                 bool shortCastling, bool longCastling, bool _moveColor);
 
-        const int& getOldX() const { return oldX; } 
-        const int& getOldY() const { return oldY; } 
-        const int& getNewX() const { return newX; } 
-        const int& getNewY() const { return newY; } 
-        const char& getType() const { return type; }
-        const bool& getCapture() const { return capture; }
-        const char& getPromotion() const { return promotion; }
-        const bool& isCheck() const {return check;}
-        const bool& noMoves() const {return noMovesPossible;}
-        const bool& getShortCastling() const {return shortCastling;}
-        const bool& getLongCastling() const {return longCastling;}
-        const bool& getMoveColor() const { return moveColor;}
+        [[nodiscard]] const int& getOldX() const { return oldX; }
+        [[nodiscard]] const int& getOldY() const { return oldY; }
+        [[nodiscard]] const int& getNewX() const { return newX; }
+        [[nodiscard]] const int& getNewY() const { return newY; }
+        [[nodiscard]] const char& getType() const { return type; }
+        [[nodiscard]] const bool& getCapture() const { return capture; }
+        [[nodiscard]] const char& getPromotion() const { return promotion; }
+        [[nodiscard]] const bool& isCheck() const {return check;}
+        [[nodiscard]] const bool& noMoves() const {return noMovesPossible;}
+        [[nodiscard]] const bool& getShortCastling() const {return shortCastling;}
+        [[nodiscard]] const bool& getLongCastling() const {return longCastling;}
+        [[nodiscard]] const bool& getMoveColor() const { return moveColor;}
 
 
 

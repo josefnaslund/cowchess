@@ -1,20 +1,14 @@
 #include <SDL2/SDL.h>                                                           
-#include <stdio.h>                                                              
+#include <cstdio>
 #include <iostream>                                                             
-#include <vector>                                                             
 #include <string>
-#include "constants.h"                                                          
-#include "GUI.h"                                                                
+#include "GUI.h"
 #include "Mouse.h"
 #include "Touch.h"
 #include "AI.h"
 #include "AIMove.h"
 
-using std::cout; 
-using std::endl; 
-using std::cerr; 
-using std::vector;
-
+using std::cout, std::endl, std::cerr;
 
 int main( int argc, char* args[] )                                              
 {                                                                               
@@ -53,27 +47,26 @@ int main( int argc, char* args[] )
     }
 
 
-    bool aiIsMoving = false;
     bool gameOver = false;
     Board gameBoard = Board();                                                           
-    Mouse myMouse = Mouse(&gameBoard);
-    Touch myTouch = Touch(&gameBoard);
-    AI ai[] = {AI(0, &gameBoard), AI(1, &gameBoard)} ;
+    Mouse myMouse(&gameBoard);
+    Touch myTouch(&gameBoard);
+    AI ai[] = {AI(false, &gameBoard), AI(true, &gameBoard)} ;
     ai[1].setPly(whitePly);
     ai[0].setPly(blackPly);
 
     bool quit = false;
 
-    GUI mygui = GUI(&gameBoard);
-    mygui.setMouse(&myMouse);
-    mygui.setTouch(&myTouch);
+    GUI myGUI = GUI(&gameBoard);
+    myGUI.setMouse(&myMouse);
+    myGUI.setTouch(&myTouch);
 
-    if (mygui.init()){
+    if (myGUI.init()){
         SDL_Delay(100);
 
         SDL_Event e;
 
-        mygui.update();
+        myGUI.update();
 
         // AI Delay
         unsigned int lastTime = 0; 
@@ -120,11 +113,11 @@ int main( int argc, char* args[] )
 
 
                         if (gameBoard.getLastMove().noMoves()){
-                            // mygui.drawTextMate();
+                            // myGUI.drawTextMate();
                             gameOver = true;
                         }
 
-                        // else test check... then mygui.drawTextCheck().
+                        // else test check... then myGUI.drawTextCheck().
                         // move test section from GUI::drawTextCheck() to Board
                     }
 
@@ -134,65 +127,63 @@ int main( int argc, char* args[] )
             } // end while SDL_PollEvent...
 
 
-            // AI moves
-                else {
-                    if (!gameOver){
-                        currentTime = SDL_GetTicks();
-                        if (currentTime > (lastTime + 1000) && !aiIsMoving) {
+                // AI moves
+            else {
+                if (!gameOver){
+                    currentTime = SDL_GetTicks();
+                    if (currentTime > (lastTime + 1000)) {
 
-                            if ((gameBoard.getPlayerAI(gameBoard.atMove()) == 1) && (lastTime % 2 == gameBoard.atMove())){ // remove last condition?
-                                aiIsMoving = true;
-                                AIMove move = ai[gameBoard.atMove()].pickMove();
+                        if ((gameBoard.getPlayerAI(gameBoard.atMove()) == 1) && (lastTime % 2 == gameBoard.atMove())){ // remove last condition?
+                            AIMove move = ai[gameBoard.atMove()].pickMove();
 
-                                if (!(move.getOldX() == -1)){
-                                    gameBoard.movePiece(
-                                            move.getOldX(),
-                                            move.getOldY(),
-                                            move.getNewX(),
-                                            move.getNewY()
-                                            );
-                                }
-
-                                else {
-                                    gameOver = true;
-                                }
-
-                                if (gameBoard.getLastMove().isCheck() && gameBoard.getLastMove().noMoves()){
-                                    // mygui.drawTextMate();
-                                    gameOver = true;
-                                }
-
-                            mygui.update();
-
+                            if (move.getOldX() != -1){
+                                gameBoard.movePiece(
+                                        move.getOldX(),
+                                        move.getOldY(),
+                                        move.getNewX(),
+                                        move.getNewY()
+                                );
                             }
 
-                            lastTime = currentTime;
-                            aiIsMoving = false;
+                            else {
+                                gameOver = true;
+                            }
+
+                            if (gameBoard.getLastMove().isCheck() && gameBoard.getLastMove().noMoves()){
+                                // myGUI.drawTextMate();
+                                gameOver = true;
+                            }
+
+                            myGUI.update();
+
                         }
-                    } // end (if not gameOver)
-                } // end else
 
-                // update every 50ms except when AI has just made
-                // a move. To avoid two AI moves floating together
-                if (currentUpdateTime > lastUpdateTime + 50 && 
-                        (currentTime - lastTime > 600)){
-                    mygui.update();
-                    lastUpdateTime = currentUpdateTime;
-                }
+                        lastTime = currentTime;
+                    }
+                } // end (if not gameOver)
+            } // end else
 
-                if (currentUpdateTime > lastUpdateTime + 50){
-                    mygui.update();
-                    lastUpdateTime = currentUpdateTime;
-                    mygui.update();
+            // update every 50ms except when AI has just made
+            // a move. To avoid two AI moves floating together
+            if (currentUpdateTime > lastUpdateTime + 50 &&
+                (currentTime - lastTime > 600)){
+                myGUI.update();
+                lastUpdateTime = currentUpdateTime;
+            }
 
-                }
+            if (currentUpdateTime > lastUpdateTime + 50){
+                myGUI.update();
+                lastUpdateTime = currentUpdateTime;
+                myGUI.update();
+
+            }
 
 
-            }// end while not quit
+        }// end while not quit
 
 
-        } // end if mygui
-        return EXIT_SUCCESS;
-    }                                                                           
+    } // end if myGUI
+    return EXIT_SUCCESS;
+}
 
 

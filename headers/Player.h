@@ -11,9 +11,9 @@ class Player {
 
     public:
         Player();
-        Player(bool _AI);
-        bool isAI() {return AI;}
-        void setAI(bool _AI) {AI = _AI;}
+        explicit Player(bool _ai);
+        [[nodiscard]] bool isAI() const {return AI;}
+        void setAI(bool _ai) {AI = _ai;}
 };
 
 #endif

@@ -4,6 +4,6 @@ Player::Player(){
     AI = false;
 }
 
-Player::Player(bool _AI){
-    AI = _AI;
+Player::Player(bool _ai){
+    AI = _ai;
 }

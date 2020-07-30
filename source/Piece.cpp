@@ -4,9 +4,8 @@
 #include "piece_w.xpm"
 #include "piece_b.xpm"
 
-using std::cout; 
-using std::endl; 
-using std::cerr;
+using std::cout, std::endl, std::cerr;
+
 
 Piece::Piece(){
     white = true;
@@ -15,6 +14,7 @@ Piece::Piece(){
     type = 'u';
     value = 0.0;
     notMoved = true;
+    gameBoard = nullptr;
 }
 
 Piece::Piece(const bool& color, Board* _gameBoard){
@@ -37,7 +37,7 @@ Piece::Piece(const bool& color, Board* _gameBoard){
 } 
 
 
-bool Piece::isChecked(Piece*** testBoard){
+bool Piece::isChecked(Piece*** testBoard) const{
     bool checked = false;
 
     // find king of this color

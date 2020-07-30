@@ -71,13 +71,6 @@ bool Pawn::validMove(const int& oldX, const int& oldY, const int& newX, const in
         valid = false;
     }
 
-
-    // don't move straight to the side
-    else if ( (oldY == newY) && (abs(oldX-newX) > 0)){
-        valid = false;
-        // std::cout << "Pawn: never move sideways: " << abs(oldX-newX) << ", " << abs(oldY-newY) << std::endl;
-    }
-
     // don't take piece straight forward
     else if (
             (oldX == newX) && b[newY][newX]->isAlive())
@@ -141,15 +134,10 @@ bool Pawn::validMove(const int& oldX, const int& oldY, const int& newX, const in
         const LastMove& lm = gameBoard->getLastMove();
         // last piece is pawn...
         if (lm.getType() == 'p'){
-            // cout << "\nType is 'p'\n";
-            // cout << "LAST MOVE: " << lm << endl;
-            // cout << (abs(lm.getOldY() - lm.getNewY()) == 2) << endl;
-            // cout << ((oldY == lm.getNewY())) << endl;
-            // cout << ((abs(lm.getNewY() - oldY) == 1)) << endl;
-            // cout << (newX == lm.getNewX()) << endl;
 
 
-            if ( // ...that pawn moved 2 squares forward...
+            valid =
+                    // pawn has moved two steps forward
                     abs(lm.getOldY() - lm.getNewY()) == 2 &&
 
                     // ...and it is on same row as this one...
@@ -159,22 +147,10 @@ bool Pawn::validMove(const int& oldX, const int& oldY, const int& newX, const in
                     (abs(lm.getNewX() - oldX) == 1) &&
 
                     // ... and they would have been on same cols
-                    newX == lm.getNewX()
-               ) 
-            { 
-                valid = true; 
-            }
-
-            else {
-                valid = false;
-            }
+                    newX == lm.getNewX();
         }
 
-        else {
-            valid = false;
-            // cout << "Pawn: can't move sideways without take\n";
-        }
-    }    
+    }
     return valid;
 }
 
@@ -188,7 +164,7 @@ bool Pawn::controlsSquare (const int& oldX, const int& oldY, const int& newX, co
         valid = false;
     }
 
-    // don't move more than two steps forwad
+    // don't move more than two steps forward
     else if ( (abs(oldY-newY) > 2)){
         valid = false;
         // std::cout << "Pawn: never more than two steps forward: " << abs(oldX-newX) << ", " << abs(oldY-newY) << std::endl;
@@ -217,13 +193,6 @@ bool Pawn::controlsSquare (const int& oldX, const int& oldY, const int& newX, co
     else if ( (abs(oldY-newY) == 2) && (oldX == newX) && !b[oldY][oldX]->isWhite() && b[5][oldX]->isAlive()) {
         // cout << "Pawn: black p. cannot jump over piece\n";
         valid = false;
-    }
-
-
-    // don't move straight to the side
-    else if ( (oldY == newY) && (abs(oldX-newX) > 0)){
-        valid = false;
-        // std::cout << "Pawn: never move sideways: " << abs(oldX-newX) << ", " << abs(oldY-newY) << std::endl;
     }
 
     // don't take piece straight forward
@@ -280,15 +249,8 @@ bool Pawn::controlsSquare (const int& oldX, const int& oldY, const int& newX, co
         const LastMove& lm = gameBoard->getLastMove();
         // last piece is pawn...
         if (lm.getType() == 'p'){
-            // cout << "\nType is 'p'\n";
-            // cout << "LAST MOVE: " << lm << endl;
-            // cout << (abs(lm.getOldY() - lm.getNewY()) == 2) << endl;
-            // cout << ((oldY == lm.getNewY())) << endl;
-            // cout << ((abs(lm.getNewY() - oldY) == 1)) << endl;
-            // cout << (newX == lm.getNewX()) << endl;
-
-
-            if ( // ...that pawn moved 2 squares forward...
+            valid =
+                    // ...that piece moved two steps forward
                     abs(lm.getOldY() - lm.getNewY()) == 2 &&
 
                     // ...and it is on same row as this one...
@@ -298,20 +260,7 @@ bool Pawn::controlsSquare (const int& oldX, const int& oldY, const int& newX, co
                     (abs(lm.getNewX() - oldX) == 1) &&
 
                     // ... and they would have been on same cols
-                    newX == lm.getNewX()
-               ) 
-            { 
-                valid = true; 
-            }
-
-            else {
-                valid = false;
-            }
-        }
-
-        else {
-            valid = false;
-            // cout << "Pawn: can't move sideways without take\n";
+                    newX == lm.getNewX();
         }
     }
 

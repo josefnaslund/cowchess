@@ -35,7 +35,7 @@ class GUI {
          *
          * @param _gameBoard Pointer to current game Board.
          */
-        GUI(Board* _gameBoard);
+        explicit GUI(Board* _gameBoard);
 
         /**
          * @brief Destructor clears up texture allocated memory on close
@@ -144,6 +144,12 @@ class GUI {
         void drawCurrentPieceTouch();
 
         bool close(); //????
+
+
+        /**
+         * @brief Draws a straight line highlighting the last move
+         */
+        void drawLastMove();
 
         /**
          * @brief Calls members drawBoard(), drawPieces() and

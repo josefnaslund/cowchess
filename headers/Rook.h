@@ -9,7 +9,7 @@ class Rook : public virtual Piece
 {
     public:
         Rook(bool color, Board* _gameBoard);
-        virtual bool validMove(const int& oldX, const int& oldY, const int& newX, const int& newY, Piece*** b, bool testCheck) override;
+        bool validMove(const int& oldX, const int& oldY, const int& newX, const int& newY, Piece*** b, bool testCheck) override;
 
         bool rookValidMove(const int& oldX, const int& oldY, const int& newX, const int& newY, Piece*** b, bool testCheck);
 

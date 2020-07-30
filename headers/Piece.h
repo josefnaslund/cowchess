@@ -22,21 +22,20 @@ class Piece {
     public:
         Piece();
         Piece(const bool& color, Board* _gameBoard);
-        virtual ~Piece() { };
+        virtual ~Piece() = default;
 
-        bool isWhite() const {return white;}
-        bool isAlive() const {return alive;}
-        char getType() const {return type;}
-        const char** getImage() const {return img;}
-        void killPiece(){alive = false;}
+        [[nodiscard]] bool isWhite() const {return white;}
+        [[nodiscard]] bool isAlive() const {return alive;}
+        [[nodiscard]] char getType() const {return type;}
+        [[nodiscard]] const char** getImage() const {return img;}
         virtual bool validMove(const int& oldX, const int& oldY, const int& newX, const int& newY, Piece*** b, bool testCheck) { std::cout << "## Piece validMove() - always true ##\n"; return true; }
         virtual bool controlsSquare(const int& oldX, const int& oldY, const int& newX, const int& newY, Piece*** b, bool testCheck) { std::cout << "## Piece controlsSquare() - always true ##\n"; return true; }
-        bool isChecked(Piece*** b);
+        bool isChecked(Piece*** b) const;
         bool isChecked(const int& oldX, const int& oldY, const int& newX, const int& newY);
 
         virtual double getValue() {return value;}
 
-        bool hasNotMoved() const {return notMoved;}
+        [[nodiscard]] bool hasNotMoved() const {return notMoved;}
         void hasMoved() {notMoved = false;}
 };
 

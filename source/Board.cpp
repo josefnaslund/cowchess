@@ -25,8 +25,8 @@ Board::Board(){
     promotionNewY = -1;
 
     players = new Player[2];
-    players[0] = Player(0);
-    players[1] = Player(0);
+    players[0] = Player(false);
+    players[1] = Player(false);
 
 
     lastMove = LastMove();
@@ -61,8 +61,8 @@ Board::Board(const Board& _gameBoard){
     this->promotionNewY = _gameBoard.getPromotionNewY();
 
     players = new Player[2];
-    players[0] = _gameBoard.getPlayerAI(0);
-    players[1] = _gameBoard.getPlayerAI(1);
+    players[0].setAI(_gameBoard.getPlayerAI(false));
+    players[1].setAI(_gameBoard.getPlayerAI(true));
 
     lastMove = _gameBoard.getLastMove();
 
@@ -112,66 +112,66 @@ Board::Board(const Board& _gameBoard){
 void Board::setStandardBoard(){
     // Rooks
     delete board[0][0];
-    board[0][0] = new Rook(1, this);
+    board[0][0] = new Rook(true, this);
 
     delete board[7][7];
-    board[7][7] = new Rook(0, this);
+    board[7][7] = new Rook(false, this);
 
     delete board[0][7];
-    board[0][7] = new Rook(1, this);
+    board[0][7] = new Rook(true, this);
 
     delete board[7][0];
-    board[7][0] = new Rook(0, this);
+    board[7][0] = new Rook(false, this);
 
 
     // Kings
     delete board[0][4];
-    board[0][4] = new King(1, this);
+    board[0][4] = new King(true, this);
 
     delete board[7][4];
-    board[7][4] = new King(0, this);
+    board[7][4] = new King(false, this);
 
     // Pawns
     for (int i = 0; i != 8; ++i){
         delete board[1][i];
-        board[1][i] = new Pawn(1, this);
+        board[1][i] = new Pawn(true, this);
 
         delete board[6][i];
-        board[6][i] = new Pawn(0, this);
+        board[6][i] = new Pawn(false, this);
     }
 
     // knights
     delete board[0][1];
-    board[0][1] = new Knight(1, this);
+    board[0][1] = new Knight(true, this);
 
     delete board[7][1];
-    board[7][1] = new Knight(0, this);
+    board[7][1] = new Knight(false, this);
 
     delete board[0][6];
-    board[0][6] = new Knight(1, this);
+    board[0][6] = new Knight(true, this);
 
     delete board[7][6];
-    board[7][6] = new Knight(0, this);
+    board[7][6] = new Knight(false, this);
 
     // bishops
     delete board[0][2];
-    board[0][2] = new Bishop(1, this);
+    board[0][2] = new Bishop(true, this);
 
     delete board[7][2];
-    board[7][2] = new Bishop(0, this);
+    board[7][2] = new Bishop(false, this);
 
     delete board[0][5];
-    board[0][5] = new Bishop(1, this);
+    board[0][5] = new Bishop(true, this);
 
     delete board[7][5];
-    board[7][5] = new Bishop(0, this);
+    board[7][5] = new Bishop(false, this);
 
     // queens
     delete board[0][3];
-    board[0][3] = new Queen(1, this);
+    board[0][3] = new Queen(true, this);
 
     delete board[7][3];
-    board[7][3] = new Queen(0, this);
+    board[7][3] = new Queen(false, this);
 
 }
 
@@ -224,7 +224,6 @@ bool Board::movePiece(int oldX, int oldY, int newX, int newY){
 
         // temp. promotion
         if (promotion && promotionChar != 'u'){
-            lmProm = promotionChar;
             bool col = board[oldY][oldX]->isWhite();
             delete board[oldY][oldX];
 
@@ -244,17 +243,13 @@ bool Board::movePiece(int oldX, int oldY, int newX, int newY){
                 board[oldY][oldX] = new Queen(col, this);
             }
 
-
-
             // store for LastMove object
-            lmProm = board[newY][newX]->getType();
-
             lmProm = promotionChar;
             promotionChar = 'u';
             promotion = false;
         }
 
-        // the promotion move has been made but not choosen
+        // the promotion move has been made but not chosen
         else if (promotion){
             return false;
         }
@@ -387,40 +382,40 @@ bool Board::testCheck(){
     return false;
 }
 
-bool Board::testMate(){
-    Piece* p;
-
-    // find checked players pieces, test if any move can uncheck
-    if (testCheck()){
-        for (int i = 0; i != 8; ++i){
-            for (int j = 0; j != 8; ++j){
-                p = board[j][i];
-                if (p->isAlive() && (p->isWhite() == atMove())){
-                    // test valid moves for piece
-                    for (int ii = 0; ii != 8; ++ii){
-                        for (int jj = 0; jj != 8; ++jj){
-                            if (p->validMove(i, j, ii, jj, board, 1)){
-                                // cout << 
-                                //     "\t--* A valid move is found: move piece at (" << 
-                                //     j << "," << i << ") to (" << jj << "," << 
-                                //     ii << ").\n";
-                                return false; // return 1
-                            }
-                            else {
-                                // cout << "\t--* Can't move (" << j << "," << 
-                                //     i << ") ti (" << jj << "," << ii << 
-                                //     ").\n";
-                            }
-                        }
-
-                    }
-                }
-            }
-        }
-        return true;
-    }
-    return false;
-}
+// bool Board::testMate(){
+//     Piece* p;
+//
+//     // find checked players pieces, test if any move can uncheck
+//     if (testCheck()){
+//         for (int i = 0; i != 8; ++i){
+//             for (int j = 0; j != 8; ++j){
+//                 p = board[j][i];
+//                 if (p->isAlive() && (p->isWhite() == atMove())){
+//                     // test valid moves for piece
+//                     for (int ii = 0; ii != 8; ++ii){
+//                         for (int jj = 0; jj != 8; ++jj){
+//                             if (p->validMove(i, j, ii, jj, board, 1)){
+//                                 // cout <<
+//                                 //     "\t--* A valid move is found: move piece at (" <<
+//                                 //     j << "," << i << ") to (" << jj << "," <<
+//                                 //     ii << ").\n";
+//                                 return false; // return 1
+//                             }
+//                             else {
+//                                 // cout << "\t--* Can't move (" << j << "," <<
+//                                 //     i << ") ti (" << jj << "," << ii <<
+//                                 //     ").\n";
+//                             }
+//                         }
+//
+//                     }
+//                 }
+//             }
+//         }
+//         return true;
+//     }
+//     return false;
+// }
 
 
 
@@ -435,7 +430,7 @@ bool Board::playerCanMove(){
                 // test valid moves for piece
                 for (int ii = 0; ii != 8; ++ii){
                     for (int jj = 0; jj != 8; ++jj){
-                        if (p->validMove(i, j, ii, jj, board, 1)){
+                        if (p->validMove(i, j, ii, jj, board, true)){
                             return true; // first return
                         }
                         else {

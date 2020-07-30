@@ -15,13 +15,13 @@ class Touch {
         Board* gameBoard;
 
     public:
-        Touch(Board* _gameBoard);
-        int getPosX() const {return posX;}
-        int getPosY() const {return posY;}
+        explicit Touch(Board* _gameBoard);
+        [[nodiscard]] int getPosX() const {return posX;}
+        [[nodiscard]] int getPosY() const {return posY;}
         void setPosX(int _x);
         void setPosY(int _y);
 
-        bool isLocked() const {return locked;}
+        [[nodiscard]] bool isLocked() const {return locked;}
         void setLocked(bool _l) {locked = _l;}
 
         std::pair<int, int> getAbsoluteLockedPosition() { return absoluteLockedPosition;}

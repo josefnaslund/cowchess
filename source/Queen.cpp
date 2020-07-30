@@ -1,8 +1,6 @@
-#include <cmath>
 #include "Queen.h"
 #include "queen_w.xpm"
 #include "queen_b.xpm"
-
 
 using std::cout;
 using std::endl;
