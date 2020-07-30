@@ -3,10 +3,7 @@
 #include "king_w.xpm"
 #include "king_b.xpm"
 
-
-using std::abs;
-using std::cout;
-using std::endl;
+using std::abs, std::cout, std::endl;
 
 King::King(bool color, Board* _gameBoard){
 
