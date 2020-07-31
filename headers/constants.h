@@ -1,7 +1,13 @@
 #ifndef CONSTANTS_H
 #define CONSTANTS_H
 
-//Screen dimension constants
+
+/**
+ * @brief This file defines some global constants for the fixed window size
+ * proportions. Used by GUI, Touch and Mouse.
+ */
+
+
 const int SCREEN_WIDTH = 640;
 const int SCREEN_HEIGHT = 440;
 

@@ -2,8 +2,7 @@
 #include "queen_w.xpm"
 #include "queen_b.xpm"
 
-using std::cout;
-using std::endl;
+using std::cout, std::endl;
 
 Queen::Queen(bool color, Board* _gameBoard) 
     : 

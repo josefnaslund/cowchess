@@ -382,41 +382,6 @@ bool Board::testCheck(){
     return false;
 }
 
-// bool Board::testMate(){
-//     Piece* p;
-//
-//     // find checked players pieces, test if any move can uncheck
-//     if (testCheck()){
-//         for (int i = 0; i != 8; ++i){
-//             for (int j = 0; j != 8; ++j){
-//                 p = board[j][i];
-//                 if (p->isAlive() && (p->isWhite() == atMove())){
-//                     // test valid moves for piece
-//                     for (int ii = 0; ii != 8; ++ii){
-//                         for (int jj = 0; jj != 8; ++jj){
-//                             if (p->validMove(i, j, ii, jj, board, 1)){
-//                                 // cout <<
-//                                 //     "\t--* A valid move is found: move piece at (" <<
-//                                 //     j << "," << i << ") to (" << jj << "," <<
-//                                 //     ii << ").\n";
-//                                 return false; // return 1
-//                             }
-//                             else {
-//                                 // cout << "\t--* Can't move (" << j << "," <<
-//                                 //     i << ") ti (" << jj << "," << ii <<
-//                                 //     ").\n";
-//                             }
-//                         }
-//
-//                     }
-//                 }
-//             }
-//         }
-//         return true;
-//     }
-//     return false;
-// }
-
 
 
 bool Board::playerCanMove(){
