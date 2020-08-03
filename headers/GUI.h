@@ -25,6 +25,7 @@ class GUI {
         SDL_Texture* checkTexture;
         SDL_Texture** promotionTextureWhite;
         SDL_Texture** promotionTextureBlack;
+        SDL_Texture* wood;
         Mouse* mouse;
         Touch* touch;
 
@@ -67,6 +68,7 @@ class GUI {
 
         /**
          * @brief Draws background and game board squares to renderer.
+         * Background behind board is set to a strip of wood (image).
          * Calls member drawTurn().
          */
         void drawBoard();

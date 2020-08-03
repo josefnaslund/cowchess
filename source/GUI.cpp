@@ -16,6 +16,7 @@
 #include "rook_b.xpm"
 #include "queen_b.xpm"
 #include "bishop_b.xpm"
+#include "bgwood.xpm"
 
 using std::cout; 
 using std::endl;
@@ -32,6 +33,7 @@ GUI::GUI(Board* _gameBoard)
     checkTexture = nullptr;
     promotionTextureWhite = nullptr;
     promotionTextureBlack = nullptr;
+    wood = nullptr;
     mouse = nullptr;
     touch = nullptr;
 }
@@ -42,8 +44,12 @@ GUI::~GUI(){
     }
 
     images.clear(); // remove previous content of vector
-    SDL_DestroyTexture(turnTexture);
-    SDL_DestroyTexture(checkTexture);
+    if (turnTexture)
+        SDL_DestroyTexture(turnTexture);
+    if (checkTexture)
+        SDL_DestroyTexture(checkTexture);
+    if (wood)
+        SDL_DestroyTexture(wood);
 
     for (int i = 0; i != 4; ++i){
         if (promotionTextureWhite)
@@ -103,12 +109,45 @@ void GUI::setTouch(Touch* _touch){
 
 void GUI::drawBoard(){
 
-    // draw background color
-    SDL_SetRenderDrawColor(renderer, 170, 120, 50, 255);
-    SDL_RenderClear(renderer);
+    // Draw a background color
+    // SDL_SetRenderDrawColor(renderer, 170, 120, 50, 255);
+    // SDL_RenderClear(renderer);
+    //
+    
 
-    // a rectangle shape
+    // A rectangle shape
     SDL_Rect r;
+
+
+    // Draw a wood background
+   
+    // Load wood texture
+    if (wood == nullptr){
+        loadTexture(bgwood_xpm);
+        wood = texture;
+        //texture = nullptr;
+    }
+
+    r.w = 40;
+    r.h = 440;
+    r.x = 0;
+    r.y = 0;
+    while (r.x < SCREEN_WIDTH){
+        SDL_RenderCopy(renderer, wood, nullptr, &r);
+        r.x += r.w;
+    }
+
+    // Draw a border around chess board
+    constexpr int border = 3; // border pixel width
+    r.x = LEFT_MARGIN - border;
+    r.y = TOP_MARGIN - border;
+    r.h = SQUARE_SIZE * 8 + border * 2;
+    r.w = SQUARE_SIZE * 8 + border * 2;
+    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 175);
+    SDL_RenderFillRect (renderer, &r);
+
+
+
 
     // draw the chess board
     for (int row = 0; row != 8; ++row){
@@ -553,7 +592,7 @@ void GUI::drawCurrentPieceMouse(){
     SDL_SetRenderDrawColor(renderer, 100, 50, 50, 200);
     SDL_RenderFillRect( renderer, &r );
 
-    
+
     // draw highlighted square to cover current square
     tempX = mouse->getAbsoluteCurrentPosition().first;
     tempY = mouse->getAbsoluteCurrentPosition().second;
@@ -562,7 +601,7 @@ void GUI::drawCurrentPieceMouse(){
             tempX < LEFT_MARGIN + SQUARE_SIZE * 8 &&
             tempY > TOP_MARGIN &&
             tempY < TOP_MARGIN + SQUARE_SIZE * 8
-            ){
+       ){
         r.x = tempX - ((tempX - LEFT_MARGIN) % SQUARE_SIZE);
         r.y = tempY - ((tempY - TOP_MARGIN) % SQUARE_SIZE);
 
@@ -620,7 +659,7 @@ void GUI::drawCurrentPieceTouch(){
             tempX < LEFT_MARGIN + SQUARE_SIZE * 8 &&
             tempY > TOP_MARGIN &&
             tempY < TOP_MARGIN + SQUARE_SIZE * 8
-            ){
+       ){
         r.x = tempX - ((tempX - LEFT_MARGIN) % SQUARE_SIZE);
         r.y = tempY - ((tempY - TOP_MARGIN) % SQUARE_SIZE);
 
