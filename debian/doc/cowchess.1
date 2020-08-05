@@ -1,0 +1,23 @@
+.TH COWCHESS CHESS GAME (0.42) "5 Aug 20"
+.SH NAME
+cowchess \- A computer chess engine with GUI and AI.
+.SH SYNOPSIS
+\fBcowchess\fP [White AI level] [White AI, Black AI]
+.SH DESCRIPTION
+\fBcowchess\fP is a computer chess program for playing standard type of chess games. Either player vs. player or vs. AI
+in any combination. The program will send chess notation (long algebraic) to standard output. The AI is turned on/off in
+program GUI, lower left corner of window, where the left box is for white and right is for black. Grey colour is off.
+Window is fixed size 640x440. The GUI is made using SDL2.
+.SH Options
+.SS Set AI for white/black
+.TP
+First argument in range 0-4 sets AI depth level for white.
+.TP
+Second argument in range 0-4 sets AI depth level for black.
+.SH Examples
+.TP
+.B cowchess 2 1
+Sets white AI to level 2 (default) and black AI to level 1.
+.TP
+.B cowchess | tee > kasparov_vs_fischer.txt
+Stores the game notation to file while also displaying in terminal during use.
