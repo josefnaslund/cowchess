@@ -106,10 +106,10 @@ $(DIRO)/Player.o : $(DIRCXX)/Player.cpp $(DIRH)/Player.h
 
 
 install:
-	mv cowchess /usr/bin/$(OBJ_NAME)
+	mv cowchess /usr/local/bin/$(OBJ_NAME)
 
 uninstall:
-	rm -f /usr/bin/$(OBJ_NAME)
+	rm -f /usr/local/bin/$(OBJ_NAME)
 
 clean:
 	rm -f $(DIRO)/*.o

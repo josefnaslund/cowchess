@@ -12,6 +12,7 @@ using std::cout, std::endl, std::cerr;
 
 int main( int argc, char* args[] )                                              
 {                                                                               
+    cout << "cowchess (0.42)\n" << endl;
     int whitePly = 2;
     int blackPly = 2;
 
